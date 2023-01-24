@@ -1,0 +1,23 @@
+:root {
+	--primary: #c41c30;
+	--secondary: #003768;
+	--light1: #fff;
+	--light2: #fbfbfb;
+	--light3: #f2f2f2;
+	--light4: #f4f9ff;
+	--dark1: #000000d0;
+	--dark2: #f4f9ff;
+	--dark3: #9b9b9b;
+	--border: #d8d8d8;
+}
+
+body {
+	font-weight: 300;
+}
+
+button {
+	border: none;
+	background: none;
+	cursor: pointer;
+	font-size: 12pt;
+}
