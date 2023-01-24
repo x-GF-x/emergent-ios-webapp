@@ -1,32 +1,20 @@
 <script lang="ts">
 	// import type { PageData } from './$types';
 	// export let data: PageData;
-
+	// <svelte:component this={inputs[subField.type]} />
 	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 
-	let tabs = [
-		{ label: 'Quick Chart', id: '0', type: 'quickchart' },
-		{ label: 'Person Info', id: 'ems_patient_information', type: 'scene' },
-		{ label: 'Timeline', id: '2', type: 'dynamic_scene' },
-		{ label: 'Photos & Forms', id: '3', type: 'scene' },
-		{ label: 'Narrative', id: '4', type: 'scene' },
-		{ label: 'Summary', id: '5', type: 'dynamic_scene' }
-	];
-	let footerItems = [
-		{ label: 'Pulse', id: 'pulse' },
-		{ label: 'Respirations', id: 'respirations' },
-		{ label: 'Blood Pressure', id: 'blood_pressure' },
-		{ label: 'SpO2', id: 'sp02' },
-		{ label: 'ETC02', id: 'etc02' }
-	];
-	let selectedTab: string = '0';
-	let beginningTime = new Date().getTime();
-	let time: number;
+	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
+
+	const beginningTime = new Date().getTime();
+	export let time: number;
 	setInterval(() => {
 		const current = new Date();
 		const currentTime = current.getTime();
 		time = currentTime - beginningTime;
 	}, 100);
+
+	let selectedTab: Tab = tabs?.[0];
 </script>
 
 <div class="grid">
@@ -34,7 +22,9 @@
 		<a href="/" class="return material-icons">arrow_back_ios</a>
 		<div class="timer">
 			0009100 -
-			{time?.toString()?.slice(0, 1)}:{time?.toString()?.slice(1, 3)}
+			{#if time}
+				{time?.toString()?.slice(0, 1)}:{time?.toString()?.slice(1, 3)}
+			{/if}
 		</div>
 	</section>
 	<section class="controls">
@@ -46,15 +36,37 @@
 	<section class="tabs">
 		{#each tabs as tab}
 			<button
-				class:selectedTab={tab.id === selectedTab}
+				class:selectedTab={tab.id === selectedTab.id}
 				class="tab"
-				on:click={() => (selectedTab = tab.id)}
+				on:click={() => (selectedTab = tab)}
 			>
 				{tab.label}
 			</button>
 		{/each}
 	</section>
-	<section class="body">body</section>
+	<section class="body">
+		<div class="sceneHeader">
+			<h1 class="sceneHeaderLabel">
+				{selectedTab.label}
+				{#if selectedTab.sceneAction}
+					<button class="sceneAction">{selectedTab.sceneAction.label}</button>
+				{/if}
+			</h1>
+			{#if selectedTab.headerTabs}
+				{@const headerTabs = selectedTab.type === 'quickchart' ? quickchartTabs : sceneTabs}
+				<div class="sceneTabs">
+					{#each headerTabs as sceneTab}
+						<button on:click={() => console.log(sceneTab.action)} class="sceneTab">
+							{sceneTab.label}
+						</button>
+					{/each}
+				</div>
+			{/if}
+		</div>
+		{#key selectedTab}
+			<svelte:component this={scenes?.[selectedTab?.type]} {selectedTab} />
+		{/key}
+	</section>
 	<section class="footer">
 		<button class="protocols">Protocols</button>
 		{#each footerItems as footerItem}
@@ -71,7 +83,7 @@
 <style>
 	.grid {
 		display: grid;
-		grid-template-rows: 5% 10% 5% 70% 10%;
+		grid-template-rows: 5% 10% 5% 67.5% 10% 2.5%;
 		height: 100%;
 		align-items: end;
 		position: fixed;
@@ -125,12 +137,11 @@
 
 	.tabs {
 		display: grid;
-		grid-template-columns: auto auto auto auto auto auto;
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 		justify-content: space-around;
 	}
 
 	.tab {
-		width: max-content;
 		border-bottom: 4px solid transparent;
 	}
 
@@ -138,11 +149,40 @@
 		border-bottom: 4px solid var(--primary);
 	}
 
+	.body {
+		overflow: auto;
+		background: var(--light3);
+	}
+
+	.sceneHeader {
+		padding: 10px 10px 0 10px;
+		margin-bottom: 10px;
+	}
+
+	.sceneHeaderLabel {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.sceneAction {
+		color: var(--primary);
+	}
+
+	.sceneTab {
+		padding: 10px 0;
+		color: var(--primary);
+	}
+
+	.sceneTab:not(:last-child) {
+		margin-right: 7px;
+		padding-right: 7px;
+		border-right: 1px solid var(--border);
+	}
+
 	.footer {
 		display: grid;
 		grid-template-columns: max-content auto auto auto auto auto;
 		align-items: center;
-		margin-bottom: 20px;
 	}
 
 	.protocols {
@@ -162,17 +202,18 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		border: 1px solid var(--border);
 	}
 
 	.footerItem:not(:last-child) {
-		border-right: 1px solid var(--border);
+		border-right: none;
+	}
+
+	h1 {
+		margin: 5px 0;
 	}
 
 	section {
 		height: 100%;
-	}
-
-	section:nth-child(odd) {
-		background: var(--light3);
 	}
 </style>
