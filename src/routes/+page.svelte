@@ -38,7 +38,7 @@
 
 <section class="dashboard">
 	<header>
-		<button class="logOut"> Log Out </button>
+		<a href="/auth/login" class="logOut"> Log Out </a>
 		<div class="pageLabel">Dashboard</div>
 	</header>
 	<section class="tabs">
@@ -147,9 +147,9 @@
 								</div>
 							</div>
 						</div>
-						<button class="incidentAction">
+						<a href="./patient_details" class="incidentAction">
 							{selected?.active ? 'Resume Call' : 'Begin Call'}
-						</button>
+						</a>
 					{/if}
 				</div>
 			</div>
@@ -175,6 +175,7 @@
 	.logOut {
 		color: var(--primary);
 		width: max-content;
+		text-decoration: none;
 	}
 
 	.tabs {
@@ -319,6 +320,8 @@
 		background: var(--primary);
 		color: white;
 		border-radius: 5px;
+		text-align: center;
+		text-decoration: none;
 	}
 	.selectedUnits {
 		font-size: 20pt;
