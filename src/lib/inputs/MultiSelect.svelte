@@ -3,6 +3,9 @@
 	export let selected: string[] = [];
 	export let options = ['test', 'test2'];
 	export let value: any;
+	export let field: Field = undefined;
+	field = field;
+
 	value = value;
 </script>
 

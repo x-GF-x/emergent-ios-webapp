@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { reposition, createPopper } from 'nanopop';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount, tick } from 'svelte';
 
-	export let props: { icon?: string; dropdownLabel?: string } | undefined = undefined;
+	export let props: InputProps = undefined;
+	export let toggleIcon: ToggleIcon = undefined;
 	export let value: any;
 
 	let toggleButton: HTMLElement;
@@ -10,10 +11,13 @@
 	let isOpen = false;
 	let overPopper = false; //Prevent 'blur' when mouse is over the popper
 
-	const toggle = () => {
+	const dispatch = createEventDispatcher();
+
+	export const toggle = async () => {
 		isOpen = !isOpen;
 		if (isOpen) {
 			reposition(toggleButton, popper, { position: 'bottom-middle' });
+			await tick().then(() => dispatch('open'));
 		}
 	};
 
@@ -33,6 +37,8 @@
 		class:iconToggle={props?.icon}
 		class="toggleButton"
 		on:click={toggle}
+		on:mouseenter={() => (overPopper = true)}
+		on:mouseleave={() => (overPopper = false)}
 	>
 		<div class="buttonLabel">
 			{#if props?.icon}
@@ -41,10 +47,14 @@
 				</div>
 			{/if}
 			<div class="value">
-				{value}
+				{#if value !== undefined}
+					{value}
+				{/if}
 			</div>
 		</div>
-		<div class="material-icons caret">expand_more</div>
+		{#if toggleIcon}
+			<div class="material-icons caret">{isOpen ? toggleIcon.open : toggleIcon.closed}</div>
+		{/if}
 	</button>
 	<div
 		bind:this={popper}
@@ -62,16 +72,26 @@
 		width: 300px;
 		max-height: 800px;
 		overflow: auto;
+		z-index: 100;
 	}
 
 	.closed {
 		visibility: hidden;
 	}
 
+	.wrapper {
+		min-height: 44px;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.toggleButton {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
+		height: 100%;
 		padding: 10px 0;
 	}
 
@@ -80,11 +100,12 @@
 		padding: 10px;
 		border: 1px solid var(--border);
 		border-radius: 5px;
+		max-height: 44px;
 	}
 
 	.buttonLabel {
 		display: grid;
-		grid-template-columns: 50% 50%;
+		/* grid-template-columns: 50% 50%; */
 		align-items: center;
 		width: 100%;
 		text-align: initial;

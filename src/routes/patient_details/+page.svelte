@@ -1,13 +1,12 @@
 <script lang="ts">
-	// import type { PageData } from './$types';
-	// export let data: PageData;
-	// <svelte:component this={inputs[subField.type]} />
 	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 
 	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
 
-	const beginningTime = new Date().getTime();
 	export let time: number;
+
+	const beginningTime = new Date().getTime();
+
 	setInterval(() => {
 		const current = new Date();
 		const currentTime = current.getTime();
@@ -159,6 +158,10 @@
 	.sceneHeader {
 		padding: 10px 10px 0 10px;
 		margin-bottom: 10px;
+		/* If you want sticky */
+		position: sticky;
+		top: 0;
+		background: var(--light3);
 	}
 
 	.sceneHeaderLabel {

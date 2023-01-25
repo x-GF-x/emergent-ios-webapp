@@ -1,3 +1,13 @@
+type InputProps =
+	| { suggest?: number | string; label?: string; dropdownLabel?: string; icon?: string }
+	| undefined;
+
+type NumPad = Array<number | undefined | { icon: string; fn: () => void }>;
+
+type ToggleIcon = { open: string; closed: string } | undefined;
+
+type Field = { ds?: string; key?: string; id?: string; type?: string; title?: string } | undefined;
+
 type Tab = {
 	label: string;
 	id: string;

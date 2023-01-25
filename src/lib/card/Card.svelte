@@ -38,7 +38,7 @@
 							<div class="fieldTitle">
 								{field.title}
 							</div>
-							<svelte:component this={inputs[field.type]} value={undefined} />
+							<svelte:component this={inputs[field.type]} {field} value={undefined} />
 						{:else}
 							<div class="subFields">
 								{#each field?.subFields as subField}
@@ -47,7 +47,11 @@
 											<div class="fieldTitle">
 												{subField.title}
 											</div>
-											<svelte:component this={inputs[subField.type]} value={undefined} />
+											<svelte:component
+												this={inputs[subField.type]}
+												field={subField}
+												value={undefined}
+											/>
 										{:else}
 											<div class="dataBlock">
 												<u>{subField.title}</u>
@@ -75,7 +79,7 @@
 		flex-direction: column;
 		max-width: 1200px;
 		margin: 0 10px 10px 10px;
-		background: var(--light1);
+		background: var(--light2);
 		border: 1px solid var(--border);
 		border-radius: 5px;
 	}

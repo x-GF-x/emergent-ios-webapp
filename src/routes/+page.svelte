@@ -45,17 +45,7 @@
 		<div class="bodyGrid">
 			<div class="list">
 				<div class="listSelect">
-					<SingleSelect
-						options={selectedTab === 0
-							? [
-									{ code: '00', value: 'My Calls' },
-									{ code: '01', value: 'All Calls' }
-							  ]
-							: [
-									{ code: '10', value: 'Unfinished Reports' },
-									{ code: '11', value: 'Finished Reports' }
-							  ]}
-					/>
+					<SingleSelect />
 				</div>
 				<div class="calls">
 					{#each calls as call}
