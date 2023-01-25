@@ -6,15 +6,14 @@
 		{ code: '1', value: 'One' },
 		{ code: '2', value: 'Two' }
 	];
-	export let props: { buttonLabel?: string; icon?: string; dropdownLabel?: string } | undefined =
-		undefined;
+	export let props: { icon?: string; dropdownLabel?: string } | undefined = undefined;
 	export let value: string | undefined = undefined;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
 	let isOpen = false;
 	let searchValue = '';
-	let searchSelected = false; //Prevent 'blur' when clicking on search input
+	let overPopper = false;
 
 	const toggle = () => {
 		isOpen = !isOpen;
@@ -36,7 +35,7 @@
 
 <svelte:window
 	on:mouseup={() => {
-		if (isOpen && !searchSelected) toggle();
+		if (isOpen && !overPopper) toggle();
 	}}
 />
 <div class="wrapper">
@@ -58,7 +57,12 @@
 		</div>
 		<div class="material-icons caret">expand_more</div>
 	</button>
-	<div bind:this={popper} class="popper {!isOpen ? 'closed' : ''}">
+	<div
+		bind:this={popper}
+		class="popper {!isOpen ? 'closed' : ''}"
+		on:mouseenter={() => (overPopper = true)}
+		on:mouseleave={() => (overPopper = false)}
+	>
 		<div class="dropdown">
 			{#if props?.dropdownLabel}
 				<div class="dropdownLabel">
@@ -66,14 +70,7 @@
 				</div>
 				<div class="dropdownLabel">
 					<div class="material-icons searchIcon">search</div>
-					<input
-						class="search"
-						on:mousedown={() => (searchSelected = true)}
-						on:click={() => (searchSelected = false)}
-						placeholder="Search..."
-						type="search"
-						bind:value={searchValue}
-					/>
+					<input class="search" placeholder="Search..." type="search" bind:value={searchValue} />
 				</div>
 			{/if}
 			<div class="options">

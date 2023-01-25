@@ -38,14 +38,16 @@
 							<div class="fieldTitle">
 								{field.title}
 							</div>
-							<svelte:component this={inputs[field.type]} />
+							<svelte:component this={inputs[field.type]} value={undefined} />
 						{:else}
 							<div class="subFields">
 								{#each field?.subFields as subField}
 									<div class="subField">
 										{#if !subField.data}
-											{subField.title}
-											<svelte:component this={inputs[subField.type]} />
+											<div class="fieldTitle">
+												{subField.title}
+											</div>
+											<svelte:component this={inputs[subField.type]} value={undefined} />
 										{:else}
 											<div class="dataBlock">
 												<u>{subField.title}</u>
@@ -124,7 +126,7 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		padding: 10px;
+		padding: 10px 10px 0 10px;
 	}
 
 	.subField:not(:last-child) {

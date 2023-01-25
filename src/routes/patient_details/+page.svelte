@@ -28,9 +28,7 @@
 		</div>
 	</section>
 	<section class="controls">
-		<SingleSelect
-			props={{ buttonLabel: 'Patient 1', icon: 'account_box', dropdownLabel: 'People' }}
-		/>
+		<SingleSelect props={{ icon: 'account_box', dropdownLabel: 'People' }} />
 		<div class="material-icons swap">swap_horiz</div>
 		<button class="addPerson">Add Person</button>
 		<button class="endCall">End Call</button>

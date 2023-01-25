@@ -1,8 +1,8 @@
 <script lang="ts">
-	//
+	export let value: Date | undefined;
 </script>
 
-<input type="date" />
+<input type="date" bind:value />
 
 <style>
 	input {

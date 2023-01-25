@@ -2,6 +2,8 @@
 	import MultiSelect from 'svelte-multiselect';
 	export let selected: string[] = [];
 	export let options = ['test', 'test2'];
+	export let value: any;
+	value = value;
 </script>
 
 <MultiSelect bind:selected {options} />

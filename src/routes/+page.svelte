@@ -48,12 +48,12 @@
 					<SingleSelect
 						options={selectedTab === 0
 							? [
-									{ value: '00', label: 'My Calls' },
-									{ value: '01', label: 'All Calls' }
+									{ code: '00', value: 'My Calls' },
+									{ code: '01', value: 'All Calls' }
 							  ]
 							: [
-									{ value: '10', label: 'Unfinished Reports' },
-									{ value: '11', label: 'Finished Reports' }
+									{ code: '10', value: 'Unfinished Reports' },
+									{ code: '11', value: 'Finished Reports' }
 							  ]}
 					/>
 				</div>
