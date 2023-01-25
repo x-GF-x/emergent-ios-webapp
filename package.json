@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"nanopop": "^2.2.0",
 		"svelte-multiselect": "^8.2.4"
 	}
 }

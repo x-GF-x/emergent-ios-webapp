@@ -28,7 +28,9 @@
 		</div>
 	</section>
 	<section class="controls">
-		<SingleSelect />
+		<SingleSelect
+			props={{ buttonLabel: 'Patient 1', icon: 'account_box', dropdownLabel: 'People' }}
+		/>
 		<div class="material-icons swap">swap_horiz</div>
 		<button class="addPerson">Add Person</button>
 		<button class="endCall">End Call</button>
@@ -108,7 +110,9 @@
 
 	.controls {
 		display: grid;
-		grid-template-columns: 20% 40% 20% 20%;
+		gap: 10px;
+		margin: 0 10px;
+		grid-template-columns: auto 40% 20% 20%;
 		align-items: center;
 	}
 
