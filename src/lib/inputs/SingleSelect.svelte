@@ -2,17 +2,19 @@
 	import { reposition, createPopper } from 'nanopop';
 	import { onMount } from 'svelte';
 
-	export let options: { value: string; label: string }[] = [
-		{ value: '1', label: 'One' },
-		{ value: '2', label: 'Two' }
+	export let options: { code: string; value: string; id?: number; type?: string }[] = [
+		{ code: '1', value: 'One' },
+		{ code: '2', value: 'Two' }
 	];
-
 	export let props: { buttonLabel?: string; icon?: string; dropdownLabel?: string } | undefined =
 		undefined;
+	export let value: string | undefined = undefined;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
 	let isOpen = false;
+	let searchValue = '';
+	let searchSelected = false; //Prevent 'blur' when clicking on search input
 
 	const toggle = () => {
 		isOpen = !isOpen;
@@ -20,7 +22,13 @@
 			reposition(toggleButton, popper, { position: 'bottom-middle' });
 		}
 	};
-	let searchSelected = false;
+
+	const selectOption = (code: string) => {
+		if (value === code) {
+			value = undefined;
+		} else value = code;
+	};
+
 	onMount(() => {
 		createPopper(toggleButton, popper);
 	});
@@ -44,7 +52,9 @@
 					{props.icon}
 				</div>
 			{/if}
-			{props?.buttonLabel ? props.buttonLabel : ''}
+			<div class="value">
+				{value ? options.find((item) => item.code === value)?.value : ''}
+			</div>
 		</div>
 		<div class="material-icons caret">expand_more</div>
 	</button>
@@ -62,19 +72,21 @@
 						on:click={() => (searchSelected = false)}
 						placeholder="Search..."
 						type="search"
+						bind:value={searchValue}
 					/>
 				</div>
 			{/if}
 			<div class="options">
-				{#each options as option}
+				{#each options.filter((option) => option.value
+						.toLowerCase()
+						.includes(searchValue.toLowerCase())) as option}
 					<button
-						on:click={() => {
-							console.log(option.value);
-						}}
+						on:click={() => selectOption(option.code)}
+						class:selected={option.code === value}
 						class="option"
 					>
-						{option.label}</button
-					>
+						{option.value}
+					</button>
 				{/each}
 			</div>
 		</div>
@@ -97,6 +109,7 @@
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
+		padding: 10px 0;
 	}
 
 	.iconToggle {
@@ -107,10 +120,11 @@
 	}
 
 	.buttonLabel {
-		display: flex;
-		justify-content: space-evenly;
+		display: grid;
+		grid-template-columns: 50% 50%;
 		align-items: center;
 		width: 100%;
+		text-align: initial;
 	}
 
 	.caret {
@@ -163,8 +177,13 @@
 		border-bottom: 1px solid var(--border);
 	}
 
-	.option:nth-child(even) {
+	.option:nth-child(even):not(.selected) {
 		background: var(--light4);
+	}
+
+	.selected {
+		background: var(--secondary);
+		color: var(--light1);
 	}
 	/* select {
 		font-size: 12pt;

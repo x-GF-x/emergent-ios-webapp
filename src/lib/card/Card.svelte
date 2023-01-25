@@ -31,11 +31,13 @@
 				{#each row.fields as field}
 					<div
 						class="field"
-						style:padding={!field.subFields ? '10px' : ''}
+						style:padding={!field.subFields ? '10px 10px 0 10px' : ''}
 						style:width={`${widthConversion[field.width]}%`}
 					>
 						{#if !field.subFields}
-							{field.title}
+							<div class="fieldTitle">
+								{field.title}
+							</div>
 							<svelte:component this={inputs[field.type]} />
 						{:else}
 							<div class="subFields">
@@ -97,6 +99,11 @@
 
 	.row:not(:last-child) {
 		border-bottom: none;
+	}
+
+	.fieldTitle {
+		font-weight: 200;
+		font-size: 10pt;
 	}
 
 	.field {
