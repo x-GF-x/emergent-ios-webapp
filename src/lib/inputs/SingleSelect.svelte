@@ -30,6 +30,7 @@
 		? options.find((item) => item.code === value)?.value
 		: value}
 	{props}
+	type="singleSelect"
 	toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 >
 	<SelectHeader bind:searchValue title={field?.title} {props}>

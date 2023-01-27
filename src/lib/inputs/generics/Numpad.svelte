@@ -60,7 +60,6 @@
 
 <div class="numpadControl">
 	<div class="header">
-		<button class="suggest" on:click={() => (value = props?.suggest)}>Suggest</button>
 		<div class="label">{props?.label}</div>
 	</div>
 	<div class="inputWrapper">
@@ -130,16 +129,10 @@
 		padding: 10px 5px;
 		display: grid;
 		align-items: center;
-		grid-template-columns: 40% 60%;
+		justify-content: center;
 		text-align: start;
 		font-size: 12pt;
 		font-weight: 400;
-	}
-
-	.suggest {
-		text-align: start;
-		color: var(--primary);
-		font-size: 12pt;
 	}
 
 	.inputWrapper {

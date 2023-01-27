@@ -109,6 +109,7 @@
 	value={field?.title}
 	type={field?.type}
 	bind:this={popper}
+	modal
 	toggleIcon={{
 		open: 'add',
 		closed: 'add',

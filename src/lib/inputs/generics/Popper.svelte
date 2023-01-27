@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { reposition, createPopper } from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
+	import { fly, slide } from 'svelte/transition';
 
 	export let props: InputProps = undefined;
 	export let toggleIcon: ToggleIcon = undefined;
 	export let value: any = undefined;
 	export let type: FieldTypes | undefined = undefined;
+	export let modal = false;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
@@ -17,13 +19,15 @@
 	export const toggle = async () => {
 		isOpen = !isOpen;
 		if (isOpen) {
-			reposition(toggleButton, popper, { position: 'bottom-middle' });
+			if (!modal) {
+				reposition(toggleButton, popper, { position: 'bottom-middle' });
+			}
 			await tick().then(() => dispatch('open'));
 		}
 	};
 
 	onMount(() => {
-		createPopper(toggleButton, popper);
+		if (!modal) createPopper(toggleButton, popper);
 	});
 </script>
 
@@ -61,15 +65,24 @@
 			</div>
 		{/if}
 	</button>
-	<div
-		bind:this={popper}
-		class="popper {!isOpen ? 'closed' : ''}"
-		on:mouseenter={() => (overPopper = true)}
-		on:mouseleave={() => (overPopper = false)}
-	>
-		<slot />
-	</div>
+	{#if isOpen || !modal}
+		<div
+			transition:fly={{ duration: modal ? 500 : 0, y: 1000 }}
+			bind:this={popper}
+			class="popper {!isOpen && !modal ? 'closed' : ''}"
+			class:modal
+			class:popperBorder={type === 'multiSelect' || type === 'singleSelect'}
+			on:mouseenter={() => (overPopper = true)}
+			on:mouseleave={() => (overPopper = false)}
+		>
+			<slot />
+		</div>
+	{/if}
 </div>
+
+{#if modal && isOpen}
+	<div class="backdrop" />
+{/if}
 
 <style>
 	.popper {
@@ -78,6 +91,9 @@
 		max-height: 440px;
 		overflow: auto;
 		z-index: 100;
+	}
+
+	.popperBorder {
 		border: 1px solid var(--border);
 	}
 
@@ -134,5 +150,21 @@
 		display: flex;
 		align-items: center;
 		padding-left: 10px;
+	}
+
+	.modal {
+		width: 50vh;
+		top: 20vh !important;
+		z-index: 100;
+	}
+
+	.backdrop {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background: #00000040;
+		z-index: 99;
 	}
 </style>
