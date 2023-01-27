@@ -35,18 +35,22 @@
 						style:width={`${widthConversion[field.width]}%`}
 					>
 						{#if !field.subFields}
-							<div class="fieldTitle">
-								{field.title}
-							</div>
+							{#if field.type !== 'multiSelect'}
+								<div class="fieldTitle">
+									{field?.title}
+								</div>
+							{/if}
 							<svelte:component this={inputs[field.type]} {field} value={undefined} />
 						{:else}
 							<div class="subFields">
 								{#each field?.subFields as subField}
 									<div class="subField">
 										{#if !subField.data}
-											<div class="fieldTitle">
-												{subField.title}
-											</div>
+											{#if subField.type !== 'multiSelect'}
+												<div class="fieldTitle">
+													{subField?.title}
+												</div>
+											{/if}
 											<svelte:component
 												this={inputs[subField.type]}
 												field={subField}

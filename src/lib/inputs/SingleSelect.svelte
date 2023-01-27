@@ -32,7 +32,7 @@
 	{props}
 	toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 >
-	<SelectHeader bind:searchValue {field} {props}>
+	<SelectHeader bind:searchValue title={field?.title} {props}>
 		<div class="options">
 			{#each options.filter((option) => option.value
 					.toLowerCase()

@@ -1,14 +1,28 @@
 <script lang="ts">
 	export let searchValue: string;
+	export let containerStyle: string = '';
+	export let inputStyle: string = '';
+	let search: HTMLInputElement;
+
+	export const searchFocus = () => {
+		search?.focus();
+	};
 </script>
 
-<div class="searchWrapper">
-	<div class="material-icons searchIcon">search</div>
-	<input class="search" placeholder="Search..." type="search" bind:value={searchValue} />
+<div style={containerStyle} class="searchContainer">
+	<div style={inputStyle} class="material-icons searchIcon">search</div>
+	<input
+		bind:this={search}
+		style={inputStyle}
+		class="search"
+		placeholder="Search..."
+		type="text"
+		bind:value={searchValue}
+	/>
 </div>
 
 <style>
-	.searchWrapper {
+	.searchContainer {
 		display: flex;
 		justify-content: center;
 		padding: 10px;

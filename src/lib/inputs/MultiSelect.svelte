@@ -5,15 +5,16 @@
 
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 
-	export let value: (MultiSelectValue & EmbeddedMultiSelectValues) | undefined = undefined;
-	export let props: InputProps = undefined;
 	export let field: Field = undefined;
+	export let value: MultiSelectValue | EmbeddedMultiSelectValues | undefined = field?.embedded
+		? {}
+		: [];
 
 	let fieldLookupId = field?.key;
 	let options: DropDownOption[] = fieldOptions.filter((option) => option.type === fieldLookupId);
 	let idOfActiveEmbeddedList: string | undefined = undefined;
-	let popper: Popper;
 	let searchValue = '';
+	let popper: Popper;
 
 	let hasEmbeddedOptions = field?.embedded ? true : false;
 	let embeddedLookupId: string | undefined = undefined;
@@ -22,25 +23,20 @@
 	if (hasEmbeddedOptions) {
 		embeddedLookupId = field?.embedded?.key;
 		embeddedOptions = fieldOptions.filter((option) => option.type === embeddedLookupId);
-	} else {
 	}
 
-	if (!value) value = [];
+	if (!value) hasEmbeddedOptions ? (value = {}) : (value = []);
 
-	const editArray = (value: any, code: string, label: string) => {
-		if (typeof value === 'object' && idOfActiveEmbeddedList) {
-			value = value[idOfActiveEmbeddedList];
+	const editArray = (passedInValue: MultiSelectValue, code: string, label: string) => {
+		if (passedInValue?.find((item: { value: string }) => item.value === code)) {
+			passedInValue.splice(
+				passedInValue.findIndex((item: { value: string }) => item.value === code),
+				1
+			);
+		} else {
+			passedInValue?.push({ value: code, label: label });
 		}
-		if (Array.isArray(value)) {
-			if (value?.find((item: { value: string }) => item.value === code)) {
-				value.splice(
-					value.findIndex((item: { value: string }) => item.value === code),
-					1
-				);
-			} else {
-				value?.push({ value: code, label: label });
-			}
-		} else console.log('err', value);
+		value = value;
 	};
 
 	const selectOption = (option: DropDownOption) => {
@@ -48,94 +44,101 @@
 		else {
 			let code = option?.code;
 			let label = option?.value;
-			editArray(value, code, label);
-			value = value;
+			if (Array.isArray(value)) editArray(value, code, label);
 		}
 	};
 
 	const selectParentOfEmbedded = (option: DropDownOption) => {
 		let code = option?.code;
+		if (!Array.isArray(value) && value && !value[code]) value[code] = [];
 		idOfActiveEmbeddedList = code;
-		if (value?.find((item) => idOfActiveEmbeddedList && idOfActiveEmbeddedList in item)) {
-			value.filter((item) => idOfActiveEmbeddedList && !(idOfActiveEmbeddedList in item));
-		} else {
-			let newObject: { [key: string]: { value: string }[] } = {};
-			newObject[code] = [];
-			value?.push(newObject);
-		}
-		value = value;
 	};
 
 	const selectEmbeddedOption = (option: DropDownOption) => {
 		if (idOfActiveEmbeddedList) {
 			let code = option?.code;
 			let label = option?.value;
-			let parentObject = value?.filter(
-				(item) => idOfActiveEmbeddedList && idOfActiveEmbeddedList in item
-			)?.[0];
-			if (parentObject) {
-				editArray(parentObject, code, label);
-				value = value;
+			if (value && !Array.isArray(value)) {
+				let arrayOfOptions = value[idOfActiveEmbeddedList];
+				editArray(arrayOfOptions, code, label);
 			}
 		}
 	};
 
-	const findEmbeddedField = (embeddedArray: { value: string }[], code: string) => {
-		if (embeddedArray?.find((subItem: { value?: string }) => subItem.value === code)) {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	const checkSelected = (code: string) => {
-		if (!hasEmbeddedOptions) return value?.find((item) => item.value === code) ? true : false;
-		else {
-			if (idOfActiveEmbeddedList) {
-				let parentObject = value?.filter(
-					(item) => idOfActiveEmbeddedList && idOfActiveEmbeddedList in item && !('value' in item)
-				)?.[0];
-				if (parentObject && !('value' in parentObject)) {
-					return findEmbeddedField(parentObject[idOfActiveEmbeddedList], code) ? true : false;
-				} else return false;
-			} else
-				return value?.find((item) => code in item && !('value' in item) && item?.[code]?.[0])
-					? true
-					: false;
-		}
+	const updateItems = () => {
+		idOfActiveEmbeddedList ? (idOfActiveEmbeddedList = undefined) : popper.toggle();
 	};
 </script>
 
 <Popper
+	value={field?.title}
 	bind:this={popper}
-	value={value
-		?.map((item) => item.label)
-		.toString()
-		.replaceAll(',', ', ')}
-	{props}
 	toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 >
-	<button on:click={() => (idOfActiveEmbeddedList = undefined)}>Dev</button>
-	<SelectHeader bind:searchValue {field} {props}>
+	<SelectHeader
+		bind:searchValue
+		type="multiSelect"
+		title={idOfActiveEmbeddedList
+			? options.find((item) => item.code === idOfActiveEmbeddedList)?.value
+			: field?.title}
+		on:close={() => {
+			idOfActiveEmbeddedList = undefined;
+			popper.toggle();
+		}}
+	>
 		<div class="options">
-			{#key value}
-				{#each !idOfActiveEmbeddedList ? options : embeddedOptions.filter((option) => option.value
-								.toLowerCase()
-								.includes(searchValue.toLowerCase())) as option}
-					{@const selected = checkSelected(option.code)}
-					<SelectOption
-						{option}
-						{selected}
-						on:select={(e) =>
-							idOfActiveEmbeddedList && embeddedOptions
-								? selectEmbeddedOption(e.detail.option)
-								: selectOption(e.detail.option)}
-					/>
-				{/each}
-			{/key}
+			{#each (!idOfActiveEmbeddedList ? options : embeddedOptions).filter((option) => option.value
+					.toLowerCase()
+					.includes(searchValue.toLowerCase())) as option}
+				{@const selected = Array.isArray(value)
+					? value.find((item) => item.value === option.code)
+						? true
+						: false
+					: idOfActiveEmbeddedList
+					? value?.[idOfActiveEmbeddedList]?.find((item) => item.value === option.code)
+						? true
+						: false
+					: value && value[option.code]?.length
+					? true
+					: false}
+				<SelectOption
+					{option}
+					{selected}
+					on:select={(e) =>
+						idOfActiveEmbeddedList && embeddedOptions
+							? selectEmbeddedOption(e.detail.option)
+							: selectOption(e.detail.option)}
+				/>
+			{/each}
+		</div>
+		<div class="footer">
+			<div class="numberOfSelections"># Selections</div>
+			<button on:click={updateItems} class="updateItems">Update Items</button>
 		</div>
 	</SelectHeader>
 </Popper>
 
 <style>
+	.footer {
+		display: flex;
+		justify-content: space-between;
+		min-height: 60px;
+		background: var(--light1);
+		align-items: center;
+		padding: 0 10px;
+		border-top: 1px solid var(--border);
+		position: sticky;
+		bottom: 0;
+	}
+
+	.numberOfSelections {
+		font-weight: 400;
+	}
+
+	.updateItems {
+		color: var(--light1);
+		background: var(--primary);
+		padding: 12px 10px;
+		border-radius: 4px;
+	}
 </style>

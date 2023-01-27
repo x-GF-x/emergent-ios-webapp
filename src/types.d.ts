@@ -16,8 +16,7 @@ type MultiSelectValue = {
 	label?: string;
 }[];
 
-type EmbeddedObject = { [key: string]: { value: string }[] };
-type EmbeddedMultiSelectValues = EmbeddedObject[];
+type EmbeddedMultiSelectValues = { [key: string]: MultiSelectValue };
 
 type DropDownOption = {
 	code: string;

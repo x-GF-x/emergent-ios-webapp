@@ -4,7 +4,7 @@
 
 	export let props: InputProps = undefined;
 	export let toggleIcon: ToggleIcon = undefined;
-	export let value: any;
+	export let value: any = undefined;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
@@ -71,9 +71,10 @@
 	.popper {
 		position: fixed;
 		width: 300px;
-		max-height: 540px;
+		max-height: 440px;
 		overflow: auto;
 		z-index: 100;
+		border: 1px solid var(--border);
 	}
 
 	.closed {
