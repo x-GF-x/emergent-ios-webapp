@@ -5,6 +5,7 @@
 	export let props: InputProps = undefined;
 	export let toggleIcon: ToggleIcon = undefined;
 	export let value: any = undefined;
+	export let type: FieldTypes | undefined = undefined;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
@@ -37,6 +38,7 @@
 		class:iconToggle={props?.icon}
 		disabled={typeof props?.icon === 'string'}
 		class="toggleButton"
+		class:multiSelect={type === 'multiSelect'}
 		on:click={toggle}
 		on:mouseenter={() => (overPopper = true)}
 		on:mouseleave={() => (overPopper = false)}
@@ -54,7 +56,9 @@
 			</div>
 		</div>
 		{#if toggleIcon}
-			<div class="material-icons caret">{isOpen ? toggleIcon.open : toggleIcon.closed}</div>
+			<div class="material-icons caret" style:color={toggleIcon?.color} style={toggleIcon?.style}>
+				{isOpen ? toggleIcon.open : toggleIcon.closed}
+			</div>
 		{/if}
 	</button>
 	<div
@@ -92,9 +96,14 @@
 	.toggleButton {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		width: 100%;
 		height: 100%;
 		padding: 10px 0;
+	}
+
+	.multiSelect {
+		padding: 0;
 	}
 
 	.icon {
@@ -121,5 +130,9 @@
 
 	.caret {
 		color: var(--dark3);
+		height: 100%;
+		display: flex;
+		align-items: center;
+		padding-left: 10px;
 	}
 </style>

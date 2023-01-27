@@ -30,9 +30,10 @@
 			<div class="row">
 				{#each row.fields as field}
 					<div
-						class="field"
-						style:padding={!field.subFields ? '10px 10px 0 10px' : ''}
 						style:width={`${widthConversion[field.width]}%`}
+						class="field"
+						class:multiSelect={field.type === 'multiSelect'}
+						class:padding={!field.subFields && field.type !== 'multiSelect'}
 					>
 						{#if !field.subFields}
 							{#if field.type !== 'multiSelect'}
@@ -122,6 +123,15 @@
 	}
 	.field:not(:last-child) {
 		border-right: 1px solid var(--border);
+	}
+
+	.padding {
+		padding: 10px 10px 0 10px;
+	}
+
+	.multiSelect {
+		padding: 0 10px;
+		min-height: 50px;
 	}
 
 	.subFields {

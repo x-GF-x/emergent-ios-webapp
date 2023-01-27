@@ -4,19 +4,27 @@ type InputProps =
 
 type NumPad = Array<number | undefined | { icon: string; fn: () => void }>;
 
-type ToggleIcon = { open: string; closed: string } | undefined;
+type ToggleIcon = { open: string; closed: string; color?: string; style?: string } | undefined;
 
 type Field =
-	| { ds?: string; key?: string; id?: string; type?: string; title?: string; embedded?: Field }
+	| { ds?: string; key?: string; id?: string; type?: FieldTypes; title?: string; embedded?: Field }
 	| undefined;
 
-type MultiSelectValue = {
+type FieldTypes = 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect';
+
+type Option = {
+	value: string;
+	pn?: string;
+	label?: string;
+};
+
+type MultiSelectValues = {
 	value: string;
 	pn?: string;
 	label?: string;
 }[];
 
-type EmbeddedMultiSelectValues = { [key: string]: MultiSelectValue };
+type EmbeddedMultiSelectValues = { [key: string]: MultiSelectValues };
 
 type DropDownOption = {
 	code: string;
