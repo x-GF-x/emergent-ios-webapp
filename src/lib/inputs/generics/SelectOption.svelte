@@ -1,15 +1,11 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	export let selected: boolean;
 	export let option: { code: string; value: string };
-	export let value: string | undefined;
 	const dispatch = createEventDispatcher();
 </script>
 
-<button
-	on:click={() => dispatch('select', { code: option.code })}
-	class:selected={option.code === value}
-	class="option"
->
+<button on:click={() => dispatch('select', { option: option })} class:selected class="option">
 	{option.value}
 </button>
 

@@ -35,17 +35,18 @@
 	<button
 		bind:this={toggleButton}
 		class:iconToggle={props?.icon}
+		disabled={typeof props?.icon === 'string'}
 		class="toggleButton"
 		on:click={toggle}
 		on:mouseenter={() => (overPopper = true)}
 		on:mouseleave={() => (overPopper = false)}
 	>
+		{#if props?.icon}
+			<div class="material-icons icon">
+				{props.icon}
+			</div>
+		{/if}
 		<div class="buttonLabel">
-			{#if props?.icon}
-				<div class="material-icons">
-					{props.icon}
-				</div>
-			{/if}
 			<div class="value">
 				{#if value !== undefined}
 					{value}
@@ -70,7 +71,7 @@
 	.popper {
 		position: fixed;
 		width: 300px;
-		max-height: 800px;
+		max-height: 540px;
 		overflow: auto;
 		z-index: 100;
 	}
@@ -95,8 +96,14 @@
 		padding: 10px 0;
 	}
 
+	.icon {
+		margin-right: 20px;
+	}
+
 	.iconToggle {
 		color: var(--secondary);
+		display: flex;
+		align-items: center;
 		padding: 10px;
 		border: 1px solid var(--border);
 		border-radius: 5px;

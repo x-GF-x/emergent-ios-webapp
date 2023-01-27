@@ -13,7 +13,8 @@
 	let popper: Popper;
 	let searchValue = '';
 
-	const selectOption = (code: string) => {
+	const selectOption = (option: { code: string }) => {
+		const code = option?.code;
 		if (value === code) {
 			value = undefined;
 		} else {
@@ -25,7 +26,9 @@
 
 <Popper
 	bind:this={popper}
-	value={value ? options.find((item) => item.code === value)?.value : ''}
+	value={options?.find((item) => item.code === value)?.value
+		? options.find((item) => item.code === value)?.value
+		: value}
 	{props}
 	toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 >
@@ -34,7 +37,11 @@
 			{#each options.filter((option) => option.value
 					.toLowerCase()
 					.includes(searchValue.toLowerCase())) as option}
-				<SelectOption {option} {value} on:select={(e) => selectOption(e.detail.code)} />
+				<SelectOption
+					{option}
+					selected={value === option.code}
+					on:select={(e) => selectOption(e.detail.option)}
+				/>
 			{/each}
 		</div>
 	</SelectHeader>

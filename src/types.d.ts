@@ -6,7 +6,25 @@ type NumPad = Array<number | undefined | { icon: string; fn: () => void }>;
 
 type ToggleIcon = { open: string; closed: string } | undefined;
 
-type Field = { ds?: string; key?: string; id?: string; type?: string; title?: string } | undefined;
+type Field =
+	| { ds?: string; key?: string; id?: string; type?: string; title?: string; embedded?: Field }
+	| undefined;
+
+type MultiSelectValue = {
+	value: string;
+	pn?: string;
+	label?: string;
+}[];
+
+type EmbeddedObject = { [key: string]: { value: string }[] };
+type EmbeddedMultiSelectValues = EmbeddedObject[];
+
+type DropDownOption = {
+	code: string;
+	id: number;
+	type: string;
+	value: string;
+};
 
 type Tab = {
 	label: string;
