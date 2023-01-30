@@ -67,6 +67,7 @@
 		flex-direction: row;
 		border: 1px solid var(--border);
 		min-height: 40px;
+		justify-content: center;
 	}
 
 	.row:not(:last-child) {
