@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InputBuilder from './generics/InputBuilder.svelte';
+	import SingleSelect from './SingleSelect.svelte';
 	export let value: { [key: string]: { operator?: '+' | '-'; operand?: number; value: string } };
 	export let field: Field = undefined;
 	const mathOperations = {
@@ -32,7 +32,7 @@
 		<div class="scoreFields">
 			{#each field.scoreFields as scoreField}
 				{#if scoreField?.id}
-					<InputBuilder field={scoreField} bind:value={value[scoreField.id]} />
+					<SingleSelect field={scoreField} bind:value={value[scoreField.id]} />
 				{/if}
 			{/each}
 		</div>
