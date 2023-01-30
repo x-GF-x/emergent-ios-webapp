@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { reposition, createPopper } from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
-	import { fly, slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 
 	export let props: InputProps = undefined;
 	export let toggleIcon: ToggleIcon = undefined;
@@ -87,7 +87,7 @@
 <style>
 	.popper {
 		position: fixed;
-		width: 300px;
+		width: 350px;
 		max-height: 440px;
 		overflow: auto;
 		z-index: 100;
