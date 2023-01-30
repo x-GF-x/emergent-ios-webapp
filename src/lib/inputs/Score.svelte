@@ -45,7 +45,7 @@
 	<div class="score">
 		<div class="scoreTitle">Total Score</div>
 		<div class="result">
-			{totalScore}
+			{totalScore ? totalScore : '-'}
 		</div>
 	</div>
 </div>
@@ -72,6 +72,7 @@
 		flex-direction: column;
 		border-left: 1px solid var(--border);
 		background: var(--dark2);
+		font-weight: 500;
 	}
 
 	.result {
