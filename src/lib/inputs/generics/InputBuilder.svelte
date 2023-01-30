@@ -15,6 +15,8 @@
 
 <style>
 	.fieldTitle {
+		padding: 10px;
+		padding-bottom: 0;
 		font-weight: 200;
 		font-size: 10pt;
 	}

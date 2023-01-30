@@ -31,9 +31,14 @@
 	{#if field?.scoreFields}
 		<div class="scoreFields">
 			{#each field.scoreFields as scoreField}
-				{#if scoreField?.id}
-					<SingleSelect field={scoreField} bind:value={value[scoreField.id]} />
-				{/if}
+				<div class="scoreField">
+					{#if scoreField?.id}
+						<div class="fieldTitle">
+							{scoreField.title}
+						</div>
+						<SingleSelect field={scoreField} bind:value={value[scoreField.id]} />
+					{/if}
+				</div>
 			{/each}
 		</div>
 	{/if}
@@ -50,10 +55,16 @@
 		display: grid;
 		grid-template-columns: 66% 34%;
 	}
+
 	.scoreFields {
 		display: flex;
 		flex-direction: column;
 	}
+
+	.scoreField:not(:last-child) {
+		border-bottom: 1px solid var(--border);
+	}
+
 	.score {
 		display: flex;
 		justify-content: center;
@@ -62,7 +73,15 @@
 		border-left: 1px solid var(--border);
 		background: var(--dark2);
 	}
+
 	.result {
 		font-size: 50pt;
+	}
+
+	.fieldTitle {
+		padding: 10px;
+		padding-bottom: 0;
+		font-weight: 200;
+		font-size: 10pt;
 	}
 </style>

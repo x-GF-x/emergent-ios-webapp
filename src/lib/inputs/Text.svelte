@@ -11,9 +11,9 @@
 		height: 35px;
 		border: none;
 		font-size: 12pt;
-		margin-left: -2px;
 		caret-color: var(--primary);
 		background: var(--light2);
+		padding-left: 10px;
 	}
 
 	input:focus-visible {

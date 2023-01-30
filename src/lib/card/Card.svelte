@@ -19,7 +19,6 @@
 						style:width={`${widthConversion[field.width]}%`}
 						class="field"
 						class:multiSelect={field.type === 'multiSelect'}
-						class:padding={!field.subFields && field.type !== 'multiSelect'}
 					>
 						{#if !field.subFields}
 							<InputBuilder {field} value={undefined} />
@@ -82,13 +81,8 @@
 		border-right: 1px solid var(--border);
 	}
 
-	.padding {
-		padding: 10px 10px 0 10px;
-	}
-
 	.multiSelect {
 		padding: 0 10px;
-		min-height: 50px;
 	}
 
 	.subFields {
@@ -101,7 +95,6 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		padding: 10px 10px 0 10px;
 	}
 
 	.subField:not(:last-child) {
