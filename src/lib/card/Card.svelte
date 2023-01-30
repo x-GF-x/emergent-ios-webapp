@@ -1,7 +1,9 @@
 <script lang="ts">
+	import Age from '$lib/inputs/Age.svelte';
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
 
 	export let data: CardJson;
+	export let value: DataStorage;
 
 	let widthConversion = { oneThird: '33.33', full: '100', half: '50' };
 </script>
@@ -20,16 +22,11 @@
 						class="field"
 						class:multiSelect={field.type === 'multiSelect'}
 					>
-						{#if !field.subFields}
-							<InputBuilder {field} value={undefined} />
-						{:else}
-							<div class="subFields">
-								{#each field?.subFields as subField}
-									<div class="subField">
-										<InputBuilder field={subField} value={undefined} />
-									</div>
-								{/each}
-							</div>
+						{#if !(field.type === 'age')}
+							<InputBuilder {field} bind:value={value[field.id]} />
+						{:else if value}
+							<!-- Need to handle age separately to avoid circular dependency when we build subFields -->
+							<Age {field} bind:value={value[field.id]} />
 						{/if}
 					</div>
 				{/each}
@@ -84,21 +81,5 @@
 
 	.multiSelect {
 		padding: 0 10px;
-	}
-
-	.subFields {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-	}
-
-	.subField {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.subField:not(:last-child) {
-		border-right: 1px solid var(--border);
 	}
 </style>

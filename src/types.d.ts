@@ -2,7 +2,7 @@
 interface DataStorage {
 	//####
 	//Fields that do not repeat (ie are not in actions array- for example person first name) go here
-	[key: string]: number | string;
+	[key: string]: { [key: string]: { value: string } };
 	//####
 	last_modified: string; //timestamp
 	created: string; //timestamp
@@ -18,7 +18,14 @@ interface DataStorage {
 		[key: string]: //Individual fields within card: [lookup, value]
 		| number
 			| string
-			| { [key: string]: { code: string; operand: number; description: string; operator: string } }; //Score
+			| {
+					[key: string]: {
+						code: string;
+						operand: number;
+						description: string;
+						operator: string;
+					};
+			  }; //Score
 	}[];
 }
 
@@ -39,13 +46,13 @@ type Field =
 			title?: string;
 			embedded?: Field;
 			scoreFields?: Field[];
-			subField?: SubField[];
+			subFields?: SubField[];
 	  }
 	| undefined;
 
 type SubField = {
 	id: string;
-	type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect';
+	type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'multiSelect';
 	title: string;
 	style?: string;
 	min?: number;
@@ -53,10 +60,10 @@ type SubField = {
 	ds?: string;
 	action?: string;
 	key?: string;
-	data: { id: number; type: string; code: string; value: string }[];
+	data?: { id: number; type: string; code: string; value: string }[];
 };
 
-type FieldTypes = 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect' | 'score';
+type FieldTypes = 'singleSelect' | 'text' | 'numeric' | 'date' | 'multiSelect' | 'score' | 'age';
 
 type Option = {
 	value: string;
@@ -113,7 +120,7 @@ type CardJson = {
 			key?: string;
 			subFields?: {
 				id: string;
-				type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect';
+				type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'multiSelect';
 				title: string;
 				style?: string;
 				min?: number;

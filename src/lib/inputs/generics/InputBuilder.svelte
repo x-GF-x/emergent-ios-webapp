@@ -10,7 +10,9 @@
 			{field?.title}
 		</div>
 	{/if}
-	<svelte:component this={input_components[field.type]} {field} bind:value />
+	{#if field.type !== 'age'}
+		<svelte:component this={input_components[field.type]} {field} bind:value />
+	{/if}
 {/if}
 
 <style>

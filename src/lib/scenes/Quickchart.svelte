@@ -2,7 +2,8 @@
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts';
 	export let selectedTab: Tab;
-
+	export let value: DataStorage;
+	if (value) console.log(value);
 	let filteredCharts = quickcharts.filter(
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'
 	);

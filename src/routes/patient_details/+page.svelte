@@ -5,6 +5,13 @@
 
 	export let time: number;
 
+	let value: DataStorage = {
+		created: new Date().toISOString(),
+		last_modified: new Date().toISOString(),
+		uuid: crypto.randomUUID(),
+		actions: []
+	};
+
 	const beginningTime = new Date().getTime();
 
 	setInterval(() => {
@@ -14,6 +21,8 @@
 	}, 100);
 
 	let selectedTab: Tab = tabs?.[0];
+
+	// $: console.log(value);
 </script>
 
 <div class="grid">
@@ -63,7 +72,7 @@
 			{/if}
 		</div>
 		{#key selectedTab}
-			<svelte:component this={scenes?.[selectedTab?.type]} {selectedTab} />
+			<svelte:component this={scenes?.[selectedTab?.type]} {selectedTab} bind:value />
 		{/key}
 	</section>
 	<section class="footer">
