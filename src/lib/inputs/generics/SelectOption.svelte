@@ -13,6 +13,7 @@
 	.option {
 		width: 100%;
 		min-height: 40px;
+		padding: 5px 0;
 		background: var(--light1);
 		font-weight: 300;
 	}

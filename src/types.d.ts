@@ -7,10 +7,32 @@ type NumPad = Array<number | undefined | { icon: string; fn: () => void }>;
 type ToggleIcon = { open: string; closed: string; color?: string; style?: string } | undefined;
 
 type Field =
-	| { ds?: string; key?: string; id?: string; type?: FieldTypes; title?: string; embedded?: Field }
+	| {
+			ds?: string;
+			key?: string;
+			id?: string;
+			type?: FieldTypes;
+			title?: string;
+			embedded?: Field;
+			scoreFields?: Field[];
+			subField?: SubField[];
+	  }
 	| undefined;
 
-type FieldTypes = 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect';
+type SubField = {
+	id: string;
+	type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect';
+	title: string;
+	style?: string;
+	min?: number;
+	max?: number;
+	ds?: string;
+	action?: string;
+	key?: string;
+	data: { id: number; type: string; code: string; value: string }[];
+};
+
+type FieldTypes = 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect' | 'score';
 
 type Option = {
 	value: string;
@@ -30,6 +52,14 @@ type DropDownOption = {
 	code: string;
 	id: number;
 	type: string;
+	value: string;
+};
+
+type ScoreOption = {
+	code: string;
+	description: string;
+	operand: 1;
+	operator: '+' | '-';
 	value: string;
 };
 

@@ -1,19 +1,5 @@
 <script lang="ts">
-	import Age from '$lib/inputs/Age.svelte';
-	import DatePicker from '$lib/inputs/DatePicker.svelte';
-	import MultiSelect from '$lib/inputs/MultiSelect.svelte';
-	import Numeric from '$lib/inputs/Numeric.svelte';
-	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
-	import Text from '$lib/inputs/Text.svelte';
-
-	let inputs = {
-		singleSelect: SingleSelect,
-		date: DatePicker,
-		numeric: Numeric,
-		text: Text,
-		age: Age,
-		multiSelect: MultiSelect
-	};
+	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
 
 	export let data: CardJson;
 
@@ -36,37 +22,12 @@
 						class:padding={!field.subFields && field.type !== 'multiSelect'}
 					>
 						{#if !field.subFields}
-							{#if field.type !== 'multiSelect'}
-								<div class="fieldTitle">
-									{field?.title}
-								</div>
-							{/if}
-							<svelte:component this={inputs[field.type]} {field} value={undefined} />
+							<InputBuilder {field} value={undefined} />
 						{:else}
 							<div class="subFields">
 								{#each field?.subFields as subField}
 									<div class="subField">
-										{#if !subField.data}
-											{#if subField.type !== 'multiSelect'}
-												<div class="fieldTitle">
-													{subField?.title}
-												</div>
-											{/if}
-											<svelte:component
-												this={inputs[subField.type]}
-												field={subField}
-												value={undefined}
-											/>
-										{:else}
-											<div class="dataBlock">
-												<u>{subField.title}</u>
-												{#each subField.data as dataObject}
-													<div class="dataObject">
-														- {dataObject.value}
-													</div>
-												{/each}
-											</div>
-										{/if}
+										<InputBuilder field={subField} value={undefined} />
 									</div>
 								{/each}
 							</div>
@@ -106,15 +67,11 @@
 		display: flex;
 		flex-direction: row;
 		border: 1px solid var(--border);
+		min-height: 40px;
 	}
 
 	.row:not(:last-child) {
 		border-bottom: none;
-	}
-
-	.fieldTitle {
-		font-weight: 200;
-		font-size: 10pt;
 	}
 
 	.field {

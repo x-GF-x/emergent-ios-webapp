@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { reposition, createPopper } from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	export let props: InputProps = undefined;
 	export let toggleIcon: ToggleIcon = undefined;
@@ -81,7 +81,7 @@
 </div>
 
 {#if modal && isOpen}
-	<div class="backdrop" />
+	<div transition:fade={{ duration: 150 }} class="backdrop" />
 {/if}
 
 <style>
@@ -164,7 +164,7 @@
 		right: 0;
 		top: 0;
 		bottom: 0;
-		background: #00000040;
+		background: #00000060;
 		z-index: 99;
 	}
 </style>
