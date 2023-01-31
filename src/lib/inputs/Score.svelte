@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SingleSelect from './SingleSelect.svelte';
-	export let value: { [key: string]: { operator?: '+' | '-'; operand?: number; value: string } };
+	export let value: { [key: string]: ScoreObject };
 	export let field: Field = undefined;
 	const mathOperations = {
 		'+': (val: number) => {

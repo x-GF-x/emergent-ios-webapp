@@ -2,7 +2,7 @@
 	import Numpad from './generics/Numpad.svelte';
 	import Popper from './generics/Popper.svelte';
 
-	export let value: number | undefined;
+	export let value: string | undefined;
 
 	export let field: Field = undefined;
 

@@ -5,7 +5,7 @@ type DataStorage = {
 	//But TS did not like it and I agree it is less type safe
 	//I can flatten when I give to Shawn
 	static_fields: {
-		[key: string]: FieldDataStorage;
+		[key: string]: FieldValues;
 	};
 	last_modified: string; //timestamp
 	created: string; //timestamp
@@ -15,7 +15,19 @@ type DataStorage = {
 	actions: ActionItem[] | [];
 };
 
-type FieldDataStorage = { [key: string]: { value: string } | number | string | undefined };
+type SingleSelectValue = string | undefined;
+
+type FieldValues =
+	| SingleSelectValue
+	| ScoreObject
+	| MultiSelectValues
+	| EmbeddedMultiSelectValues
+	| Date
+	| string
+	| number
+	| undefined
+	| { [key: string]: ScoreObject }
+	| Record<string, never>;
 
 type ActionItem = {
 	//Card
@@ -23,18 +35,18 @@ type ActionItem = {
 	created?: string; //timestamp
 	card_id: string;
 	uuid?: string;
-	[key: string]: //Individual fields within card: [lookup, value]
-	| FieldDataStorage
-		| string
-		//Score
-		| {
-				[key: string]: {
-					code: string;
-					operand: number;
-					description: string;
-					operator: string;
-				};
-		  };
+	fields: {
+		//Individual fields within card: [lookup, value]
+		[key: string]: FieldValues;
+	};
+};
+
+type ScoreObject = {
+	code?: string;
+	operand?: number;
+	description?: string;
+	operator?: '+' | '-';
+	value?: string;
 };
 
 type InputProps =

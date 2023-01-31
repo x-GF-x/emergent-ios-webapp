@@ -3,7 +3,7 @@
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
 
 	export let data: CardJson;
-	export let value: DataStorage | any;
+	export let value: DataStorage['static_fields'] | ActionItem['fields'];
 	export let collapsible = true;
 
 	let widthConversion = { oneThird: '33.33', full: '100', half: '50' };
@@ -40,10 +40,10 @@
 						>
 							{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
 								{#if !(field.type === 'age')}
-									<InputBuilder {field} bind:value={value.static_fields[field.id]} />
+									<InputBuilder {field} bind:value={value[field.id]} />
 								{:else}
 									<!-- Handling age separately to avoid circular dependency when we build subFields -->
-									<Age {field} bind:value={value.static_fields[field.id]} />
+									<Age {field} bind:value />
 								{/if}
 							{/if}
 						</div>
@@ -101,6 +101,7 @@
 	.field {
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
 	}
 	.field:not(:last-child) {
 		border-right: 1px solid var(--border);

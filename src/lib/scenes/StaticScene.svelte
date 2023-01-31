@@ -11,8 +11,8 @@
 
 {#each filteredScenes as scene}
 	{@const cardData = cards.find((item) => item.card_id === scene.card_id)?.card_json}
-	{#if cardData}
-		<Card collapsible data={JSON.parse(cardData)} bind:value />
+	{#if cardData && value.static_fields}
+		<Card collapsible data={JSON.parse(cardData)} bind:value={value.static_fields} />
 	{/if}
 {/each}
 

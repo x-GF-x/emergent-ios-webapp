@@ -2,9 +2,7 @@
 	import { input_components } from '$lib/data/input_components';
 
 	export let field: Field | SubField;
-	export let value: any;
-	// export let isStaticField = false;
-	// if (isStaticField && field?.id) value = value.static_fields[field.id];
+	export let value: FieldValues | any;
 </script>
 
 {#if field?.type}

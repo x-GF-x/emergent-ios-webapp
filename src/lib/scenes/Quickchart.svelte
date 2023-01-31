@@ -9,9 +9,7 @@
 	export let selectedTab: Tab;
 	export let value: DataStorage;
 
-	let cardValue: ActionItem;
-
-	value = value;
+	let cardValue: ActionItem = { card_id: '', fields: {} };
 
 	let filteredCharts = quickcharts.filter(
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'
@@ -24,13 +22,15 @@
 	const handleChartButton = (chart: QuickChartObject) => {
 		console.log(chart);
 		activeCardId = chart.card;
-		cardValue = { card_id: activeCardId };
+		cardValue = { card_id: activeCardId, fields: {} };
 	};
 
 	const saveModal = () => {
 		cardValue.last_modified = new Date().toString();
 		cardValue.created = new Date().toString();
 		value.actions = [...value.actions, cardValue];
+		clearActiveCard();
+		console.log(value);
 	};
 
 	const clearActiveCard = () => {
@@ -64,7 +64,7 @@
 	{@const cardData = cards.find((item) => item.card_id === activeCardId)?.card_json}
 	{#if cardData}
 		<Modal on:backdropClick={clearActiveCard} on:updateModal={saveModal}>
-			<Card collapsible={false} data={JSON.parse(cardData)} bind:value />
+			<Card collapsible={false} data={JSON.parse(cardData)} bind:value={cardValue.fields} />
 		</Modal>
 	{/if}
 {/if}

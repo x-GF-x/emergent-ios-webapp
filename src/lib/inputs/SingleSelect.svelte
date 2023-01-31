@@ -5,7 +5,7 @@
 
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 
-	export let value: any = undefined;
+	export let value: SingleSelectValue | ScoreObject = undefined;
 	export let props: InputProps = undefined;
 	export let field: Field | SubField = undefined;
 
@@ -24,7 +24,7 @@
 		options = fieldOptions.filter((option) => option.type === fieldLookupId);
 	}
 
-	const selectOption = (option: { code: string; operator?: string }) => {
+	const selectOption = (option: ScoreObject) => {
 		const code = option?.code;
 		if (value === code) {
 			value = undefined;
@@ -44,7 +44,7 @@
 		bind:this={popper}
 		value={options?.find((item) => item.code === value)?.value
 			? options.find((item) => item.code === value)?.value
-			: value?.value
+			: typeof value !== 'string' && value?.value
 			? value.value
 			: value}
 		{props}
