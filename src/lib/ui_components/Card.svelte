@@ -25,10 +25,10 @@
 						>
 							{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
 								{#if !(field.type === 'age')}
-									<InputBuilder {field} bind:value={value[field.id]} />
+									<InputBuilder {field} bind:value={value.static_fields[field.id]} />
 								{:else}
-									<!-- Need to handle age separately to avoid circular dependency when we build subFields -->
-									<Age {field} bind:value={value[field.id]} />
+									<!-- Handling age separately to avoid circular dependency when we build subFields -->
+									<Age {field} bind:value={value.static_fields[field.id]} />
 								{/if}
 							{/if}
 						</div>

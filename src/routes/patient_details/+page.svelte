@@ -10,7 +10,7 @@
 		last_modified: new Date().toISOString(),
 		uuid: crypto.randomUUID(),
 		actions: [],
-		staticFields: {}
+		static_fields: {}
 	};
 
 	const beginningTime = new Date().getTime();

@@ -1,43 +1,40 @@
 //Data storage for one patient
-type DataStorage =
-	| undefined
-	| {
-			//####
-			//Fields that do not repeat (ie are not in actions array- for example person first name) go here
-			// staticFields: {
-			// 	[key: string]: FieldDataStorage;
-			// };
-			[key: string]: FieldDataStorage | any;
-			//####
-			last_modified: string; //timestamp
-			created: string; //timestamp
-			uuid: string;
-			//Actions is array of cards- think quickcharts, where card can be set multiple times
-			//To get count for quickchart buttons, count instances of the card in this array.
-			actions:
-				| {
-						//Card
-						last_modified: string; //timestamp
-						created: string; //timestamp
-						card_id: string;
-						uuid: string;
-						[key: string]: //Individual fields within card: [lookup, value]
-						| FieldDataStorage
-							| undefined
-							//Score
-							| {
-									[key: string]: {
-										code: string;
-										operand: number;
-										description: string;
-										operator: string;
-									};
-							  };
-				  }[]
-				| [];
-	  };
+type DataStorage = {
+	//Fields that do not repeat (ie are not in actions array- for example person first name) go in static_fields.
+	//In mikes JSON these fields exist alongside last_modified, created etc.
+	//But TS did not like it and I agree it is less type safe
+	//I can flatten when I give to Shawn
+	static_fields: {
+		[key: string]: FieldDataStorage;
+	};
+	last_modified: string; //timestamp
+	created: string; //timestamp
+	uuid: string;
+	//Actions is array of cards- think quickcharts, where card can be set multiple times
+	//To get count for quickchart buttons, count instances of the card in this array.
+	actions:
+		| {
+				//Card
+				last_modified: string; //timestamp
+				created: string; //timestamp
+				card_id: string;
+				uuid: string;
+				[key: string]: //Individual fields within card: [lookup, value]
+				| FieldDataStorage
+					//Score
+					| {
+							[key: string]: {
+								code: string;
+								operand: number;
+								description: string;
+								operator: string;
+							};
+					  };
+		  }[]
+		| [];
+};
 
-type FieldDataStorage = { [key: string]: { value: string } | undefined | number | string };
+type FieldDataStorage = { [key: string]: { value: string } | number | string | undefined };
 
 type InputProps =
 	| { suggest?: number | string; label?: string; dropdownLabel?: string; icon?: string }
