@@ -1,9 +1,15 @@
 <script lang="ts">
+	import Modal from '$lib/ui_components/Modal.svelte';
+	import Card from '$lib/ui_components/Card.svelte';
+
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts';
+	import { cards } from '$lib/resource_file/ui/ui_cards';
 
 	export let selectedTab: Tab;
 	export let value: DataStorage;
+
+	let cardValue: ActionItem;
 
 	value = value;
 
@@ -11,8 +17,25 @@
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'
 	);
 
+	let activeCardId = '';
+
 	let sections = [...new Set(filteredCharts.map((item) => item.section))];
-	// console.log(sections, filteredCharts);
+
+	const handleChartButton = (chart: QuickChartObject) => {
+		console.log(chart);
+		activeCardId = chart.card;
+		cardValue = { card_id: activeCardId };
+	};
+
+	const saveModal = () => {
+		cardValue.last_modified = new Date().toString();
+		cardValue.created = new Date().toString();
+		value.actions = [...value.actions, cardValue];
+	};
+
+	const clearActiveCard = () => {
+		activeCardId = '';
+	};
 </script>
 
 <div class="quickchart">
@@ -27,18 +50,7 @@
 			{/if}
 			<div class="sectionBody">
 				{#each chartsInSection as chart}
-					<button
-						class="cardButton"
-						on:click={() =>
-							console.log(
-								'section:',
-								section,
-								'quickChartSection',
-								quickchartSections.find((item) => item.id === section),
-								'charts_in_section',
-								chartsInSection
-							)}
-					>
+					<button class="cardButton" on:click={() => handleChartButton(chart)}>
 						<div class="material-icons">add</div>
 						{chart.title}
 					</button>
@@ -47,6 +59,15 @@
 		</div>
 	{/each}
 </div>
+
+{#if activeCardId}
+	{@const cardData = cards.find((item) => item.card_id === activeCardId)?.card_json}
+	{#if cardData}
+		<Modal on:backdropClick={clearActiveCard} on:updateModal={saveModal}>
+			<Card collapsible={false} data={JSON.parse(cardData)} bind:value />
+		</Modal>
+	{/if}
+{/if}
 
 <style>
 	.quickchart {

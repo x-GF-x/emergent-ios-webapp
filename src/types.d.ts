@@ -12,29 +12,30 @@ type DataStorage = {
 	uuid: string;
 	//Actions is array of cards- think quickcharts, where card can be set multiple times
 	//To get count for quickchart buttons, count instances of the card in this array.
-	actions:
-		| {
-				//Card
-				last_modified: string; //timestamp
-				created: string; //timestamp
-				card_id: string;
-				uuid: string;
-				[key: string]: //Individual fields within card: [lookup, value]
-				| FieldDataStorage
-					//Score
-					| {
-							[key: string]: {
-								code: string;
-								operand: number;
-								description: string;
-								operator: string;
-							};
-					  };
-		  }[]
-		| [];
+	actions: ActionItem[] | [];
 };
 
 type FieldDataStorage = { [key: string]: { value: string } | number | string | undefined };
+
+type ActionItem = {
+	//Card
+	last_modified?: string; //timestamp
+	created?: string; //timestamp
+	card_id: string;
+	uuid?: string;
+	[key: string]: //Individual fields within card: [lookup, value]
+	| FieldDataStorage
+		| string
+		//Score
+		| {
+				[key: string]: {
+					code: string;
+					operand: number;
+					description: string;
+					operator: string;
+				};
+		  };
+};
 
 type InputProps =
 	| { suggest?: number | string; label?: string; dropdownLabel?: string; icon?: string }
@@ -69,6 +70,18 @@ type SubField = {
 	action?: string;
 	key?: string;
 	data?: { id: number; type: string; code: string; value: string }[];
+};
+
+type QuickChartObject = {
+	card: string;
+	card_data: string;
+	filter: unknown;
+	id: number;
+	interval: unknown;
+	key: string;
+	section: number;
+	title: string;
+	type: string;
 };
 
 type FieldTypes = 'singleSelect' | 'text' | 'numeric' | 'date' | 'multiSelect' | 'score' | 'age';

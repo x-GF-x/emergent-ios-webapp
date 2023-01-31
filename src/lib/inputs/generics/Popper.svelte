@@ -1,7 +1,8 @@
 <script lang="ts">
+	import ModalBackdrop from '$lib/ui_components/ModalBackdrop.svelte';
 	import { reposition, createPopper } from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 
 	export let props: InputProps = undefined;
 	export let toggleIcon: ToggleIcon = undefined;
@@ -36,7 +37,7 @@
 		if (isOpen && !overPopper) toggle();
 	}}
 />
-<div class="wrapper">
+<div class="popperContainer">
 	<button
 		bind:this={toggleButton}
 		class:iconToggle={props?.icon}
@@ -81,7 +82,7 @@
 </div>
 
 {#if modal && isOpen}
-	<div transition:fade={{ duration: 150 }} class="backdrop" />
+	<ModalBackdrop />
 {/if}
 
 <style>
@@ -101,7 +102,7 @@
 		visibility: hidden;
 	}
 
-	.wrapper {
+	.popperContainer {
 		min-height: 44px;
 		display: flex;
 		align-items: center;
@@ -155,15 +156,5 @@
 		width: 50vh;
 		top: 20vh !important;
 		z-index: 100;
-	}
-
-	.backdrop {
-		position: fixed;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		background: #00000060;
-		z-index: 99;
 	}
 </style>

@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { input_components } from '$lib/data/input_components';
+
 	export let field: Field | SubField;
 	export let value: any;
+	// export let isStaticField = false;
+	// if (isStaticField && field?.id) value = value.static_fields[field.id];
 </script>
 
 {#if field?.type}

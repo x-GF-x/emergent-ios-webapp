@@ -3,23 +3,38 @@
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
 
 	export let data: CardJson;
-	export let value: DataStorage;
+	export let value: DataStorage | any;
+	export let collapsible = true;
 
 	let widthConversion = { oneThird: '33.33', full: '100', half: '50' };
+
+	const collapse = () => {
+		console.log('collapse');
+	};
 </script>
 
 {#if value}
+	{#if !collapsible}
+		<div class="listHeader">
+			<div class="title">{data.properties.title}</div>
+		</div>
+	{/if}
 	<div class="list">
-		<button class="listHeader">
-			<div class="material-icons">unfold_less</div>
-			<h3>{data.properties.title}</h3>
-		</button>
+		{#if collapsible}
+			<button class="listHeader collapsible" on:click={collapse}>
+				<div class="material-icons">unfold_less</div>
+				<div class="title">{data.properties.title}</div>
+			</button>
+		{/if}
+
 		<div class="rows">
 			{#each data.rows as row}
 				<div class="row">
 					{#each row.fields as field}
 						<div
-							style:width={`${widthConversion[field.width]}%`}
+							style:width={widthConversion[field.width]
+								? `${widthConversion[field.width]}%`
+								: '33.33%'}
 							class="field"
 							class:multiSelect={field.type === 'multiSelect'}
 						>
@@ -53,10 +68,18 @@
 	.listHeader {
 		display: flex;
 		align-items: center;
-		color: var(--secondary);
-		border-bottom: 1px solid var(--border);
 		font-weight: 300;
-		font-size: 10pt;
+		font-size: 14pt;
+		margin: 0 10px 10px 10px;
+	}
+
+	.collapsible {
+		margin: 0;
+		color: var(--secondary);
+		font-size: 12pt;
+		margin-bottom: 0;
+		padding: 10px;
+		border-bottom: 1px solid var(--border);
 	}
 
 	.rows {

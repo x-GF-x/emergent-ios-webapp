@@ -2,8 +2,10 @@
 	import InputBuilder from './generics/InputBuilder.svelte';
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 
-	export let value: FieldDataStorage;
-	export let field: Field = undefined;
+	export let value: any;
+	export let field: Field;
+	// export let isStaticField = false;
+	// if (isStaticField && field?.id && !('card_id' in value)) value = value.static_fields[field.id];
 
 	let subFields: SubField[];
 	let setterId = ''; //ID of subfield that is of type date
