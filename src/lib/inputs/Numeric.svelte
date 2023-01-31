@@ -3,7 +3,6 @@
 	import Popper from './generics/Popper.svelte';
 
 	export let value: number | undefined;
-	export let props: InputProps = { suggest: 10, label: 'Test Label' };
 	export let field: Field = undefined;
 	field = field;
 
@@ -21,5 +20,5 @@
 	on:open={numpad.focusInput}
 	toggleIcon={{ open: 'unfold_less', closed: 'unfold_more' }}
 >
-	<Numpad bind:this={numpad} bind:value type="numeric" on:update={update} {props} />
+	<Numpad bind:this={numpad} bind:value type="numeric" on:update={update} {field} />
 </Popper>

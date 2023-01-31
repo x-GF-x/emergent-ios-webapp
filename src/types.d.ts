@@ -42,6 +42,7 @@ type Field =
 			ds?: string;
 			key?: string;
 			id?: string;
+			style?: string;
 			type?: FieldTypes;
 			title?: string;
 			embedded?: Field;

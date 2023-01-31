@@ -2,9 +2,11 @@
 	export let valueInput;
 	export let value: string = '';
 	export let error = false;
+	export let type: 'date' | 'time' = 'date';
 
 	let lastKey = '';
 	let allowedKeys: any;
+	let maxLength: number = type === 'date' ? 10 : 8;
 
 	export const setLastKey = (key: string) => {
 		lastKey = key;
@@ -17,18 +19,30 @@
 	let zeroNine = arrayBuilder(10);
 	let oneNine = zeroNine.slice(1);
 
-	$: allowedKeys = [
-		['0', '1'],
-		value?.charAt(0) === '1' ? arrayBuilder(3) : oneNine,
-		['/'],
-		arrayBuilder(4),
-		value?.charAt(3) === '3' ? arrayBuilder(2) : oneNine,
-		['/'],
-		['1', '2'],
-		value?.charAt(6) === '1' ? ['9'] : ['0'],
-		zeroNine,
-		zeroNine
-	];
+	$: allowedKeys =
+		type === 'date'
+			? [
+					['0', '1'],
+					value?.charAt(0) === '1' ? arrayBuilder(3) : oneNine,
+					['/'],
+					arrayBuilder(4),
+					value?.charAt(3) === '3' ? arrayBuilder(2) : oneNine,
+					['/'],
+					['1', '2'],
+					value?.charAt(6) === '1' ? ['9'] : ['0'],
+					zeroNine,
+					zeroNine
+			  ]
+			: [
+					['0', '1', '2'],
+					value?.charAt(0) === '2' ? arrayBuilder(4) : zeroNine,
+					[':'],
+					arrayBuilder(6),
+					zeroNine,
+					[':'],
+					arrayBuilder(6),
+					zeroNine
+			  ];
 
 	const removeLast = () => {
 		value = value.substring(0, value.length - 1);
@@ -36,16 +50,16 @@
 
 	const check = () => {
 		if (value?.length) {
-			if (value?.length > 10) removeLast();
+			if (value?.length > maxLength) removeLast();
 			else if (value)
 				for (var i = 0; i < value.length; i++)
 					if (!allowedKeys[i].includes(value.charAt(i)))
-						if (i === 0) value = '0' + value.charAt(i);
+						if (type === 'date' && i === 0) value = '0' + value.charAt(i);
 						else removeLast();
 			if ((value.length === 2 || value.length === 5) && lastKey !== 'Backspace')
-				value = value + '/';
+				value = value + (type === 'date' ? '/' : ':');
 		}
-		if (!value?.length || value.length === 10) {
+		if (!value?.length || value.length === maxLength) {
 			error = false;
 		} else {
 			error = true;

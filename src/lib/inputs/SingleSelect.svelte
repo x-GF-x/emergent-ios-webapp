@@ -14,7 +14,7 @@
 	let popper: Popper;
 	let searchValue = '';
 
-	if (field && 'data' in field) {
+	if (field && 'data' in field && field.data) {
 		options = field.data;
 		if (options)
 			options.forEach((option) => {

@@ -4,10 +4,7 @@
 
 	export let type: 'date' | 'numeric';
 	export let value: number | string | undefined;
-	export let props: InputProps = {
-		suggest: type === 'numeric' ? 10 : '10/31/1995',
-		label: 'Test Label'
-	};
+	export let field: Field;
 
 	let valueInput: HTMLInputElement;
 	let datestring: DateString;
@@ -60,7 +57,7 @@
 
 <div class="numpadControl">
 	<div class="header">
-		<div class="label">{props?.label}</div>
+		<div class="label">{field?.title}</div>
 	</div>
 	<div class="inputWrapper">
 		<div class="inputAndClear">
@@ -68,7 +65,13 @@
 				<input bind:this={valueInput} class="input" bind:value type="number" />
 			{:else if type === 'date'}
 				{#if typeof value === 'string' || value === undefined}
-					<DateString bind:this={datestring} bind:error bind:valueInput bind:value />
+					<DateString
+						bind:this={datestring}
+						type={field?.style === 'time' ? 'time' : 'date'}
+						bind:error
+						bind:valueInput
+						bind:value
+					/>
 				{/if}
 			{/if}
 			<button

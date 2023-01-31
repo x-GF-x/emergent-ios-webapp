@@ -3,12 +3,9 @@
 	import Popper from './generics/Popper.svelte';
 
 	export let value: number | undefined;
-	export let props: InputProps = {
-		suggest: '10/31/1995',
-		label: 'Test Label'
-	};
+
 	export let field: Field = undefined;
-	field = field;
+	console.log(field);
 
 	let popper: Popper;
 	let numpad: Numpad;
@@ -19,5 +16,5 @@
 </script>
 
 <Popper bind:this={popper} value={value ? value : undefined} on:open={numpad.focusInput}>
-	<Numpad bind:this={numpad} bind:value type="date" on:update={update} {props} />
+	<Numpad bind:this={numpad} bind:value type="date" on:update={update} {field} />
 </Popper>
