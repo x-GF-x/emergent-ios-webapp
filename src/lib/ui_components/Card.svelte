@@ -8,32 +8,36 @@
 	let widthConversion = { oneThird: '33.33', full: '100', half: '50' };
 </script>
 
-<div class="list">
-	<button class="listHeader">
-		<div class="material-icons">unfold_less</div>
-		<h3>{data.properties.title}</h3>
-	</button>
-	<div class="rows">
-		{#each data.rows as row}
-			<div class="row">
-				{#each row.fields as field}
-					<div
-						style:width={`${widthConversion[field.width]}%`}
-						class="field"
-						class:multiSelect={field.type === 'multiSelect'}
-					>
-						{#if !(field.type === 'age')}
-							<InputBuilder {field} bind:value={value[field.id]} />
-						{:else if value}
-							<!-- Need to handle age separately to avoid circular dependency when we build subFields -->
-							<Age {field} bind:value={value[field.id]} />
-						{/if}
-					</div>
-				{/each}
-			</div>
-		{/each}
+{#if value}
+	<div class="list">
+		<button class="listHeader">
+			<div class="material-icons">unfold_less</div>
+			<h3>{data.properties.title}</h3>
+		</button>
+		<div class="rows">
+			{#each data.rows as row}
+				<div class="row">
+					{#each row.fields as field}
+						<div
+							style:width={`${widthConversion[field.width]}%`}
+							class="field"
+							class:multiSelect={field.type === 'multiSelect'}
+						>
+							{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
+								{#if !(field.type === 'age')}
+									<InputBuilder {field} bind:value={value[field.id]} />
+								{:else}
+									<!-- Need to handle age separately to avoid circular dependency when we build subFields -->
+									<Age {field} bind:value={value[field.id]} />
+								{/if}
+							{/if}
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.list {

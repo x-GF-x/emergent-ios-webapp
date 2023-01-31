@@ -2,7 +2,7 @@
 	import InputBuilder from './generics/InputBuilder.svelte';
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 
-	export let value: { [key: string]: any };
+	export let value: FieldDataStorage;
 	export let field: Field = undefined;
 
 	let subFields: SubField[];
@@ -28,8 +28,8 @@
 		});
 	}
 
-	const setAgeValueAndUnit = (dateToRead: string) => {
-		if (dateToRead) {
+	const setAgeValueAndUnit = (dateToRead: { value: string } | undefined | number | string) => {
+		if (typeof dateToRead === 'string') {
 			let dob = new Date(dateToRead);
 			let currentDate = new Date();
 			if (dob > currentDate) {
@@ -48,7 +48,6 @@
 			} else {
 				removeTimeField();
 			}
-
 			if (yearDifference >= 2) {
 				value[selectId] = options.find((option) => option.value === 'Years')?.code;
 				value[numericId] = Math.floor(yearDifference);
@@ -88,7 +87,7 @@
 
 	//tack time onto date
 	const applyTime = () => {
-		if (value?.time?.length === 8) {
+		if (typeof value?.time === 'string' && value?.time?.length === 8) {
 			let firstTwoOfTime = Number(value.time.slice(0, 2));
 			let amOrPm;
 			if (firstTwoOfTime < 12) {
@@ -100,7 +99,8 @@
 					(firstTwoOfTime - 12).toString()
 				);
 			}
-			let timelessDate = new Date(value?.[setterId]);
+			let originalDateString = value?.[setterId]?.toString();
+			let timelessDate = new Date(originalDateString ? originalDateString : '');
 			if (timelessDate instanceof Date && !isNaN(timelessDate.getTime())) {
 				let dateWithTime = new Date(
 					timelessDate.toLocaleString().replace('12:00:00 AM', `${value.time} ${amOrPm}`)

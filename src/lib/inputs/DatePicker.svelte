@@ -5,7 +5,6 @@
 	export let value: number | undefined;
 
 	export let field: Field = undefined;
-	console.log(field);
 
 	let popper: Popper;
 	let numpad: Numpad;

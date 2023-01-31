@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Card from '$lib/card/Card.svelte';
+	import Card from '$lib/ui_components/Card.svelte';
 
 	import { scenes } from '$lib/resource_file/ui/ui_scenes';
 	import { cards } from '$lib/resource_file/ui/ui_cards';

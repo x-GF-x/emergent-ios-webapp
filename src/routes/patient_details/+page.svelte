@@ -9,7 +9,8 @@
 		created: new Date().toISOString(),
 		last_modified: new Date().toISOString(),
 		uuid: crypto.randomUUID(),
-		actions: []
+		actions: [],
+		staticFields: {}
 	};
 
 	const beginningTime = new Date().getTime();

@@ -1,15 +1,18 @@
 <script lang="ts">
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts';
+
 	export let selectedTab: Tab;
 	export let value: DataStorage;
-	if (value) console.log(value);
+
+	value = value;
+
 	let filteredCharts = quickcharts.filter(
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'
 	);
 
 	let sections = [...new Set(filteredCharts.map((item) => item.section))];
-	console.log(sections, filteredCharts);
+	// console.log(sections, filteredCharts);
 </script>
 
 <div class="quickchart">
@@ -24,7 +27,18 @@
 			{/if}
 			<div class="sectionBody">
 				{#each chartsInSection as chart}
-					<button class="cardButton">
+					<button
+						class="cardButton"
+						on:click={() =>
+							console.log(
+								'section:',
+								section,
+								'quickChartSection',
+								quickchartSections.find((item) => item.id === section),
+								'charts_in_section',
+								chartsInSection
+							)}
+					>
 						<div class="material-icons">add</div>
 						{chart.title}
 					</button>

@@ -1,33 +1,43 @@
-//Data storage for one person
-interface DataStorage {
-	//####
-	//Fields that do not repeat (ie are not in actions array- for example person first name) go here
-	[key: string]: { [key: string]: { value: string } };
-	//####
-	last_modified: string; //timestamp
-	created: string; //timestamp
-	uuid: string;
-	//Actions is array of cards- think quickcharts, where card can be set multiple times
-	//To get count for quickchart buttons, count instances of the card in this array.
-	actions: {
-		//Card
-		last_modified: string; //timestamp
-		created: string; //timestamp
-		card_id: string;
-		uuid: string;
-		[key: string]: //Individual fields within card: [lookup, value]
-		| number
-			| string
-			| {
-					[key: string]: {
-						code: string;
-						operand: number;
-						description: string;
-						operator: string;
-					};
-			  }; //Score
-	}[];
-}
+//Data storage for one patient
+type DataStorage =
+	| undefined
+	| {
+			//####
+			//Fields that do not repeat (ie are not in actions array- for example person first name) go here
+			// staticFields: {
+			// 	[key: string]: FieldDataStorage;
+			// };
+			[key: string]: FieldDataStorage | any;
+			//####
+			last_modified: string; //timestamp
+			created: string; //timestamp
+			uuid: string;
+			//Actions is array of cards- think quickcharts, where card can be set multiple times
+			//To get count for quickchart buttons, count instances of the card in this array.
+			actions:
+				| {
+						//Card
+						last_modified: string; //timestamp
+						created: string; //timestamp
+						card_id: string;
+						uuid: string;
+						[key: string]: //Individual fields within card: [lookup, value]
+						| FieldDataStorage
+							| undefined
+							//Score
+							| {
+									[key: string]: {
+										code: string;
+										operand: number;
+										description: string;
+										operator: string;
+									};
+							  };
+				  }[]
+				| [];
+	  };
+
+type FieldDataStorage = { [key: string]: { value: string } | undefined | number | string };
 
 type InputProps =
 	| { suggest?: number | string; label?: string; dropdownLabel?: string; icon?: string }
