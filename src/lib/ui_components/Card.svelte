@@ -1,15 +1,17 @@
 <script lang="ts">
 	import Age from '$lib/inputs/Age.svelte';
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
+	import { slide } from 'svelte/transition';
 
 	export let data: CardJson;
 	export let value: DataStorage['static_fields'] | ActionItem['fields'];
 	export let collapsible = true;
+	export let collapsed = false;
 
 	let widthConversion = { oneThird: '33.33', full: '100', half: '50' };
 
 	const collapse = () => {
-		console.log('collapse');
+		collapsed = !collapsed;
 	};
 </script>
 
@@ -21,36 +23,37 @@
 	{/if}
 	<div class="list">
 		{#if collapsible}
-			<button class="listHeader collapsible" on:click={collapse}>
-				<div class="material-icons">unfold_less</div>
+			<button class="listHeader collapsible" class:collapsed on:click={collapse}>
+				<div class="material-symbols-outlined">unfold_less</div>
 				<div class="title">{data.properties.title}</div>
 			</button>
 		{/if}
-
-		<div class="rows">
-			{#each data.rows as row}
-				<div class="row">
-					{#each row.fields as field}
-						<div
-							style:width={widthConversion[field.width]
-								? `${widthConversion[field.width]}%`
-								: '33.33%'}
-							class="field"
-							class:multiSelect={field.type === 'multiSelect'}
-						>
-							{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
-								{#if !(field.type === 'age')}
-									<InputBuilder {field} bind:value={value[field.id]} />
-								{:else}
-									<!-- Handling age separately to avoid circular dependency when we build subFields -->
-									<Age {field} bind:value />
+		{#if !collapsed}
+			<div class="rows" transition:slide|local>
+				{#each data.rows as row}
+					<div class="row">
+						{#each row.fields as field}
+							<div
+								style:width={widthConversion[field.width]
+									? `${widthConversion[field.width]}%`
+									: '33.33%'}
+								class="field"
+								class:multiSelect={field.type === 'multiSelect'}
+							>
+								{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
+									{#if !(field.type === 'age')}
+										<InputBuilder {field} bind:value={value[field.id]} on:modify />
+									{:else}
+										<!-- Handling age separately to avoid circular dependency when we build subFields -->
+										<Age {field} bind:value />
+									{/if}
 								{/if}
-							{/if}
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+							</div>
+						{/each}
+					</div>
+				{/each}
+			</div>
+		{/if}
 	</div>
 {/if}
 
@@ -80,6 +83,10 @@
 		margin-bottom: 0;
 		padding: 10px;
 		border-bottom: 1px solid var(--border);
+	}
+
+	.collapsed {
+		border-bottom: 0;
 	}
 
 	.rows {

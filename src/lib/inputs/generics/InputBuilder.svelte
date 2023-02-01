@@ -1,8 +1,19 @@
 <script lang="ts">
 	import { input_components } from '$lib/data/input_components';
+	import { createEventDispatcher } from 'svelte';
 
 	export let field: Field | SubField;
 	export let value: FieldValues | any;
+
+	let originalValue = JSON.stringify(value);
+
+	const dispatch = createEventDispatcher();
+
+	const updateLastModified = () => {
+		if (value && JSON.stringify(value) !== originalValue) dispatch('modify');
+	};
+
+	$: value, updateLastModified();
 </script>
 
 {#if field?.type}

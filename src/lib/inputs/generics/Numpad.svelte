@@ -75,7 +75,7 @@
 				{/if}
 			{/if}
 			<button
-				class="material-icons cancel"
+				class="material-symbols-outlined cancel"
 				on:click={() => (type === 'numeric' ? (value = undefined) : (value = ''))}
 			>
 				cancel
@@ -83,7 +83,7 @@
 		</div>
 		{#if error}
 			<div class="error">
-				<div class="material-icons errorIcon">error</div>
+				<div class="material-symbols-outlined errorIcon">error</div>
 				<div class="errorMessage">
 					{errorMessage}
 				</div>
@@ -100,7 +100,7 @@
 					on:click={() => (typeof cell === 'number' ? selectNumber(cell) : null)}>{cell}</button
 				>
 			{:else if typeof cell === 'object'}
-				<button class="iconButton material-icons" on:click={cell.fn}>{cell.icon}</button>
+				<button class="iconButton material-symbols-outlined" on:click={cell.fn}>{cell.icon}</button>
 			{:else}
 				<button />
 			{/if}

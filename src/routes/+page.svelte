@@ -39,7 +39,9 @@
 				</div>
 			{/each}
 			<div class="cell" style="display: flex;align-items: center;">
-				<button class="editBodyHeader material-icons" on:click={editBodyHeader}>edit_square</button>
+				<button class="editBodyHeader material-symbols-outlined" on:click={editBodyHeader}
+					>edit_square</button
+				>
 			</div>
 		</div>
 		<div class="bodyGrid">
@@ -77,7 +79,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="material-icons callArrow">arrow_forward_ios</div>
+							<div class="material-symbols-outlined callArrow">arrow_forward_ios</div>
 						</button>
 					{/each}
 				</div>

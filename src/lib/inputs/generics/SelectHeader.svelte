@@ -41,10 +41,14 @@
 		{/if}
 		{#if type === 'multiSelect'}
 			<div class="multiControls">
-				<button class:searchOpen class="searchReveal material-icons" on:click={toggleSearch}>
+				<button
+					class:searchOpen
+					class="searchReveal material-symbols-outlined"
+					on:click={toggleSearch}
+				>
 					{searchOpen ? 'cancel' : 'search'}
 				</button>
-				<button class="close material-icons" on:click={dispatchClose}> close </button>
+				<button class="close material-symbols-outlined" on:click={dispatchClose}> close </button>
 			</div>
 		{/if}
 	</div>
@@ -82,7 +86,7 @@
 		display: flex;
 	}
 
-	.material-icons {
+	.material-symbols-outlined {
 		color: var(--dark3);
 	}
 

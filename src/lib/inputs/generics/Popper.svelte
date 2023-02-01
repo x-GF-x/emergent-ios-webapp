@@ -49,7 +49,7 @@
 		on:mouseleave={() => (overPopper = false)}
 	>
 		{#if props?.icon}
-			<div class="material-icons icon">
+			<div class="material-symbols-outlined icon">
 				{props.icon}
 			</div>
 		{/if}
@@ -61,7 +61,11 @@
 			</div>
 		</div>
 		{#if toggleIcon}
-			<div class="material-icons caret" style:color={toggleIcon?.color} style={toggleIcon?.style}>
+			<div
+				class="material-symbols-outlined caret"
+				style:color={toggleIcon?.color}
+				style={toggleIcon?.style}
+			>
 				{isOpen ? toggleIcon.open : toggleIcon.closed}
 			</div>
 		{/if}

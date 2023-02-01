@@ -10,7 +10,7 @@
 </script>
 
 <div style={containerStyle} class="searchContainer">
-	<div style={inputStyle} class="material-icons searchIcon">search</div>
+	<div style={inputStyle} class="material-symbols-outlined searchIcon">search</div>
 	<input
 		bind:this={search}
 		style={inputStyle}

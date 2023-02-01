@@ -23,12 +23,12 @@
 
 	let selectedTab: Tab = tabs?.[0];
 
-	$: console.log(value);
+	// $: console.log(value);
 </script>
 
 <div class="grid">
 	<section class="navigation">
-		<a href="/" class="return material-icons">arrow_back_ios</a>
+		<a href="/" class="return material-symbols-outlined">arrow_back_ios</a>
 		<div class="timer">
 			0009100 -
 			{#if time}
@@ -38,7 +38,7 @@
 	</section>
 	<section class="controls">
 		<SingleSelect value={'Patient 1'} props={{ icon: 'account_box', dropdownLabel: 'People' }} />
-		<div class="material-icons swap">swap_horiz</div>
+		<div class="material-symbols-outlined swap">swap_horiz</div>
 		<button class="addPerson">Add Person</button>
 		<button class="endCall">End Call</button>
 	</section>
@@ -57,8 +57,8 @@
 		<div class="sceneHeader">
 			<h1 class="sceneHeaderLabel">
 				{selectedTab.label}
-				{#if selectedTab.sceneAction}
-					<button class="sceneAction">{selectedTab.sceneAction.label}</button>
+				{#if selectedTab.scene_action}
+					<button class="scene_action">{selectedTab.scene_action.label}</button>
 				{/if}
 			</h1>
 			{#if selectedTab.headerTabs}
@@ -180,7 +180,7 @@
 		justify-content: space-between;
 	}
 
-	.sceneAction {
+	.scene_action {
 		color: var(--primary);
 	}
 

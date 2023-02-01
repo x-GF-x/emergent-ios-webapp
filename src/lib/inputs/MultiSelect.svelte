@@ -168,7 +168,9 @@
 				<div class="label">
 					{selected.label}
 				</div>
-				<button class="material-icons close" on:click={() => closeParent(selected)}> close </button>
+				<button class="material-symbols-outlined close" on:click={() => closeParent(selected)}>
+					close
+				</button>
 			</div>
 			{#if embeddedSelections}
 				<div class="embeddedSelections embedded">
@@ -178,7 +180,7 @@
 								{embeddedSelection.label}
 							</div>
 							<button
-								class="material-icons close"
+								class="material-symbols-outlined close"
 								on:click={() => closeEmbedded(selected, embeddedSelection)}
 							>
 								close

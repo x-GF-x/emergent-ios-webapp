@@ -13,36 +13,42 @@ export const tabs: Tab[] = [
 		label: 'Quick Chart',
 		id: 'default',
 		type: 'quickchart',
-		sceneAction: { label: 'ADD NOTE', fn: 'add_note' },
+		scene_action: { label: 'ADD NOTE', fn: 'add_note' },
 		headerTabs: true
 	},
 	{
 		label: 'Person Info',
 		id: 'ems_patient_information',
 		type: 'static_scene',
-		sceneAction: undefined,
 		headerTabs: true
 	},
 	{
 		label: 'Timeline',
 		id: '2',
 		type: 'dynamic_scene',
-		sceneAction: { label: 'ADD ACTION', fn: 'add_action' },
+		dynamic_ids: ['actions'],
+		scene_action: { label: 'ADD ACTION', fn: 'add_action' },
 		headerTabs: true
 	},
 	{
 		label: 'Photos & Forms',
 		id: '3',
 		type: 'static_scene',
-		sceneAction: { label: 'ADD PHOTO', fn: 'add_photo' }
+		scene_action: { label: 'ADD PHOTO', fn: 'add_photo' }
 	},
 	{
 		label: 'Narrative',
 		id: '4',
 		type: 'static_scene',
-		sceneAction: { label: 'ADD NOTE', fn: 'add_note' }
+		scene_action: { label: 'ADD NOTE', fn: 'add_note' }
 	},
-	{ label: 'Summary', id: '5', type: 'dynamic_scene', sceneAction: undefined }
+	{
+		label: 'Summary',
+		id: '5',
+		type: 'dynamic_scene',
+		dynamic_ids: ['static_fields', 'actions'],
+		readonly: true
+	}
 ];
 
 export const sceneTabs = [

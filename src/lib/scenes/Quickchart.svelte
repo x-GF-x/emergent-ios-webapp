@@ -52,16 +52,20 @@
 				{#each chartsInSection as chart}
 					{@const chartCardId = chart.card}
 					{@const matchingCards = value?.actions?.filter((item) => item?.card_id === chartCardId)}
-					<button class="cardButton" on:click={() => handleChartButton(chart)}>
+					<button
+						class="cardButton"
+						class:active={matchingCards?.length}
+						on:click={() => handleChartButton(chart)}
+					>
 						{#if matchingCards.length}
 							<div class="replayNumber">
 								<div class="matchingCardsLength">
 									{matchingCards.length}
 								</div>
-								<div class="material-icons replay">replay</div>
+								<div class="material-symbols-outlined replay">replay</div>
 							</div>
 						{:else}
-							<div class="material-icons">add</div>
+							<div class="material-symbols-outlined">add</div>
 						{/if}
 						<div class="buttonText">
 							<div class="buttonTitle">
@@ -117,15 +121,37 @@
 		align-items: center;
 	}
 
+	.active {
+		background: var(--active4);
+	}
+
+	.buttonTitle {
+		font-weight: 500;
+	}
+
 	.replayNumber {
+		height: 60px;
+		position: relative;
+		text-align: center;
+		width: 60px;
+		display: flex;
+		margin-top: 5px;
+		margin-left: -10px;
 	}
 
 	.matchingCardsLength {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.replay {
 		font-size: 40pt;
 		font-weight: 100;
+		top: 0;
+		width: 100%;
+		position: absolute;
 	}
 
 	.timestamp {
