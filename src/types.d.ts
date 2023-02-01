@@ -33,6 +33,7 @@ type ActionItem = {
 	//Card
 	last_modified?: string; //timestamp
 	created?: string; //timestamp
+	title?: string;
 	card_id: string;
 	uuid?: string;
 	fields: {
@@ -73,7 +74,7 @@ type Field =
 
 type SubField = {
 	id: string;
-	type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'multiSelect';
+	type: FieldTypes;
 	title: string;
 	style?: string;
 	min?: number;
@@ -85,18 +86,35 @@ type SubField = {
 };
 
 type QuickChartObject = {
-	card: string;
-	card_data: string;
-	filter: unknown;
+	card: string; //whenever card is timeline_cards, a modal of single select choices of all the cards comes up. Whichever one you choose it then opens that card in a modal
+	card_data: string; //object with lookup - ie {drug_id: 1231232}, which prepopulates drug when button is clicked. comes from ems_drugs file
+	filter: null; // unused- replaced by the quickchart_mapping file
 	id: number;
-	interval: unknown;
+	interval: number | null; //should be set on anything timed. In seconds, ie 120 = 2 minutes. Epidural is 4 minutes, chest compress 2
 	key: string;
 	section: number;
 	title: string;
-	type: string;
+	type: QuickChartItemType;
 };
 
-type FieldTypes = 'singleSelect' | 'text' | 'numeric' | 'date' | 'multiSelect' | 'score' | 'age';
+type QuickChartItemType =
+	| 'untimed' //default
+	| 'timed' //QuickChartObject['interval'] is shown before button is pressed: "action is performed every (interval)"
+	//Colors: red, yellow, green
+	//Green is over 1 minute to go, yellow is 60 seconds or less, red is overdue and it starts counting up
+	//Green and yellow: Perform again in, Red: Overdue for...
+	| 'unrepeatable' //button is disabled once it is done
+	| 'secondary'; //mostly drugs. Has no timestamp, doesnt change color
+
+type FieldTypes =
+	| 'singleSelect'
+	| 'text'
+	| 'numeric'
+	| 'date'
+	| 'multiSelect'
+	| 'score'
+	| 'age'
+	| 'drug';
 
 type Option = {
 	value: string;
@@ -144,7 +162,7 @@ type CardJson = {
 		fields: {
 			id: string;
 			width: 'oneThird' | 'half' | 'full';
-			type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'age' | 'multiSelect';
+			type: FieldTypes;
 			title?: string;
 			style?: string;
 			action?: string;
@@ -154,7 +172,7 @@ type CardJson = {
 			key?: string;
 			subFields?: {
 				id: string;
-				type: 'singleSelect' | 'text' | 'numeric' | 'date' | 'multiSelect';
+				type: FieldTypes;
 				title: string;
 				style?: string;
 				min?: number;

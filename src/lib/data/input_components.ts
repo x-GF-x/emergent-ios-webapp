@@ -4,6 +4,7 @@ import Numeric from '$lib/inputs/Numeric.svelte';
 import Score from '$lib/inputs/Score.svelte';
 import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 import Text from '$lib/inputs/Text.svelte';
+import Drug from '$lib/inputs/Drug.svelte';
 
 export const input_components = {
 	singleSelect: SingleSelect,
@@ -11,5 +12,6 @@ export const input_components = {
 	numeric: Numeric,
 	text: Text,
 	multiSelect: MultiSelect,
-	score: Score ? Score : undefined
+	score: Score,
+	drug: Drug
 };

@@ -47,10 +47,11 @@
 									? `${widthConversion[field.width]}%`
 									: '33.33%'}
 								class="field"
+								aria-label={field?.type}
 								class:multiSelect={field.type === 'multiSelect'}
 							>
 								{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
-									{#if !(field.type === 'age')}
+									{#if !(field.type === 'age') && !(field.type === 'drug')}
 										<InputBuilder {field} bind:value={value[field.id]} on:modify />
 									{:else}
 										<!-- Handling age separately to avoid circular dependency when we build subFields -->

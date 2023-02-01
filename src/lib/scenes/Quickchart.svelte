@@ -20,9 +20,9 @@
 	let sections = [...new Set(filteredCharts.map((item) => item.section))];
 
 	const handleChartButton = (chart: QuickChartObject) => {
-		console.log(chart);
+		console.log(chart, value?.actions);
 		activeCardId = chart.card;
-		cardValue = { card_id: activeCardId, fields: {} };
+		cardValue = { card_id: activeCardId, fields: {}, title: chart.title };
 	};
 
 	const saveModal = () => {
@@ -51,7 +51,9 @@
 			<div class="sectionBody">
 				{#each chartsInSection as chart}
 					{@const chartCardId = chart.card}
-					{@const matchingCards = value?.actions?.filter((item) => item?.card_id === chartCardId)}
+					{@const matchingCards = value?.actions?.filter(
+						(item) => item?.card_id === chartCardId && item.title === chart.title
+					)}
 					<button
 						class="cardButton"
 						class:active={matchingCards?.length}
