@@ -33,7 +33,7 @@
 	<div class="list">
 		{#if collapsible}
 			<button class="listHeader collapsible" class:collapsed on:click={collapse}>
-				<div class="material-symbols-outlined">unfold_less</div>
+				<div class="material-symbols-outlined">{collapsed ? 'unfold_more' : 'unfold_less'}</div>
 				<div class="title">{data.properties.title}</div>
 			</button>
 		{/if}
