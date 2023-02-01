@@ -26,7 +26,7 @@
 	};
 
 	const saveModal = () => {
-		cardValue.last_modified = new Date().toString();
+		cardValue.last_modified = new Date().getTime().toString();
 		cardValue.created = new Date().toString();
 		value.actions = [...value.actions, cardValue];
 		clearActiveCard();
@@ -50,9 +50,30 @@
 			{/if}
 			<div class="sectionBody">
 				{#each chartsInSection as chart}
+					{@const chartCardId = chart.card}
+					{@const matchingCards = value?.actions?.filter((item) => item?.card_id === chartCardId)}
 					<button class="cardButton" on:click={() => handleChartButton(chart)}>
-						<div class="material-icons">add</div>
-						{chart.title}
+						{#if matchingCards.length}
+							<div class="replayNumber">
+								<div class="matchingCardsLength">
+									{matchingCards.length}
+								</div>
+								<div class="material-icons replay">replay</div>
+							</div>
+						{:else}
+							<div class="material-icons">add</div>
+						{/if}
+						<div class="buttonText">
+							<div class="buttonTitle">
+								{chart.title}
+							</div>
+							{#if matchingCards.length}
+								{@const lastInstance = matchingCards.at(-1)?.last_modified}
+								<div class="timestamp">
+									Last Performed at: {lastInstance}
+								</div>
+							{/if}
+						</div>
 					</button>
 				{/each}
 			</div>
@@ -94,5 +115,20 @@
 		text-align: start;
 		display: flex;
 		align-items: center;
+	}
+
+	.replayNumber {
+	}
+
+	.matchingCardsLength {
+	}
+
+	.replay {
+		font-size: 40pt;
+		font-weight: 100;
+	}
+
+	.timestamp {
+		color: var(--dark1);
 	}
 </style>

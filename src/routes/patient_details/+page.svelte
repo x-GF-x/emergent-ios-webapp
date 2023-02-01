@@ -23,7 +23,7 @@
 
 	let selectedTab: Tab = tabs?.[0];
 
-	// $: console.log(value);
+	$: console.log(value);
 </script>
 
 <div class="grid">
