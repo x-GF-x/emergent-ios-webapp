@@ -22,8 +22,14 @@
 	}, 100);
 
 	let selectedTab: Tab = tabs?.[0];
+	let allCollapsed: boolean | undefined = undefined;
 
-	// $: console.log(value);
+	const handleSceneAction = (action: string) => {
+		if (action === 'expand') allCollapsed = false;
+		else if (action === 'collapse') allCollapsed = true;
+	};
+
+	const handleChildCollapse = () => (allCollapsed = undefined);
 </script>
 
 <div class="grid">
@@ -65,7 +71,7 @@
 				{@const headerTabs = selectedTab.type === 'quickchart' ? quickchartTabs : sceneTabs}
 				<div class="sceneTabs">
 					{#each headerTabs as sceneTab}
-						<button on:click={() => console.log(sceneTab.action)} class="sceneTab">
+						<button on:click={() => handleSceneAction(sceneTab.action)} class="sceneTab">
 							{sceneTab.label}
 						</button>
 					{/each}
@@ -73,7 +79,13 @@
 			{/if}
 		</div>
 		{#key selectedTab}
-			<svelte:component this={scenes?.[selectedTab?.type]} {selectedTab} bind:value />
+			<svelte:component
+				this={scenes?.[selectedTab?.type]}
+				on:collapsed={handleChildCollapse}
+				{selectedTab}
+				{allCollapsed}
+				bind:value
+			/>
 		{/key}
 	</section>
 	<section class="footer">

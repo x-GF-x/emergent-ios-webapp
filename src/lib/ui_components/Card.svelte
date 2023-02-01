@@ -1,18 +1,27 @@
 <script lang="ts">
 	import Age from '$lib/inputs/Age.svelte';
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
+	import { createEventDispatcher } from 'svelte';
 	import { slide } from 'svelte/transition';
 
 	export let data: CardJson;
 	export let value: DataStorage['static_fields'] | ActionItem['fields'];
 	export let collapsible = true;
-	export let collapsed = false;
+	export let allCollapsed: boolean | undefined = false;
+
+	let collapsed = false;
 
 	let widthConversion = { oneThird: '33.33', full: '100', half: '50' };
+	const dispatch = createEventDispatcher();
 
 	const collapse = () => {
 		collapsed = !collapsed;
+		dispatch('collapsed');
 	};
+
+	$: {
+		if (allCollapsed !== undefined) collapsed = allCollapsed;
+	}
 </script>
 
 {#if value}
@@ -66,6 +75,10 @@
 		background: var(--light2);
 		border: 1px solid var(--border);
 		border-radius: 5px;
+	}
+
+	.list:last-child {
+		margin-bottom: 50px;
 	}
 
 	.listHeader {

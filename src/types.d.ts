@@ -133,7 +133,6 @@ type Tab = {
 	type: 'quickchart' | 'static_scene' | 'dynamic_scene';
 	dynamic_ids?: Array<'static_fields' | 'actions'>; //ids by which dynamic scenes get their data
 	scene_action?: { label: string; fn: string };
-	readonly?: boolean;
 	headerTabs?: boolean;
 };
 

@@ -156,5 +156,6 @@
 
 	.timestamp {
 		color: var(--dark1);
+		font-size: 10pt;
 	}
 </style>

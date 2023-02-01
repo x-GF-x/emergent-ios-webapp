@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Card from '$lib/ui_components/Card.svelte';
-
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 
 	export let selectedTab: Tab;
 	export let value: DataStorage;
+	export let allCollapsed = false;
 
 	let dynamicIds: Array<'static_fields' | 'actions'> | undefined = selectedTab?.dynamic_ids;
 
@@ -20,6 +20,7 @@
 				{@const cardData = cards.find((item) => item.card_id === card.card_id)?.card_json}
 				{#if cardData && value.actions}
 					<Card
+						{allCollapsed}
 						collapsible
 						data={JSON.parse(cardData)}
 						bind:value={card.fields}

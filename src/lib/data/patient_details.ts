@@ -45,9 +45,8 @@ export const tabs: Tab[] = [
 	{
 		label: 'Summary',
 		id: '5',
-		type: 'dynamic_scene',
-		dynamic_ids: ['static_fields', 'actions'],
-		readonly: true
+		type: 'dynamic_scene'
+		// dynamic_ids: ['static_fields', 'actions']
 	}
 ];
 
