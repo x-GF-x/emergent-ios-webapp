@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	export let valueInput;
 	export let value: string = '';
 	export let error = false;
@@ -76,6 +79,7 @@
 		bind:value
 		on:keyup={(e) => {
 			setLastKey(e.key);
+			if (e.key === 'Enter') dispatch('update');
 		}}
 	/>
 </div>

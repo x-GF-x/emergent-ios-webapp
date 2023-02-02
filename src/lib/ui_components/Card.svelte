@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Age from '$lib/inputs/Age.svelte';
+	import Drug from '$lib/inputs/Drug.svelte';
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { slide } from 'svelte/transition';
@@ -51,11 +52,13 @@
 								class:multiSelect={field.type === 'multiSelect'}
 							>
 								{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
-									{#if !(field.type === 'age') && !(field.type === 'drug')}
+									{#if !field.subFields}
 										<InputBuilder {field} bind:value={value[field.id]} on:modify />
-									{:else}
-										<!-- Handling age separately to avoid circular dependency when we build subFields -->
+										<!-- Handling fields with subfields separately to avoid circular dependency when we build subFields -->
+									{:else if field.type === 'age'}
 										<Age {field} bind:value />
+									{:else if field.type === 'drug'}
+										<Drug />
 									{/if}
 								{/if}
 							</div>

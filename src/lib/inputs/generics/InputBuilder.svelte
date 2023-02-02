@@ -23,7 +23,7 @@
 		</div>
 	{/if}
 	{#if field.type !== 'age'}
-		<svelte:component this={input_components[field.type]} {field} bind:value />
+		<svelte:component this={input_components[field.type]} {field} bind:value on:setDate />
 	{/if}
 {/if}
 

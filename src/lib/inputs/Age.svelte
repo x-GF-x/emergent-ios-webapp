@@ -1,5 +1,6 @@
 <script lang="ts">
-	import InputBuilder from './generics/InputBuilder.svelte';
+	import Subfields from '$lib/ui_components/Subfields.svelte';
+
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 
 	export let value: { [key: string]: FieldValues } = {};
@@ -69,6 +70,7 @@
 
 	const removeTimeField = () => {
 		subFields = subFields.filter((field) => field.id !== 'time');
+		subFields = subFields;
 	};
 
 	const addTimeField = () => {
@@ -82,8 +84,6 @@
 			subFields = subFields;
 		}
 	};
-
-	$: value?.[setterId], setAgeValueAndUnit(value?.[setterId]);
 
 	//tack time onto date
 	const applyTime = () => {
@@ -109,41 +109,14 @@
 			}
 		}
 	};
-
-	$: value?.time, applyTime();
-
-	//ePatient17 = date
-	//ePatient15 = age
-	//ePatient16 = age type
-	// $: console.log(value);
 </script>
 
-{#if Array.isArray(field?.subFields)}
-	<div class="subFields">
-		{#each subFields as subField}
-			{#if value}
-				<div class="subField">
-					<InputBuilder field={subField} bind:value={value[subField.id]} />
-				</div>
-			{/if}
-		{/each}
-	</div>
-{/if}
-
-<style>
-	.subFields {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-	}
-
-	.subField {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.subField:not(:last-child) {
-		border-right: 1px solid var(--border);
-	}
-</style>
+<Subfields
+	bind:value
+	{subFields}
+	on:setDate={(e) => {
+		const { id } = e.detail;
+		if (id === setterId) setAgeValueAndUnit(value?.[setterId]);
+		else if (id === 'time') applyTime();
+	}}
+/>

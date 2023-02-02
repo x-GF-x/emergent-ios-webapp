@@ -9,7 +9,8 @@
 	let popper: Popper;
 	let numpad: Numpad;
 
-	const update = () => {
+	const update = (e: { detail: { value: number | undefined } }) => {
+		value = e.detail.value;
 		popper.toggle();
 	};
 </script>
@@ -20,5 +21,5 @@
 	on:open={numpad.focusInput}
 	toggleIcon={{ open: 'unfold_less', closed: 'unfold_more' }}
 >
-	<Numpad bind:this={numpad} bind:value type="numeric" on:update={update} {field} />
+	<Numpad bind:this={numpad} {value} type="numeric" on:update={update} {field} />
 </Popper>

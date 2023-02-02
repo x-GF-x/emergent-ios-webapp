@@ -62,7 +62,15 @@
 	<div class="inputWrapper">
 		<div class="inputAndClear">
 			{#if type === 'numeric'}
-				<input bind:this={valueInput} class="input" bind:value type="number" />
+				<input
+					bind:this={valueInput}
+					class="input"
+					bind:value
+					type="number"
+					on:keypress={(e) => {
+						if (e.key === 'Enter') dispatch('update', { value: value });
+					}}
+				/>
 			{:else if type === 'date'}
 				{#if typeof value === 'string' || value === undefined}
 					<DateString
@@ -71,6 +79,7 @@
 						bind:error
 						bind:valueInput
 						bind:value
+						on:update={() => dispatch('update', { value: value })}
 					/>
 				{/if}
 			{/if}
@@ -113,7 +122,7 @@
 			on:click={() => {
 				if (error) {
 					alert('Incorrect Date Format. Please use MM/DD/YYY');
-				} else dispatch('update');
+				} else dispatch('update', { value: value });
 			}}
 		>
 			UPDATE
