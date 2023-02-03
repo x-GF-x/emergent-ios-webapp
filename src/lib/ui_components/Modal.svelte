@@ -19,7 +19,6 @@
 <style>
 	.modalContainer {
 		position: fixed;
-		width: 100%;
 		top: 12vh;
 		left: 0;
 		right: 0;

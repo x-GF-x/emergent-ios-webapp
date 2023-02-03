@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Modal from '$lib/ui_components/Modal.svelte';
 	import Card from '$lib/ui_components/Card.svelte';
+	import Timer from '$lib/ui_components/Timer.svelte';
 
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts_with_drugs';
@@ -13,10 +14,15 @@
 	let filteredCharts = quickcharts.filter(
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'
 	);
-
+	let sections = [...new Set(filteredCharts.map((item) => item.section))];
 	let activeCard: string | undefined = undefined;
 	let activeChart: QuickChartObject | undefined = undefined;
-	let sections = [...new Set(filteredCharts.map((item) => item.section))];
+
+	//Store timers by their card id (chart.card)
+	let timers: { [key: string]: { value: number; overdue: boolean } } = {};
+	filteredCharts.forEach((chart) => {
+		if (chart.type === 'timed') timers[chart.card] = { value: 0, overdue: false };
+	});
 
 	const handleChartButton = (chart: QuickChartObject) => {
 		activeChart = chart;
@@ -25,8 +31,13 @@
 	};
 
 	const saveModal = () => {
-		cardValue.last_modified = new Date().getTime().toString();
-		cardValue.created = new Date().toString();
+		if (cardValue.card_id in timers) {
+			timers[cardValue.card_id].overdue = false;
+		}
+		cardValue.last_modified = new Date().toLocaleTimeString('en-US', {
+			hour12: false
+		});
+		cardValue.created = new Date().toLocaleString();
 		value.actions = [...value.actions, cardValue];
 		clearActiveCard();
 	};
@@ -52,12 +63,22 @@
 					{@const matchingCards = value?.actions?.filter(
 						(item) => item?.card_id === chartCardId && item.title === chart.title
 					)}
+					{@const disabled = chart.type === 'unrepeatable' && matchingCards.length ? true : false}
 					<button
 						class="cardButton"
-						class:active={matchingCards?.length}
+						class:active={matchingCards?.length && chart.type === 'untimed'}
+						class:yellowTimer={chartCardId in timers &&
+							!timers[chartCardId].overdue &&
+							timers[chartCardId].value > 0}
+						class:greenTimer={chartCardId in timers &&
+							!timers[chartCardId].overdue &&
+							timers[chartCardId].value >= 60}
+						class:redTimer={chartCardId in timers && timers[chartCardId].overdue}
 						on:click={() => handleChartButton(chart)}
+						class:disabled
+						{disabled}
 					>
-						{#if matchingCards.length}
+						{#if matchingCards.length && !disabled && chart.type !== 'secondary'}
 							<div class="replayNumber">
 								<div class="matchingCardsLength">
 									{matchingCards.length}
@@ -71,10 +92,26 @@
 							<div class="buttonTitle">
 								{chart.title}
 							</div>
-							{#if matchingCards.length}
+							{#if (matchingCards.length && chart.type === 'untimed') || chart.type === 'timed'}
 								{@const lastInstance = matchingCards.at(-1)?.last_modified}
 								<div class="timestamp">
-									Last Performed at: {lastInstance}
+									{#if chart.type === 'timed'}
+										{#if !lastInstance && chart.interval}
+											Perform every <b>
+												{new Date(chart.interval * 1000).toISOString().slice(11, 19)}
+											</b>
+										{:else if lastInstance && chart.interval}
+											{#key lastInstance}
+												<Timer
+													countdown={chart.interval}
+													bind:count={timers[chartCardId].value}
+													bind:overdue={timers[chartCardId].overdue}
+												/>
+											{/key}
+										{/if}
+									{:else}
+										Last Performed at {lastInstance}
+									{/if}
 								</div>
 							{/if}
 						</div>
@@ -123,6 +160,11 @@
 		align-items: center;
 	}
 
+	.disabled {
+		background: var(--dark3);
+		color: var(--light1);
+	}
+
 	.active {
 		background: var(--active4);
 	}
@@ -159,5 +201,19 @@
 	.timestamp {
 		color: var(--dark1);
 		font-size: 10pt;
+	}
+
+	.redTimer {
+		background: var(--primary);
+		color: var(--light1);
+	}
+	.yellowTimer {
+		background: #d19d00;
+		color: var(--light1);
+	}
+
+	.greenTimer {
+		background: #417505;
+		color: var(--light1);
 	}
 </style>

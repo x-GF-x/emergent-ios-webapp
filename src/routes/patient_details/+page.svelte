@@ -3,7 +3,7 @@
 
 	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
 
-	export let time: number;
+	// export let time: number;
 
 	let value: DataStorage = {
 		created: new Date().toISOString(),
@@ -13,13 +13,13 @@
 		static_fields: {}
 	};
 
-	const beginningTime = new Date().getTime();
+	// const beginningTime = new Date().getTime();
 
-	setInterval(() => {
-		const current = new Date();
-		const currentTime = current.getTime();
-		time = currentTime - beginningTime;
-	}, 100);
+	// setInterval(() => {
+	// 	const current = new Date();
+	// 	const currentTime = current.getTime();
+	// 	time = currentTime - beginningTime;
+	// }, 100);
 
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
@@ -35,12 +35,12 @@
 <div class="grid">
 	<section class="navigation">
 		<a href="/" class="return material-symbols-outlined">arrow_back_ios</a>
-		<div class="timer">
+		<!-- <div class="timer">
 			0009100 -
 			{#if time}
 				{time?.toString()?.slice(0, 1)}:{time?.toString()?.slice(1, 3)}
 			{/if}
-		</div>
+		</div> -->
 	</section>
 	<section class="controls">
 		<SingleSelect value={'Patient 1'} props={{ icon: 'account_box', dropdownLabel: 'People' }} />
@@ -89,7 +89,7 @@
 		{/key}
 	</section>
 	<section class="footer">
-		<button class="protocols">Protocols</button>
+		<!-- <button class="protocols">Protocols</button> -->
 		{#each footerItems as footerItem}
 			<div class="footerItem">
 				<div class="footerItemHeader">
@@ -209,11 +209,11 @@
 
 	.footer {
 		display: grid;
-		grid-template-columns: max-content auto auto auto auto auto;
+		grid-template-columns: auto auto auto auto auto;
 		align-items: center;
 	}
 
-	.protocols {
+	/* .protocols {
 		background: var(--secondary);
 		width: max-content;
 		padding: 10px;
@@ -222,7 +222,7 @@
 		border-radius: 5px 5px 0 0;
 		color: white;
 		cursor: pointer;
-	}
+	} */
 
 	.footerItem {
 		height: 100%;
