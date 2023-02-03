@@ -19,10 +19,12 @@
 <style>
 	.modalContainer {
 		position: fixed;
-		width: 60vw;
-		top: 15vh;
-		left: 20vw;
-		right: 20vw;
+		width: 100%;
+		top: 12vh;
+		left: 0;
+		right: 0;
+		margin: auto;
+		max-width: 1200px;
 		display: block;
 		z-index: 100;
 		background: var(--light3);

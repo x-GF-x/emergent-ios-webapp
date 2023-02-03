@@ -10,7 +10,7 @@
 		{#each subFields as subField}
 			{#if value}
 				<div class="subField">
-					<InputBuilder field={subField} bind:value={value[subField.id]} on:setDate />
+					<InputBuilder field={subField} bind:value={value[subField.id]} on:setDate on:changeDrug />
 				</div>
 			{/if}
 		{/each}

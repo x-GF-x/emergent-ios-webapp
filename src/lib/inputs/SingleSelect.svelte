@@ -4,6 +4,10 @@
 	import SelectOption from './generics/SelectOption.svelte';
 
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
+	import { ems_drugs } from '$lib/resource_file/lookups/ems_drugs';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	export let value: SingleSelectValue | ScoreObject = undefined;
 	export let props: InputProps = undefined;
@@ -14,23 +18,40 @@
 	let popper: Popper;
 	let searchValue = '';
 
-	if (field && 'data' in field && field.data) {
+	const buildOptions = () => {
+		if (fieldLookupId !== 'eMedications03' && !(field && 'data' in field && field.data))
+			options = fieldOptions.filter(
+				(option) =>
+					option.type === fieldLookupId &&
+					(!field ||
+						!('available_units' in field) ||
+						(field && field.available_units?.includes(option.code))) &&
+					(!field ||
+						!('available_routes' in field) ||
+						(field && field.available_routes?.includes(option.code)))
+			);
+	};
+
+	//Reactive for when drugs are changed
+	$: field, buildOptions();
+
+	if (fieldLookupId === 'eMedications03') {
+		//Drug lookup
+		options = ems_drugs.map((item) => {
+			return {
+				code: item.drug_id,
+				id: item.id,
+				type: 'drug',
+				value: item.name
+			};
+		});
+	} else if (field && 'data' in field && field.data) {
+		//Score card options
 		options = field.data;
 		if (options)
 			options.forEach((option) => {
 				if ('description' in option) option.value = option.description;
 			});
-	} else {
-		options = fieldOptions.filter(
-			(option) =>
-				option.type === fieldLookupId &&
-				(!field ||
-					!('available_units' in field) ||
-					(field && field.available_units?.includes(option.code))) &&
-				(!field ||
-					!('available_routes' in field) ||
-					(field && field.available_routes?.includes(option.code)))
-		);
 	}
 
 	const selectOption = (option: ScoreObject) => {
@@ -44,6 +65,9 @@
 				value = code;
 			}
 			popper.toggle();
+		}
+		if (fieldLookupId === 'eMedications03') {
+			dispatch('changeDrug', { value: value });
 		}
 	};
 </script>
