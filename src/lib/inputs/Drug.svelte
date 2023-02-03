@@ -11,7 +11,6 @@
 	let drugId = chart?.card_data ? JSON.parse(chart?.card_data)?.drug_id : undefined;
 	let drug: EmsDrug | undefined = undefined;
 	let subFields: SubField[] = [];
-	let render = false;
 
 	const setDrug = () => {
 		drug = drugId ? ems_drugs.find((item) => item.drug_id === drugId) : undefined;
