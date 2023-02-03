@@ -3,8 +3,6 @@
 
 	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
 
-	// export let time: number;
-
 	let value: DataStorage = {
 		created: new Date().toISOString(),
 		last_modified: new Date().toISOString(),
@@ -13,16 +11,9 @@
 		static_fields: {}
 	};
 
-	// const beginningTime = new Date().getTime();
-
-	// setInterval(() => {
-	// 	const current = new Date();
-	// 	const currentTime = current.getTime();
-	// 	time = currentTime - beginningTime;
-	// }, 100);
-
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
+	let timers: Timers = {};
 
 	const handleSceneAction = (action: string) => {
 		if (action === 'expand') allCollapsed = false;
@@ -35,12 +26,6 @@
 <div class="grid">
 	<section class="navigation">
 		<a href="/" class="return material-symbols-outlined">arrow_back_ios</a>
-		<!-- <div class="timer">
-			0009100 -
-			{#if time}
-				{time?.toString()?.slice(0, 1)}:{time?.toString()?.slice(1, 3)}
-			{/if}
-		</div> -->
 	</section>
 	<section class="controls">
 		<SingleSelect value={'Patient 1'} props={{ icon: 'account_box', dropdownLabel: 'People' }} />
@@ -78,15 +63,16 @@
 				</div>
 			{/if}
 		</div>
-		{#key selectedTab}
-			<svelte:component
-				this={scenes?.[selectedTab?.type]}
-				on:collapsed={handleChildCollapse}
-				{selectedTab}
-				{allCollapsed}
-				bind:value
-			/>
-		{/key}
+		<!-- {#key selectedTab} -->
+		<svelte:component
+			this={scenes?.[selectedTab?.type]}
+			on:collapsed={handleChildCollapse}
+			{selectedTab}
+			{allCollapsed}
+			bind:value
+			{timers}
+		/>
+		<!-- {/key} -->
 	</section>
 	<section class="footer">
 		<!-- <button class="protocols">Protocols</button> -->

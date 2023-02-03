@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 
-	export let countdown: number;
 	export let count = 0;
 	export let overdue = false;
+	export let deadline: number;
 
 	let now = Date.now();
-	let end = now + countdown * 1000;
 
-	$: count = Math.round((!overdue ? end - now : now - end) / 1000);
-	$: rounded = Math.round((end - now) / 1000);
+	$: count = Math.round((!overdue ? deadline - now : now - deadline) / 1000);
+	$: rounded = Math.round((deadline - now) / 1000);
 	$: {
 		if (rounded === 0) {
 			overdue = true;
@@ -27,7 +26,7 @@
 
 	function handleStart() {
 		now = Date.now();
-		end = now + count * 1000;
+		deadline = now + count * 1000;
 		interval = setInterval(updateTimer, 1000);
 	}
 

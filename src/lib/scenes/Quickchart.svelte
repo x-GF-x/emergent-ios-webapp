@@ -9,6 +9,7 @@
 
 	export let selectedTab: Tab;
 	export let value: DataStorage;
+	export let timers: Timers = {};
 
 	let cardValue: ActionItem = { card_id: '', fields: {} };
 	let filteredCharts = quickcharts.filter(
@@ -18,10 +19,10 @@
 	let activeCard: string | undefined = undefined;
 	let activeChart: QuickChartObject | undefined = undefined;
 
-	//Store timers by their card id (chart.card)
-	let timers: { [key: string]: { value: number; overdue: boolean } } = {};
 	filteredCharts.forEach((chart) => {
-		if (chart.type === 'timed') timers[chart.card] = { value: 0, overdue: false };
+		if (chart.type === 'timed' && !timers[chart.card]) {
+			timers[chart.card] = { value: 0, overdue: false, deadline: 0 };
+		}
 	});
 
 	const handleChartButton = (chart: QuickChartObject) => {
@@ -33,6 +34,10 @@
 	const saveModal = () => {
 		if (cardValue.card_id in timers) {
 			timers[cardValue.card_id].overdue = false;
+			if (activeChart?.interval) {
+				timers[cardValue.card_id].deadline = Math.floor(Date.now() + activeChart.interval * 1000);
+				timers[cardValue.card_id].value = activeChart.interval;
+			}
 		}
 		cardValue.last_modified = new Date().toLocaleTimeString('en-US', {
 			hour12: false
@@ -101,13 +106,11 @@
 												{new Date(chart.interval * 1000).toISOString().slice(11, 19)}
 											</b>
 										{:else if lastInstance && chart.interval}
-											{#key lastInstance}
-												<Timer
-													countdown={chart.interval}
-													bind:count={timers[chartCardId].value}
-													bind:overdue={timers[chartCardId].overdue}
-												/>
-											{/key}
+											<Timer
+												deadline={timers[chartCardId].deadline}
+												bind:count={timers[chartCardId].value}
+												bind:overdue={timers[chartCardId].overdue}
+											/>
 										{/if}
 									{:else}
 										Last Performed at {lastInstance}

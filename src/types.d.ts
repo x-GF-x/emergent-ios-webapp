@@ -168,6 +168,10 @@ type EmsDrug = {
 	name: string;
 };
 
+type Timers = {
+	[key: string]: { value: number; overdue: boolean; deadline: number };
+};
+
 type CardJson = {
 	properties: {
 		title: string;
