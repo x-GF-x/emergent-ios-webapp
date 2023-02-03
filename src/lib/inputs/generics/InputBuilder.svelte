@@ -22,7 +22,7 @@
 			{field?.title}
 		</div>
 	{/if}
-	{#if field.type !== 'age'}
+	{#if field.type !== 'age' && field.type !== 'drug'}
 		<svelte:component this={input_components[field.type]} {field} bind:value on:setDate />
 	{/if}
 {/if}

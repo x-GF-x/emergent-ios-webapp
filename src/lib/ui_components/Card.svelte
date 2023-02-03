@@ -2,18 +2,20 @@
 	import Age from '$lib/inputs/Age.svelte';
 	import Drug from '$lib/inputs/Drug.svelte';
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
-	import { createEventDispatcher } from 'svelte';
+
+	import { widthConversion } from './width_conversion';
 	import { slide } from 'svelte/transition';
+
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let data: CardJson;
 	export let value: DataStorage['static_fields'] | ActionItem['fields'];
 	export let collapsible = true;
 	export let allCollapsed: boolean | undefined = false;
+	export let chart: QuickChartObject | undefined = undefined;
 
 	let collapsed = false;
-
-	let widthConversion = { oneThird: '33.33', full: '100', half: '50' };
-	const dispatch = createEventDispatcher();
 
 	const collapse = () => {
 		collapsed = !collapsed;
@@ -43,23 +45,21 @@
 				{#each data.rows as row}
 					<div class="row">
 						{#each row.fields as field}
+							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
 							<div
-								style:width={widthConversion[field.width]
-									? `${widthConversion[field.width]}%`
-									: '33.33%'}
-								class="field"
+								style:width={width + '%'}
 								aria-label={field?.type}
 								class:multiSelect={field.type === 'multiSelect'}
+								class="field"
 							>
-								{#if field.id !== 'created' && field.id !== 'uuid' && field.id !== 'actions' && field.id !== 'last_modified'}
-									{#if !field.subFields}
-										<InputBuilder {field} bind:value={value[field.id]} on:modify />
-										<!-- Handling fields with subfields separately to avoid circular dependency when we build subFields -->
-									{:else if field.type === 'age'}
-										<Age {field} bind:value />
-									{:else if field.type === 'drug'}
-										<Drug />
-									{/if}
+								{#if !field.subFields}
+									<InputBuilder {field} bind:value={value[field.id]} on:modify />
+									<!-- Handling fields with subfields separately
+										 to avoid circular dependency when we build subFields -->
+								{:else if field.type === 'age'}
+									<Age {field} bind:value />
+								{:else if field.type === 'drug'}
+									<Drug {chart} {field} bind:value />
 								{/if}
 							</div>
 						{/each}

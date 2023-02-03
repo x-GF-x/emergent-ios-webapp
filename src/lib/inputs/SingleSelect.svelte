@@ -21,7 +21,16 @@
 				if ('description' in option) option.value = option.description;
 			});
 	} else {
-		options = fieldOptions.filter((option) => option.type === fieldLookupId);
+		options = fieldOptions.filter(
+			(option) =>
+				option.type === fieldLookupId &&
+				(!field ||
+					!('available_units' in field) ||
+					(field && field.available_units?.includes(option.code))) &&
+				(!field ||
+					!('available_routes' in field) ||
+					(field && field.available_routes?.includes(option.code)))
+		);
 	}
 
 	const selectOption = (option: ScoreObject) => {

@@ -3,26 +3,25 @@
 	import Card from '$lib/ui_components/Card.svelte';
 
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
-	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts';
+	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts_with_drugs';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 
 	export let selectedTab: Tab;
 	export let value: DataStorage;
 
 	let cardValue: ActionItem = { card_id: '', fields: {} };
-
 	let filteredCharts = quickcharts.filter(
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'
 	);
 
-	let activeCardId = '';
-
+	let activeCard: string | undefined = undefined;
+	let activeChart: QuickChartObject | undefined = undefined;
 	let sections = [...new Set(filteredCharts.map((item) => item.section))];
 
 	const handleChartButton = (chart: QuickChartObject) => {
-		console.log(chart, value?.actions);
-		activeCardId = chart.card;
-		cardValue = { card_id: activeCardId, fields: {}, title: chart.title };
+		activeChart = chart;
+		activeCard = cards.find((item) => item.card_id === chart.card)?.card_json;
+		cardValue = { card_id: chart.card, fields: {}, title: chart.title };
 	};
 
 	const saveModal = () => {
@@ -30,11 +29,10 @@
 		cardValue.created = new Date().toString();
 		value.actions = [...value.actions, cardValue];
 		clearActiveCard();
-		console.log(value);
 	};
 
 	const clearActiveCard = () => {
-		activeCardId = '';
+		activeCard = '';
 	};
 </script>
 
@@ -87,13 +85,15 @@
 	{/each}
 </div>
 
-{#if activeCardId}
-	{@const cardData = cards.find((item) => item.card_id === activeCardId)?.card_json}
-	{#if cardData}
-		<Modal on:backdropClick={clearActiveCard} on:updateModal={saveModal}>
-			<Card collapsible={false} data={JSON.parse(cardData)} bind:value={cardValue.fields} />
-		</Modal>
-	{/if}
+{#if activeCard}
+	<Modal on:backdropClick={clearActiveCard} on:updateModal={saveModal}>
+		<Card
+			collapsible={false}
+			data={JSON.parse(activeCard)}
+			bind:value={cardValue.fields}
+			chart={activeChart}
+		/>
+	</Modal>
 {/if}
 
 <style>

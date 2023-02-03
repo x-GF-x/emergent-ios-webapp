@@ -83,6 +83,9 @@ type SubField = {
 	action?: string;
 	key?: string;
 	data?: { id: number; type: string; code: string; value: string }[];
+	//For drugs, manually set the available routes/units from the drug lookup
+	available_routes?: string[];
+	available_units?: string[];
 };
 
 type QuickChartObject = {
@@ -152,6 +155,17 @@ type Tab = {
 	dynamic_ids?: Array<'static_fields' | 'actions'>; //ids by which dynamic scenes get their data
 	scene_action?: { label: string; fn: string };
 	headerTabs?: boolean;
+};
+
+type EmsDrug = {
+	available_routes: null | string;
+	available_units: null | string;
+	decimals: number;
+	default_route: string;
+	default_unit: string;
+	drug_id: string;
+	id: number;
+	name: string;
 };
 
 type CardJson = {

@@ -3,11 +3,9 @@
 	import Popper from './generics/Popper.svelte';
 
 	import { createEventDispatcher } from 'svelte';
-
 	const dispatch = createEventDispatcher();
 
 	export let value: string | undefined;
-
 	export let field: Field = undefined;
 
 	let popper: Popper;

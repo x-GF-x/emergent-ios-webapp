@@ -1,46 +1,32 @@
 <script lang="ts">
-	import InputBuilder from './generics/InputBuilder.svelte';
+	import Subfields from '$lib/ui_components/Subfields.svelte';
+	import { ems_drugs } from '$lib/resource_file/lookups/ems_drugs';
 
 	export let value: { [key: string]: FieldValues } = {};
 	export let field: Field = undefined;
+	export let chart;
+	let drugId = JSON.parse(chart?.card_data)?.drug_id;
+	let drug: EmsDrug | undefined = ems_drugs.find((item) => item.drug_id === drugId);
 
-	let subFields: SubField[];
+	value.eMedications04 = drug?.default_route;
+	value.eMedications06 = drug?.default_unit;
+
+	// console.log(drug, field);
+
+	let subFields: SubField[] = [];
 
 	if (field?.subFields) {
 		subFields = field.subFields;
 		if (!value) value = {};
 		subFields.forEach((subField) => {
 			if (!value[subField.id]) value[subField.id] = undefined;
+			if (subField.id === 'eMedications04' && drug?.available_routes)
+				subField.available_routes = drug.available_routes.split(',  ');
+			if (subField.id === 'eMedications06' && drug?.available_units)
+				subField.available_units = drug.available_units.split(',  ');
 		});
 	}
+	// console.log(subFields);
 </script>
 
-{#if Array.isArray(field?.subFields)}
-	<div class="subFields">
-		{#each subFields as subField}
-			{#if value}
-				<div class="subField">
-					<InputBuilder field={subField} bind:value={value[subField.id]} />
-				</div>
-			{/if}
-		{/each}
-	</div>
-{/if}
-
-<style>
-	.subFields {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-	}
-
-	.subField {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.subField:not(:last-child) {
-		border-right: 1px solid var(--border);
-	}
-</style>
+<Subfields bind:value {subFields} />

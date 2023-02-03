@@ -1,6 +1,8 @@
 <script lang="ts">
 	import DateString from './DateString.svelte';
+
 	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let type: 'date' | 'numeric';
 	export let value: number | string | undefined;
@@ -10,8 +12,6 @@
 	let datestring: DateString;
 	let error = false;
 	let errorMessage = 'Not a valid date';
-
-	const dispatch = createEventDispatcher();
 
 	export const focusInput = () => {
 		if (valueInput) {
@@ -42,9 +42,7 @@
 	};
 
 	const slash = () => {
-		if (value) {
-			value = value + '/';
-		}
+		if (value) value = value + '/';
 	};
 
 	let numPad: NumPad = [
@@ -120,9 +118,8 @@
 			class="update"
 			disabled={error}
 			on:click={() => {
-				if (error) {
-					alert('Incorrect Date Format. Please use MM/DD/YYY');
-				} else dispatch('update', { value: value });
+				if (error) alert('Incorrect Date Format. Please use MM/DD/YYY');
+				else dispatch('update', { value: value });
 			}}
 		>
 			UPDATE
