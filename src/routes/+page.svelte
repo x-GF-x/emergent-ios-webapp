@@ -47,7 +47,7 @@
 		<div class="bodyGrid">
 			<div class="list">
 				<div class="listSelect">
-					<SingleSelect />
+					<SingleSelect field={{}} />
 				</div>
 				<div class="calls">
 					{#each calls as call}

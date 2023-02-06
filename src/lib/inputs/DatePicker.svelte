@@ -6,7 +6,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let value: string | undefined;
-	export let field: Field = undefined;
+	export let field: Field;
 
 	let popper: Popper;
 	let numpad: Numpad;

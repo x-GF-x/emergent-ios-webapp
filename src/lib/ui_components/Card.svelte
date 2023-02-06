@@ -4,9 +4,10 @@
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
 
 	import { widthConversion } from './width_conversion';
-	import { slide } from 'svelte/transition';
-
 	import { createEventDispatcher } from 'svelte';
+	import { slide } from 'svelte/transition';
+	import SplitNumeric from '$lib/inputs/SplitNumeric.svelte';
+
 	const dispatch = createEventDispatcher();
 
 	export let data: CardJson;
@@ -52,7 +53,7 @@
 								class:multiSelect={field.type === 'multiSelect'}
 								class="field"
 							>
-								{#if !field.subFields}
+								{#if !field.subFields && !field.splitFields}
 									<InputBuilder {field} bind:value={value[field.id]} on:modify />
 									<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
@@ -60,6 +61,8 @@
 									<Age {field} bind:value />
 								{:else if field.type === 'drug'}
 									<Drug {chart} {field} bind:value />
+								{:else if field.splitFields}
+									<SplitNumeric bind:value {field} />
 								{/if}
 							</div>
 						{/each}

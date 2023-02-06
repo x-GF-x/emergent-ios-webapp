@@ -28,7 +28,11 @@
 		<a href="/" class="return material-symbols-outlined">arrow_back_ios</a>
 	</section>
 	<section class="controls">
-		<SingleSelect value={'Patient 1'} props={{ icon: 'account_box', dropdownLabel: 'People' }} />
+		<SingleSelect
+			field={{}}
+			value={'Patient 1'}
+			props={{ icon: 'account_box', dropdownLabel: 'People' }}
+		/>
 		<div class="material-symbols-outlined swap">swap_horiz</div>
 		<button class="addPerson">Add Person</button>
 		<button class="endCall">End Call</button>
@@ -153,6 +157,7 @@
 
 	.tab {
 		border-bottom: 4px solid transparent;
+		min-width: max-content;
 	}
 
 	.selectedTab {

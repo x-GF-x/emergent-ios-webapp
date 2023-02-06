@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SingleSelect from './SingleSelect.svelte';
 	export let value: { [key: string]: ScoreObject };
-	export let field: Field = undefined;
+	export let field: Field;
 	const mathOperations = {
 		'+': (val: number) => {
 			totalScore += val;

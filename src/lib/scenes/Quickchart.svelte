@@ -157,7 +157,7 @@
 		border: 1px solid var(--border);
 		background: var(--light1);
 		padding: 10px;
-		height: 60px;
+		min-height: 60px;
 		text-align: start;
 		display: flex;
 		align-items: center;
@@ -177,7 +177,7 @@
 	}
 
 	.replayNumber {
-		height: 60px;
+		height: 30px;
 		position: relative;
 		text-align: center;
 		width: 60px;
@@ -196,7 +196,7 @@
 	.replay {
 		font-size: 40pt;
 		font-weight: 100;
-		top: 0;
+		top: -15px;
 		width: 100%;
 		position: absolute;
 	}

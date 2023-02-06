@@ -5,13 +5,15 @@
 	const dispatch = createEventDispatcher();
 
 	export let type: 'date' | 'numeric';
-	export let value: number | string | undefined;
-	export let field: Field;
+	export let value: FieldValues;
+	export let field: Field | SubField;
 
 	let valueInput: HTMLInputElement;
 	let datestring: DateString;
 	let error = false;
 	let errorMessage = 'Not a valid date';
+	let disabled = false;
+	let { style } = field;
 
 	export const focusInput = () => {
 		if (valueInput) {
@@ -20,13 +22,15 @@
 	};
 
 	const selectNumber = (number: number) => {
-		if (type === 'numeric') {
-			if (value) value = Number(value + '' + number);
-			else value = number;
-		} else if (type === 'date') {
-			datestring.setLastKey('any');
-			if (value) value = value + '' + number;
-			else value = number.toString();
+		if (!disabled) {
+			if (type === 'numeric') {
+				if (value) value = value + '' + number;
+				else value = number;
+			} else if (type === 'date') {
+				datestring.setLastKey('any');
+				if (value) value = value + '' + number;
+				else value = number.toString();
+			}
 		}
 	};
 
@@ -45,35 +49,77 @@
 		if (value) value = value + '/';
 	};
 
+	const decimal = () => {
+		if (value) value = value + '.';
+		else value = '0.';
+	};
+
+	let tenthSlot: undefined | NumPadIconSlot;
+
+	if (type === 'numeric' && (style === 'oneDecimal' || style === 'twoDecimal')) {
+		tenthSlot = {
+			icon: '.',
+			fn: decimal
+		};
+	} else if (type === 'date') {
+		tenthSlot = { icon: '/', fn: slash };
+	}
+
 	let numPad: NumPad = [
 		...Array.from({ length: 9 }, (_, i) => i + 1),
-		type === 'numeric' ? undefined : { icon: '/', fn: slash },
+		tenthSlot,
 		0,
 		{ icon: 'backspace', fn: backspace }
 	];
+
+	//Enforce decimals dependent on style
+	$: {
+		if (typeof value === 'string' && value?.includes('.')) {
+			if (style === 'oneDecimal') {
+				if (value.split('.')[1].length === 1) disabled = true;
+				else disabled = false;
+			} else if (style === 'twoDecimal') {
+				if (value.split('.')[1].length === 2) disabled = true;
+				else disabled = false;
+			}
+		}
+	}
 </script>
 
 <div class="numpadControl">
 	<div class="header">
-		<div class="label">{field?.title}</div>
+		<div class="label">{field.title}</div>
 	</div>
 	<div class="inputWrapper">
 		<div class="inputAndClear">
 			{#if type === 'numeric'}
-				<input
-					bind:this={valueInput}
-					class="input"
-					bind:value
-					type="number"
-					on:keypress={(e) => {
-						if (e.key === 'Enter') dispatch('update', { value: value });
-					}}
-				/>
+				<div class="inputAndUnit">
+					<input
+						bind:this={valueInput}
+						max={field && 'max' in field ? field.max : ''}
+						min={field && 'min' in field ? field.min : ''}
+						style:width={value || value === 0 ? value.toString().length + 'ch' : '10px'}
+						class="input"
+						bind:value
+						type="text"
+						on:keypress={(e) => {
+							if (disabled && typeof value === 'string') {
+								value = value.substring(0, value.length - 1);
+							}
+							if (e.key === 'Enter') dispatch('update', { value: value });
+						}}
+					/>
+					{#if field.unitText}
+						<div class="unit">
+							{field.unitText}
+						</div>
+					{/if}
+				</div>
 			{:else if type === 'date'}
 				{#if typeof value === 'string' || value === undefined}
 					<DateString
 						bind:this={datestring}
-						type={field?.style === 'time' ? 'time' : 'date'}
+						type={style === 'time' ? 'time' : 'date'}
 						bind:error
 						bind:valueInput
 						bind:value
@@ -81,6 +127,7 @@
 					/>
 				{/if}
 			{/if}
+
 			<button
 				class="material-symbols-outlined cancel"
 				on:click={() => (type === 'numeric' ? (value = undefined) : (value = ''))}
@@ -107,7 +154,13 @@
 					on:click={() => (typeof cell === 'number' ? selectNumber(cell) : null)}>{cell}</button
 				>
 			{:else if typeof cell === 'object'}
-				<button class="iconButton material-symbols-outlined" on:click={cell.fn}>{cell.icon}</button>
+				<button
+					disabled={cell.icon !== 'backspace' && typeof value === 'string' && value.includes('.')
+						? true
+						: false}
+					class="iconButton material-symbols-outlined"
+					on:click={cell.fn}>{cell.icon}</button
+				>
 			{:else}
 				<button />
 			{/if}
@@ -156,19 +209,32 @@
 	.inputAndClear {
 		display: flex;
 		width: 100%;
-		justify-content: space-around;
+		justify-content: space-between;
+	}
+
+	.inputAndUnit {
+		display: flex;
+		align-items: baseline;
+		padding: 10px 0;
+		margin-left: 10px;
+		max-width: 180px;
+		overflow: hidden;
 	}
 
 	.input {
-		height: 100%;
-		padding: 10px 0;
 		border: none;
 		background: none;
 		color: white;
+		margin-right: 5px;
+		font-size: 20pt;
 	}
 
 	.input:focus-visible {
 		outline: none;
+	}
+
+	.unit {
+		font-size: 10pt;
 	}
 
 	.error {

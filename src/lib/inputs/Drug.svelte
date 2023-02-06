@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 
 	export let value: { [key: string]: FieldValues } = {};
-	export let field: Field = undefined;
+	export let field: Field | undefined = undefined;
 	export let chart;
 
 	let drugId = chart?.card_data ? JSON.parse(chart?.card_data)?.drug_id : undefined;
@@ -29,15 +29,17 @@
 
 	const setSubFields = () => {
 		subFields.forEach((subField) => {
-			if (!value[subField.id]) value[subField.id] = undefined;
-			if (subField.id === 'eMedications04')
-				drug?.available_routes
-					? (subField.available_routes = drug.available_routes.split(',  '))
-					: delete subField?.available_routes;
-			if (subField.id === 'eMedications06')
-				drug?.available_units
-					? (subField.available_units = drug.available_units.split(',  '))
-					: delete subField?.available_units;
+			if (subField.id) {
+				if (!value[subField.id]) value[subField.id] = undefined;
+				if (subField.id === 'eMedications04')
+					drug?.available_routes
+						? (subField.available_routes = drug.available_routes.split(',  '))
+						: delete subField?.available_routes;
+				if (subField.id === 'eMedications06')
+					drug?.available_units
+						? (subField.available_units = drug.available_units.split(',  '))
+						: delete subField?.available_units;
+			}
 		});
 		subFields = subFields;
 	};

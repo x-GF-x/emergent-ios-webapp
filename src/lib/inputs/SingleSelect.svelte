@@ -11,9 +11,9 @@
 
 	export let value: SingleSelectValue | ScoreObject = undefined;
 	export let props: InputProps = undefined;
-	export let field: Field | SubField = undefined;
+	export let field: Field | SubField;
 
-	let fieldLookupId = field?.key;
+	let fieldLookupId = field.key;
 	let options: Array<DropDownOption | ScoreOption> = [];
 	let popper: Popper;
 	let searchValue = '';

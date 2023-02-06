@@ -8,7 +8,7 @@
 {#if Array.isArray(subFields)}
 	<div class="subFields">
 		{#each subFields as subField}
-			{#if value}
+			{#if value && subField.id}
 				<div class="subField">
 					<InputBuilder field={subField} bind:value={value[subField.id]} on:setDate on:changeDrug />
 				</div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let value: string | undefined;
-	export let field: Field = undefined;
+	export let field: Field;
 	field = field;
 </script>
 

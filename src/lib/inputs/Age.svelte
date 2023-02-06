@@ -16,15 +16,17 @@
 		subFields = field.subFields;
 		if (!value) value = {};
 		subFields.forEach((subField) => {
-			if (!value[subField.id]) value[subField.id] = undefined;
-			if (subField.type === 'date') {
-				setterId = subField.id;
-			}
-			if (subField.type === 'numeric') {
-				numericId = subField.id;
-			} else if (subField.type === 'singleSelect' && subField.key) {
-				selectId = subField.id;
-				options = fieldOptions.filter((option) => option.type === subField.key);
+			if (subField.id) {
+				if (!value[subField.id]) value[subField.id] = undefined;
+				if (subField.type === 'date') {
+					setterId = subField.id;
+				}
+				if (subField.type === 'numeric') {
+					numericId = subField.id;
+				} else if (subField.type === 'singleSelect' && subField.key) {
+					selectId = subField.id;
+					options = fieldOptions.filter((option) => option.type === subField.key);
+				}
 			}
 		});
 	}

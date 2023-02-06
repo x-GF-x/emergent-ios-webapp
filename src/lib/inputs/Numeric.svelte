@@ -2,9 +2,8 @@
 	import Numpad from './generics/Numpad.svelte';
 	import Popper from './generics/Popper.svelte';
 
-	export let value: number | undefined;
-	export let field: Field = undefined;
-	field = field;
+	export let value: FieldValues;
+	export let field: Field;
 
 	let popper: Popper;
 	let numpad: Numpad;

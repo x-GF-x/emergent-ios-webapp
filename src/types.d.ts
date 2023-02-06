@@ -54,39 +54,35 @@ type InputProps =
 	| { suggest?: number | string; label?: string; dropdownLabel?: string; icon?: string }
 	| undefined;
 
-type NumPad = Array<number | undefined | { icon: string; fn: () => void }>;
+type NumPad = Array<number | undefined | NumPadIconSlot>;
+
+type NumPadIconSlot = { icon: string; fn: () => void };
 
 type ToggleIcon = { open: string; closed: string; color?: string; style?: string } | undefined;
 
-type Field =
-	| {
-			ds?: string;
-			key?: string;
-			id?: string;
-			style?: string;
-			type?: FieldTypes;
-			title?: string;
-			embedded?: Field;
-			scoreFields?: Field[];
-			subFields?: SubField[];
-	  }
-	| undefined;
-
-type SubField = {
-	id: string;
-	type: FieldTypes;
-	title: string;
+interface Field {
+	ds?: string;
+	key?: string;
+	id?: string;
 	style?: string;
+	type?: FieldTypes;
+	title?: string;
+	unitText?: string;
+	embedded?: Field;
+	scoreFields?: Field[];
+	subFields?: SubField[];
+	splitFields?: Field[];
+}
+
+interface SubField extends Field {
 	min?: number;
 	max?: number;
-	ds?: string;
 	action?: string;
-	key?: string;
 	data?: { id: number; type: string; code: string; value: string }[];
 	//For drugs, manually set the available routes/units from the drug lookup
 	available_routes?: string[];
 	available_units?: string[];
-};
+}
 
 type QuickChartObject = {
 	card: string; //whenever card is timeline_cards, a modal of single select choices of all the cards comes up. Whichever one you choose it then opens that card in a modal
@@ -188,18 +184,8 @@ type CardJson = {
 			min?: number;
 			max?: number;
 			key?: string;
-			subFields?: {
-				id: string;
-				type: FieldTypes;
-				title: string;
-				style?: string;
-				min?: number;
-				max?: number;
-				ds?: string;
-				action?: string;
-				key?: string;
-				data?: { id: number; type: string; code: string; value: string }[];
-			}[];
+			splitFields?: SubField[];
+			subFields?: SubField[];
 		}[];
 	}[];
 };

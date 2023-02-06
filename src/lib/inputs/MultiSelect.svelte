@@ -5,7 +5,7 @@
 
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 
-	export let field: Field = undefined;
+	export let field: Field;
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = field?.embedded
 		? {}
 		: [];
