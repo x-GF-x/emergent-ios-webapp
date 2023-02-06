@@ -15,7 +15,8 @@
 	let idOfActiveEmbeddedList: string | undefined = undefined;
 	let searchValue = '';
 	let popper: Popper;
-
+	let noneSelected = false;
+	let storedValues: string = JSON.stringify(value);
 	let hasEmbeddedOptions = field?.embedded ? true : false;
 	let embeddedLookupId: string | undefined = undefined;
 	let embeddedOptions: DropDownOption[] = [];
@@ -103,6 +104,19 @@
 			);
 		}
 	};
+
+	const handleNoneSelected = (e: { detail: { value: boolean } }) => {
+		noneSelected = e.detail.value;
+		if (noneSelected) {
+			storedValues = JSON.stringify(value);
+			//What are not values actually set to?
+			value = [];
+		} else {
+			if (storedValues) {
+				value = JSON.parse(storedValues);
+			}
+		}
+	};
 </script>
 
 <Popper
@@ -116,6 +130,7 @@
 		color: 'var(--primary)',
 		style: 'border-left:1px solid var(--border);'
 	}}
+	on:noneSelected={(e) => handleNoneSelected(e)}
 >
 	<SelectHeader
 		bind:searchValue

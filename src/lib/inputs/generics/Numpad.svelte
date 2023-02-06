@@ -96,8 +96,8 @@
 				<div class="inputAndUnit">
 					<input
 						bind:this={valueInput}
-						max={field && 'max' in field ? field.max : ''}
-						min={field && 'min' in field ? field.min : ''}
+						max={'max' in field ? field.max : ''}
+						min={'min' in field ? field.min : ''}
 						style:width={value || value === 0 ? value.toString().length + 'ch' : '10px'}
 						class="input"
 						bind:value

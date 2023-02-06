@@ -14,6 +14,7 @@
 	let popper: HTMLElement;
 	let isOpen = false;
 	let overPopper = false; //Prevent 'blur' when mouse is over the popper
+	let noneSelected = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -41,7 +42,7 @@
 	<button
 		bind:this={toggleButton}
 		class:iconToggle={props?.icon}
-		disabled={typeof props?.icon === 'string'}
+		disabled={typeof props?.icon === 'string' || noneSelected}
 		class="toggleButton"
 		class:multiSelect={type === 'multiSelect'}
 		on:click={toggle}
@@ -59,11 +60,24 @@
 					{value}
 				{/if}
 			</div>
+			{#if type === 'multiSelect'}
+				<div class="multiNone">
+					<button
+						class="none"
+						on:click|stopPropagation={() => {
+							noneSelected = !noneSelected;
+							dispatch('noneSelected', { value: noneSelected });
+						}}
+						class:noneFilled={noneSelected}
+					/>
+					None
+				</div>
+			{/if}
 		</div>
 		{#if toggleIcon}
 			<div
 				class="material-symbols-outlined caret"
-				style:color={toggleIcon?.color}
+				style:color={noneSelected ? 'lightgray' : toggleIcon?.color}
 				style={toggleIcon?.style}
 			>
 				{isOpen ? toggleIcon.open : toggleIcon.closed}
@@ -141,11 +155,27 @@
 	}
 
 	.buttonLabel {
-		display: grid;
-		/* grid-template-columns: 50% 50%; */
+		display: flex;
+		justify-content: space-between;
+		margin-right: 10px;
 		align-items: center;
 		width: 100%;
 		text-align: initial;
+	}
+
+	.multiNone {
+		display: flex;
+		align-items: center;
+	}
+
+	.none {
+		height: 20px;
+		width: 20px;
+		margin-right: 10px;
+		border: 1px solid var(--dark1);
+	}
+	.noneFilled {
+		background: var(--dark1);
 	}
 
 	.caret {
