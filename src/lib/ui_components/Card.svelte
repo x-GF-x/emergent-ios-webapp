@@ -2,11 +2,13 @@
 	import Age from '$lib/inputs/Age.svelte';
 	import Drug from '$lib/inputs/Drug.svelte';
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
+	import SplitNumeric from '$lib/inputs/SplitNumeric.svelte';
+	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 
 	import { widthConversion } from './width_conversion';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, tick } from 'svelte';
 	import { slide } from 'svelte/transition';
-	import SplitNumeric from '$lib/inputs/SplitNumeric.svelte';
+	import { dataStorageAccessor } from '$lib/stores/data';
 
 	const dispatch = createEventDispatcher();
 
@@ -17,10 +19,27 @@
 	export let chart: QuickChartObject | undefined = undefined;
 
 	let collapsed = false;
+	let pnField: Field | undefined = undefined;
+	let pnSelector: SingleSelect;
 
 	const collapse = () => {
 		collapsed = !collapsed;
 		dispatch('collapsed');
+	};
+
+	const handlePn = async (e: { detail: { field: Field; value: boolean } }) => {
+		value[e.detail.field.id + '_pn'] = undefined;
+		$dataStorageAccessor = $dataStorageAccessor;
+		if (e.detail.value) {
+			pnField = e.detail.field;
+			await tick().then(() => pnSelector?.toggle());
+		}
+	};
+
+	const handleNa = (e: { detail: { field: Field; value: boolean } }) => {
+		if (!value[e.detail.field.id + '_na']) value[e.detail.field.id + '_na'] = true;
+		else value[e.detail.field.id + '_na'] = false;
+		console.log(value);
 	};
 
 	$: {
@@ -54,7 +73,13 @@
 								class="field"
 							>
 								{#if !field.subFields && !field.splitFields}
-									<InputBuilder {field} bind:value={value[field.id]} on:modify />
+									<InputBuilder
+										{field}
+										bind:value={value[field.id]}
+										on:modify
+										on:handlePn={handlePn}
+										on:handleNa={handleNa}
+									/>
 									<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
 								{:else if field.type === 'age'}
@@ -71,6 +96,21 @@
 			</div>
 		{/if}
 	</div>
+{/if}
+
+{#if pnField?.id}
+	<SingleSelect
+		bind:this={pnSelector}
+		pnOptions={pnField.pn}
+		hidePopperButton
+		value={undefined}
+		on:setPn={(e) => {
+			if (pnField?.id) {
+				value[pnField.id + '_pn'] = e.detail.value;
+				$dataStorageAccessor = $dataStorageAccessor;
+			}
+		}}
+	/>
 {/if}
 
 <style>

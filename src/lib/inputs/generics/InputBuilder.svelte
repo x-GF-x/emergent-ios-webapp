@@ -29,6 +29,8 @@
 			bind:value
 			on:setDate
 			on:changeDrug
+			on:handlePn
+			on:handleNa
 		/>
 	{/if}
 {/if}

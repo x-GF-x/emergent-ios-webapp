@@ -11,15 +11,25 @@
 
 	export let value: SingleSelectValue | ScoreObject = undefined;
 	export let props: InputProps = undefined;
-	export let field: Field | SubField;
+	export let field: Field | SubField | undefined = undefined;
+	export let pnOptions: PnOption[] | undefined = undefined;
+	export let popper: Popper | undefined = undefined;
+	export let hidePopperButton = false;
 
-	let fieldLookupId = field.key;
-	let options: Array<DropDownOption | ScoreOption> = [];
-	let popper: Popper;
+	let fieldLookupId = field?.key;
+	let options: Array<DropDownOption | ScoreOption | PnOption> = [];
 	let searchValue = '';
 
+	export const toggle = () => {
+		popper?.toggle();
+	};
+
 	const buildOptions = () => {
-		if (fieldLookupId !== 'eMedications03' && !(field && 'data' in field && field.data))
+		if (
+			!pnOptions &&
+			fieldLookupId !== 'eMedications03' &&
+			!(field && 'data' in field && field.data)
+		)
 			options = fieldOptions.filter(
 				(option) =>
 					option.type === fieldLookupId &&
@@ -34,24 +44,25 @@
 
 	//Reactive for when drugs are changed
 	$: field, buildOptions();
-
-	if (fieldLookupId === 'eMedications03') {
-		//Drug lookup
-		options = ems_drugs.map((item) => {
-			return {
-				code: item.drug_id,
-				id: item.id,
-				type: 'drug',
-				value: item.name
-			};
-		});
-	} else if (field && 'data' in field && field.data) {
-		//Score card options
-		options = field.data;
-		if (options)
-			options.forEach((option) => {
-				if ('description' in option) option.value = option.description;
+	if (!pnOptions) {
+		if (fieldLookupId === 'eMedications03') {
+			//Drug lookup
+			options = ems_drugs.map((item) => {
+				return {
+					code: item.drug_id,
+					id: item.id,
+					type: 'drug',
+					value: item.name
+				};
 			});
+		} else if (field && 'data' in field && field.data) {
+			//Score card options
+			options = field.data;
+			if (options)
+				options.forEach((option) => {
+					if ('description' in option) option.value = option.description;
+				});
+		}
 	}
 
 	const selectOption = (option: ScoreObject) => {
@@ -64,15 +75,23 @@
 			} else {
 				value = code;
 			}
-			popper.toggle();
+			popper?.toggle();
 		}
+		if (pnOptions) {
+			dispatch('setPn', { value: value });
+		}
+
 		if (fieldLookupId === 'eMedications03') {
 			dispatch('changeDrug', { value: value });
 		}
 	};
+
+	$: {
+		if (pnOptions) value = undefined;
+	}
 </script>
 
-{#if Array.isArray(options)}
+{#if Array.isArray(options) || Array.isArray(pnOptions)}
 	<Popper
 		bind:this={popper}
 		value={options?.find((item) => item.code === value)?.value
@@ -81,14 +100,21 @@
 			? value.value
 			: value}
 		{props}
+		{hidePopperButton}
 		type="singleSelect"
 		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 	>
-		<SelectHeader bind:searchValue title={field?.title} {props}>
+		<SelectHeader bind:searchValue title={pnOptions ? 'Pertinent Negatives' : field?.title} {props}>
+			{@const relevantOptions = pnOptions
+				? pnOptions.map((item) => {
+						item.value = item.description;
+						return item;
+				  })
+				: options}
 			<div class="options">
-				{#each options.filter((option) => option.value
-						.toLowerCase()
-						.includes(searchValue.toLowerCase())) as option}
+				{#each relevantOptions.filter((option) => option.value && option.value
+							.toLowerCase()
+							.includes(searchValue.toLowerCase())) as option}
 					<SelectOption
 						{option}
 						selected={value === option.code}

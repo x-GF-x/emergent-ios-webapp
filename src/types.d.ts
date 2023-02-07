@@ -25,6 +25,7 @@ type FieldValues =
 	| Date
 	| string
 	| number
+	| boolean
 	| undefined
 	| { [key: string]: ScoreObject }
 	| Record<string, never>;
@@ -60,6 +61,8 @@ type NumPadIconSlot = { icon: string; fn: () => void };
 
 type ToggleIcon = { open: string; closed: string; color?: string; style?: string } | undefined;
 
+type PnOption = { code: string; description: string; value?: string };
+
 interface Field {
 	ds?: string;
 	key?: string;
@@ -72,6 +75,7 @@ interface Field {
 	scoreFields?: Field[];
 	subFields?: SubField[];
 	splitFields?: Field[];
+	pn?: { code: string; description: string }[];
 }
 
 interface SubField extends Field {

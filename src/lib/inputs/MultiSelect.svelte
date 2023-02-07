@@ -3,7 +3,10 @@
 	import SelectHeader from './generics/SelectHeader.svelte';
 	import SelectOption from './generics/SelectOption.svelte';
 
+	import { dataStorageAccessor } from '$lib/stores/data';
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
+	import { createEventDispatcher, tick } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let field: Field;
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = field?.embedded
@@ -20,6 +23,14 @@
 	let hasEmbeddedOptions = field?.embedded ? true : false;
 	let embeddedLookupId: string | undefined = undefined;
 	let embeddedOptions: DropDownOption[] = [];
+	let pnLabel: string | undefined = undefined;
+
+	//Build the pnLabel
+	$: field.pn && $dataStorageAccessor?.static_fields?.[field.id + '_pn']
+		? (pnLabel = field.pn.find(
+				(item) => item.code === $dataStorageAccessor?.static_fields?.[field.id + '_pn']
+		  )?.description)
+		: '';
 
 	if (hasEmbeddedOptions) {
 		embeddedLookupId = field?.embedded?.key;
@@ -89,7 +100,6 @@
 	};
 
 	const closeParent = (parentItem: Option) => {
-		console.log(parentItem);
 		if (Array.isArray(value)) {
 			value = value.filter((item) => item.value !== parentItem.value);
 		} else if (value) {
@@ -105,11 +115,24 @@
 		}
 	};
 
-	const handleNoneSelected = (e: { detail: { value: boolean } }) => {
+	const handleNoneSelected = async (e: { detail: { value: boolean } }) => {
 		noneSelected = e.detail.value;
+		pnLabel = undefined;
+
+		if (field.pn) {
+			dispatch('handlePn', {
+				field: field,
+				value: noneSelected
+			});
+		} else {
+			dispatch('handleNa', {
+				field: field,
+				value: noneSelected
+			});
+		}
+
 		if (noneSelected) {
 			storedValues = JSON.stringify(value);
-			//What are not values actually set to?
 			value = [];
 		} else {
 			if (storedValues) {
@@ -120,7 +143,7 @@
 </script>
 
 <Popper
-	value={field?.title}
+	value={field.title ? field?.title + (pnLabel ? ': ' + pnLabel : '') : ''}
 	type={field?.type}
 	bind:this={popper}
 	modal

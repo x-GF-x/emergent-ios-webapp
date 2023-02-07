@@ -2,6 +2,7 @@
 	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 
 	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
+	import { dataStorageAccessor } from '$lib/stores/data';
 
 	let value: DataStorage = {
 		created: new Date().toISOString(),
@@ -10,6 +11,8 @@
 		actions: [],
 		static_fields: {}
 	};
+
+	$dataStorageAccessor = value;
 
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;

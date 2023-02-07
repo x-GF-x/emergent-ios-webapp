@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ModalBackdrop from '$lib/ui_components/ModalBackdrop.svelte';
+
 	import { reposition, createPopper } from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import { fly } from 'svelte/transition';
@@ -8,6 +9,7 @@
 	export let toggleIcon: ToggleIcon = undefined;
 	export let value: any = undefined;
 	export let type: FieldTypes | undefined = undefined;
+	export let hidePopperButton = false;
 	export let modal = false;
 
 	let toggleButton: HTMLElement;
@@ -22,7 +24,9 @@
 		isOpen = !isOpen;
 		if (isOpen) {
 			if (!modal) {
-				reposition(toggleButton, popper, { position: 'bottom-middle' });
+				reposition(toggleButton, popper, {
+					position: hidePopperButton ? 'top-end' : 'bottom-middle'
+				});
 			}
 			await tick().then(() => dispatch('open'));
 		}
@@ -38,52 +42,58 @@
 		if (isOpen && !overPopper) toggle();
 	}}
 />
-<div class="popperContainer">
-	<button
-		bind:this={toggleButton}
-		class:iconToggle={props?.icon}
-		disabled={typeof props?.icon === 'string' || noneSelected}
-		class="toggleButton"
-		class:multiSelect={type === 'multiSelect'}
-		on:click={toggle}
-		on:mouseenter={() => (overPopper = true)}
-		on:mouseleave={() => (overPopper = false)}
-	>
-		{#if props?.icon}
-			<div class="material-symbols-outlined icon">
-				{props.icon}
-			</div>
-		{/if}
-		<div class="buttonLabel">
-			<div class="value">
-				{#if value !== undefined}
-					{value}
-				{/if}
-			</div>
-			{#if type === 'multiSelect'}
-				<div class="multiNone">
-					<button
-						class="none"
-						on:click|stopPropagation={() => {
-							noneSelected = !noneSelected;
-							dispatch('noneSelected', { value: noneSelected });
-						}}
-						class:noneFilled={noneSelected}
-					/>
-					None
+
+<div
+	class="popperContainer"
+	style:min-height={!hidePopperButton ? '44px' : ''}
+	on:mouseenter={() => (overPopper = true)}
+	on:mouseleave={() => (overPopper = false)}
+	bind:this={toggleButton}
+>
+	{#if !hidePopperButton}
+		<button
+			class:iconToggle={props?.icon}
+			disabled={typeof props?.icon === 'string' || noneSelected}
+			class="toggleButton"
+			class:multiSelect={type === 'multiSelect'}
+			on:click={toggle}
+		>
+			{#if props?.icon}
+				<div class="material-symbols-outlined icon">
+					{props.icon}
 				</div>
 			{/if}
-		</div>
-		{#if toggleIcon}
-			<div
-				class="material-symbols-outlined caret"
-				style:color={noneSelected ? 'lightgray' : toggleIcon?.color}
-				style={toggleIcon?.style}
-			>
-				{isOpen ? toggleIcon.open : toggleIcon.closed}
+			<div class="buttonLabel">
+				<div class="value">
+					{#if value !== undefined}
+						{value}
+					{/if}
+				</div>
+				{#if type === 'multiSelect'}
+					<div class="multiNone">
+						<button
+							class="none"
+							on:click|stopPropagation={() => {
+								noneSelected = !noneSelected;
+								dispatch('noneSelected', { value: noneSelected });
+							}}
+							class:noneFilled={noneSelected}
+						/>
+						None
+					</div>
+				{/if}
 			</div>
-		{/if}
-	</button>
+			{#if toggleIcon}
+				<div
+					class="material-symbols-outlined caret"
+					style:color={noneSelected ? 'lightgray' : toggleIcon?.color}
+					style={toggleIcon?.style}
+				>
+					{isOpen ? toggleIcon.open : toggleIcon.closed}
+				</div>
+			{/if}
+		</button>
+	{/if}
 	{#if isOpen || !modal}
 		<div
 			transition:fly={{ duration: modal ? 500 : 0, y: 1000 }}
@@ -121,7 +131,6 @@
 	}
 
 	.popperContainer {
-		min-height: 44px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
