@@ -3,6 +3,7 @@
 
 	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
 	import { dataStorageAccessor } from '$lib/stores/data';
+	import { cards } from '$lib/resource_file/ui/ui_cards';
 
 	let value: DataStorage = {
 		created: new Date().toISOString(),
@@ -17,10 +18,14 @@
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};
+	let activeCard: string | undefined = undefined;
 
-	const handleSceneAction = (action: string) => {
+	const handleSceneAction = (action: string | undefined) => {
 		if (action === 'expand') allCollapsed = false;
 		else if (action === 'collapse') allCollapsed = true;
+		else if (action === 'add_note') {
+			activeCard = cards.find((item) => item.card_id === 'narrative')?.card_json;
+		}
 	};
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
@@ -56,7 +61,11 @@
 			<h1 class="sceneHeaderLabel">
 				{selectedTab.label}
 				{#if selectedTab.scene_action}
-					<button class="scene_action">{selectedTab.scene_action.label}</button>
+					<button
+						class="scene_action"
+						on:click={() => handleSceneAction(selectedTab?.scene_action?.fn)}
+						>{selectedTab.scene_action.label}
+					</button>
 				{/if}
 			</h1>
 			{#if selectedTab.headerTabs}
@@ -70,7 +79,6 @@
 				</div>
 			{/if}
 		</div>
-		<!-- {#key selectedTab} -->
 		<svelte:component
 			this={scenes?.[selectedTab?.type]}
 			on:collapsed={handleChildCollapse}
@@ -79,7 +87,6 @@
 			bind:value
 			{timers}
 		/>
-		<!-- {/key} -->
 	</section>
 	<section class="footer">
 		<!-- <button class="protocols">Protocols</button> -->

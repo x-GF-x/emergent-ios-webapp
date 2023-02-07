@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ModalBackdrop from '$lib/ui_components/ModalBackdrop.svelte';
+	import ModalBackdrop from '$lib/ui_components/modal/ModalBackdrop.svelte';
 
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';

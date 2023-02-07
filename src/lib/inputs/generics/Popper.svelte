@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ModalBackdrop from '$lib/ui_components/ModalBackdrop.svelte';
+	import ModalBackdrop from '$lib/ui_components/modal/ModalBackdrop.svelte';
 
 	import { reposition, createPopper } from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
