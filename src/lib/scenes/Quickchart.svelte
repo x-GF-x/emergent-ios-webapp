@@ -1,23 +1,23 @@
 <script lang="ts">
-	import Modal from '$lib/ui_components/Modal.svelte';
-	import Card from '$lib/ui_components/Card.svelte';
+	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 	import Timer from '$lib/ui_components/Timer.svelte';
 
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts_with_drugs';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
+	import { createdLastModified } from '$lib/fn/timestamp';
 
 	export let selectedTab: Tab;
 	export let value: DataStorage;
 	export let timers: Timers = {};
 
-	let cardValue: ActionItem = { card_id: '', fields: {} };
 	let filteredCharts = quickcharts.filter(
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'
 	);
 	let sections = [...new Set(filteredCharts.map((item) => item.section))];
-	let activeCard: string | undefined = undefined;
 	let activeChart: QuickChartObject | undefined = undefined;
+	let cardValue: ActionItem = { card_id: '', fields: {} };
+	let activeCard: string | undefined = undefined;
 
 	filteredCharts.forEach((chart) => {
 		if (chart.type === 'timed' && !timers[chart.card]) {
@@ -31,7 +31,7 @@
 		cardValue = { card_id: chart.card, fields: {}, title: chart.title };
 	};
 
-	const saveModal = () => {
+	const setTimers = () => {
 		if (cardValue.card_id in timers) {
 			timers[cardValue.card_id].overdue = false;
 			if (activeChart?.interval) {
@@ -39,10 +39,11 @@
 				timers[cardValue.card_id].value = activeChart.interval;
 			}
 		}
-		cardValue.last_modified = new Date().toLocaleTimeString('en-US', {
-			hour12: false
-		});
-		cardValue.created = new Date().toLocaleString();
+	};
+
+	const saveModal = () => {
+		setTimers();
+		createdLastModified(cardValue);
 		value.actions = [...value.actions, cardValue];
 		clearActiveCard();
 	};
@@ -126,14 +127,13 @@
 </div>
 
 {#if activeCard}
-	<Modal on:backdropClick={clearActiveCard} on:updateModal={saveModal}>
-		<Card
-			collapsible={false}
-			data={JSON.parse(activeCard)}
-			bind:value={cardValue.fields}
-			chart={activeChart}
-		/>
-	</Modal>
+	<CardModal
+		bind:value={cardValue.fields}
+		data={JSON.parse(activeCard)}
+		chart={activeChart}
+		on:backdropClick={clearActiveCard}
+		on:updateModal={saveModal}
+	/>
 {/if}
 
 <style>
