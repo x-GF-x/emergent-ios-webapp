@@ -1,10 +1,10 @@
 <script lang="ts">
+	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 
 	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
-	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 	import { createdLastModified } from '$lib/fn/timestamp';
 
 	let value: DataStorage = {
@@ -36,12 +36,16 @@
 	const saveModal = () => {
 		if (cardValue.card_id === 'narrative') {
 			createdLastModified(cardValue);
+			cardValue.uuid = crypto.randomUUID();
 			value.notes = [...value.notes, Object.assign({}, cardValue)];
 		}
 		cardValue = {};
 		activeCard = undefined;
 		console.log(value);
 	};
+
+	const deleteNote = (e: { detail: { uuid: string } }) =>
+		(value.notes = value.notes.filter((item) => item.uuid !== e.detail.uuid));
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
 </script>
@@ -52,6 +56,7 @@
 		data={JSON.parse(activeCard)}
 		on:backdropClick={() => (activeCard = undefined)}
 		on:updateModal={saveModal}
+		on:deleteNote={deleteNote}
 	/>
 {/if}
 
@@ -103,14 +108,17 @@
 				</div>
 			{/if}
 		</div>
-		<svelte:component
-			this={scenes?.[selectedTab?.type]}
-			on:collapsed={handleChildCollapse}
-			{selectedTab}
-			{allCollapsed}
-			bind:value
-			{timers}
-		/>
+		{#key selectedTab}
+			<svelte:component
+				this={scenes?.[selectedTab?.type]}
+				on:collapsed={handleChildCollapse}
+				on:deleteNote={deleteNote}
+				{selectedTab}
+				{allCollapsed}
+				{timers}
+				bind:value
+			/>
+		{/key}
 	</section>
 	<section class="footer">
 		<!-- <button class="protocols">Protocols</button> -->

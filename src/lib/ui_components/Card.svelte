@@ -43,8 +43,12 @@
 		console.log(value);
 	};
 
-	const handleActionButton = (e: { detail: { action: string } }, field: Field) => {
-		console.log(e.detail.action, field);
+	const handleActionButton = (e: { detail: { action: string } }) => {
+		const action = e.detail.action;
+		console.log(value);
+		if (action === 'DELETE_OBJECT') {
+			dispatch('deleteNote', { uuid: value.uuid });
+		}
 	};
 
 	$: {
@@ -60,9 +64,21 @@
 	{/if}
 	<div class="list">
 		{#if collapsible}
-			<button class="listHeader collapsible" class:collapsed on:click={collapse}>
-				<div class="material-symbols-outlined">{collapsed ? 'unfold_more' : 'unfold_less'}</div>
-				<div class="title">{data.properties.title}</div>
+			<button
+				class="listHeader collapsible"
+				class:timestamp={value.last_modified ? true : false}
+				class:collapsed
+				on:click={collapse}
+			>
+				<div class="titleAndIcon">
+					<div class="material-symbols-outlined">{collapsed ? 'unfold_more' : 'unfold_less'}</div>
+					<div class="title">{data.properties.title}</div>
+				</div>
+				<div class="timestamp">
+					{#if typeof value?.last_modified === 'string'}
+						{value.last_modified.substring(0, 5)}
+					{/if}
+				</div>
 			</button>
 		{/if}
 		{#if !collapsed}
@@ -71,35 +87,33 @@
 					<div class="row">
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
-							<!-- Don't show delete action button if the note is in a modal -->
-							{#if !(field.type === 'action' && field.id === 'removeNote' && fromModal)}
-								<div
-									style:width={width + '%'}
-									aria-label={field?.type}
-									class:multiSelect={field.type === 'multiSelect'}
-									class="field"
-								>
-									{#if !field.subFields && !field.splitFields}
-										<InputBuilder
-											{field}
-											{fromModal}
-											bind:value={value[field.id]}
-											on:modify
-											on:actionButton={(e) => handleActionButton(e, field)}
-											on:handlePn={handlePn}
-											on:handleNa={handleNa}
-										/>
-										<!-- Handling fields with subfields separately
+
+							<div
+								style:width={width + '%'}
+								aria-label={field?.type}
+								class:multiSelect={field.type === 'multiSelect'}
+								class="field"
+							>
+								{#if !field.subFields && !field.splitFields}
+									<InputBuilder
+										{field}
+										{fromModal}
+										bind:value={value[field.id]}
+										on:modify
+										on:actionButton={(e) => handleActionButton(e)}
+										on:handlePn={handlePn}
+										on:handleNa={handleNa}
+									/>
+									<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
-									{:else if field.type === 'age'}
-										<Age {field} bind:value />
-									{:else if field.type === 'drug'}
-										<Drug {chart} {field} bind:value />
-									{:else if field.splitFields}
-										<SplitNumeric bind:value {field} />
-									{/if}
-								</div>
-							{/if}
+								{:else if field.type === 'age'}
+									<Age {field} bind:value />
+								{:else if field.type === 'drug'}
+									<Drug {chart} {field} bind:value />
+								{:else if field.splitFields}
+									<SplitNumeric bind:value {field} />
+								{/if}
+							</div>
 						{/each}
 					</div>
 				{/each}
@@ -146,6 +160,12 @@
 		margin: 0 10px 10px 10px;
 	}
 
+	.titleAndIcon {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
 	.collapsible {
 		margin: 0;
 		color: var(--secondary);
@@ -157,6 +177,10 @@
 
 	.collapsed {
 		border-bottom: 0;
+	}
+
+	.timestamp {
+		justify-content: space-between;
 	}
 
 	.rows {

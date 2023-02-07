@@ -32,7 +32,14 @@ type FieldValues =
 	| Record<string, never>;
 
 type NoteItem =
-	| { card_id: string; ems_notes?: string; last_modified: string; created: string }
+	| {
+			card_id: string;
+			ems_notes?: string;
+			last_modified: string;
+			created: string;
+			//I am temporarily making fake UUIDs
+			uuid: string;
+	  }
 	| Record<string, never>;
 
 type ActionItem = {

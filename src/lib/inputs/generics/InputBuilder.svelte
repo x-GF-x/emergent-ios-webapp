@@ -15,8 +15,6 @@
 	};
 
 	$: value, updateLastModified();
-
-	console.log(field);
 </script>
 
 {#if field?.type}

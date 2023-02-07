@@ -9,7 +9,9 @@
 	let dynamicIds: DynamicIds | undefined = selectedTab?.dynamic_ids;
 
 	const updateLastModified = (card: ActionItem | NoteItem) => {
-		card.last_modified = new Date().getTime().toString();
+		card.last_modified = new Date().toLocaleTimeString('en-US', {
+			hour12: false
+		});
 	};
 </script>
 
@@ -38,6 +40,7 @@
 						data={JSON.parse(cardData)}
 						bind:value={card}
 						on:modify={() => updateLastModified(card)}
+						on:deleteNote
 					/>
 				{/if}
 			{/each}
