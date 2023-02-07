@@ -275,6 +275,16 @@
 		text-decoration: underline;
 	}
 
+	button:not(.cancel):not(.update):focus-visible {
+		outline: none;
+		border-bottom: 1px solid;
+	}
+
+	.cancel:focus-visible {
+		border-left: 1px solid var(--light1);
+		outline: none;
+	}
+
 	.iconButton {
 		display: flex;
 		align-items: center;

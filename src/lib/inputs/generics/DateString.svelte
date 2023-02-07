@@ -77,7 +77,7 @@
 		bind:this={valueInput}
 		type="text"
 		bind:value
-		on:keyup={(e) => {
+		on:keypress={(e) => {
 			setLastKey(e.key);
 			if (e.key === 'Enter') dispatch('update');
 		}}
