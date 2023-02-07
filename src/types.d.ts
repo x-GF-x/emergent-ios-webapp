@@ -7,6 +7,7 @@ type DataStorage = {
 	static_fields: {
 		[key: string]: FieldValues;
 	};
+	notes: NoteItem[];
 	last_modified: string; //timestamp
 	created: string; //timestamp
 	uuid: string;
@@ -28,6 +29,10 @@ type FieldValues =
 	| boolean
 	| undefined
 	| { [key: string]: ScoreObject }
+	| Record<string, never>;
+
+type NoteItem =
+	| { card_id: string; ems_notes?: string; last_modified: string; created: string }
 	| Record<string, never>;
 
 type ActionItem = {
@@ -76,6 +81,7 @@ interface Field {
 	subFields?: SubField[];
 	splitFields?: Field[];
 	action?: string;
+	multiline?: boolean;
 	pn?: { code: string; description: string }[];
 }
 
@@ -150,11 +156,13 @@ type ScoreOption = {
 	value: string;
 };
 
+type DynamicIds = Array<'static_fields' | 'actions' | 'notes'>;
+
 type Tab = {
 	label: string;
 	id: string;
 	type: 'quickchart' | 'static_scene' | 'dynamic_scene';
-	dynamic_ids?: Array<'static_fields' | 'actions'>; //ids by which dynamic scenes get their data
+	dynamic_ids?: DynamicIds; //ids by which dynamic scenes get their data
 	scene_action?: { label: string; fn: string };
 	headerTabs?: boolean;
 };

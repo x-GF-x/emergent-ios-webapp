@@ -6,9 +6,9 @@
 	export let value: DataStorage;
 	export let allCollapsed = false;
 
-	let dynamicIds: Array<'static_fields' | 'actions'> | undefined = selectedTab?.dynamic_ids;
+	let dynamicIds: DynamicIds | undefined = selectedTab?.dynamic_ids;
 
-	const updateLastModified = (card: ActionItem) => {
+	const updateLastModified = (card: ActionItem | NoteItem) => {
 		card.last_modified = new Date().getTime().toString();
 	};
 </script>
@@ -24,6 +24,19 @@
 						collapsible
 						data={JSON.parse(cardData)}
 						bind:value={card.fields}
+						on:modify={() => updateLastModified(card)}
+					/>
+				{/if}
+			{/each}
+		{:else if dynamicId === 'notes'}
+			{#each value[dynamicId] as card}
+				{@const cardData = cards.find((item) => item.card_id === card.card_id)?.card_json}
+				{#if cardData && value.actions}
+					<Card
+						{allCollapsed}
+						collapsible
+						data={JSON.parse(cardData)}
+						bind:value={card}
 						on:modify={() => updateLastModified(card)}
 					/>
 				{/if}

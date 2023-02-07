@@ -6,7 +6,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<button class="actionButton" on:click={() => dispatch('button', { action: field.action })}>
+<button class="actionButton" on:click={() => dispatch('actionButton', { action: field.action })}>
 	{field.title}
 </button>
 

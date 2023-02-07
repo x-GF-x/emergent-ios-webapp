@@ -4,6 +4,7 @@
 
 	export let field: Field | SubField;
 	export let value: FieldValues | any;
+	export let fromModal = false;
 
 	let originalValue = JSON.stringify(value);
 
@@ -14,10 +15,12 @@
 	};
 
 	$: value, updateLastModified();
+
+	console.log(field);
 </script>
 
 {#if field?.type}
-	{#if field.type !== 'multiSelect' && field.type !== 'score' && field.type !== 'action'}
+	{#if !['multiSelect', 'score', 'action'].includes(field.type) && !field?.multiline}
 		<div class="fieldTitle">
 			{field?.title}
 		</div>
@@ -26,11 +29,13 @@
 		<svelte:component
 			this={input_components[field.type]}
 			{field}
+			{fromModal}
 			bind:value
 			on:setDate
 			on:changeDrug
 			on:handlePn
 			on:handleNa
+			on:actionButton
 		/>
 	{/if}
 {/if}

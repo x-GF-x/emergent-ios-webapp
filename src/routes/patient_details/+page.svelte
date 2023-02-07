@@ -4,12 +4,15 @@
 	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
+	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
+	import { createdLastModified } from '$lib/fn/timestamp';
 
 	let value: DataStorage = {
 		created: new Date().toISOString(),
 		last_modified: new Date().toISOString(),
 		uuid: crypto.randomUUID(),
 		actions: [],
+		notes: [],
 		static_fields: {}
 	};
 
@@ -19,17 +22,38 @@
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};
 	let activeCard: string | undefined = undefined;
+	let cardValue: NoteItem | Record<string, never> = {};
 
 	const handleSceneAction = (action: string | undefined) => {
 		if (action === 'expand') allCollapsed = false;
 		else if (action === 'collapse') allCollapsed = true;
 		else if (action === 'add_note') {
 			activeCard = cards.find((item) => item.card_id === 'narrative')?.card_json;
+			cardValue.card_id = 'narrative';
 		}
+	};
+
+	const saveModal = () => {
+		if (cardValue.card_id === 'narrative') {
+			createdLastModified(cardValue);
+			value.notes = [...value.notes, Object.assign({}, cardValue)];
+		}
+		cardValue = {};
+		activeCard = undefined;
+		console.log(value);
 	};
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
 </script>
+
+{#if activeCard}
+	<CardModal
+		bind:value={cardValue}
+		data={JSON.parse(activeCard)}
+		on:backdropClick={() => (activeCard = undefined)}
+		on:updateModal={saveModal}
+	/>
+{/if}
 
 <div class="grid">
 	<section class="navigation">

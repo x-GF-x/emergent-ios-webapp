@@ -17,6 +17,7 @@
 	export let collapsible = true;
 	export let allCollapsed: boolean | undefined = false;
 	export let chart: QuickChartObject | undefined = undefined;
+	export let fromModal = false;
 
 	let collapsed = false;
 	let pnField: Field | undefined = undefined;
@@ -40,6 +41,10 @@
 		if (!value[e.detail.field.id + '_na']) value[e.detail.field.id + '_na'] = true;
 		else value[e.detail.field.id + '_na'] = false;
 		console.log(value);
+	};
+
+	const handleActionButton = (e: { detail: { action: string } }, field: Field) => {
+		console.log(e.detail.action, field);
 	};
 
 	$: {
@@ -66,30 +71,35 @@
 					<div class="row">
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
-							<div
-								style:width={width + '%'}
-								aria-label={field?.type}
-								class:multiSelect={field.type === 'multiSelect'}
-								class="field"
-							>
-								{#if !field.subFields && !field.splitFields}
-									<InputBuilder
-										{field}
-										bind:value={value[field.id]}
-										on:modify
-										on:handlePn={handlePn}
-										on:handleNa={handleNa}
-									/>
-									<!-- Handling fields with subfields separately
+							<!-- Don't show delete action button if the note is in a modal -->
+							{#if !(field.type === 'action' && field.id === 'removeNote' && fromModal)}
+								<div
+									style:width={width + '%'}
+									aria-label={field?.type}
+									class:multiSelect={field.type === 'multiSelect'}
+									class="field"
+								>
+									{#if !field.subFields && !field.splitFields}
+										<InputBuilder
+											{field}
+											{fromModal}
+											bind:value={value[field.id]}
+											on:modify
+											on:actionButton={(e) => handleActionButton(e, field)}
+											on:handlePn={handlePn}
+											on:handleNa={handleNa}
+										/>
+										<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
-								{:else if field.type === 'age'}
-									<Age {field} bind:value />
-								{:else if field.type === 'drug'}
-									<Drug {chart} {field} bind:value />
-								{:else if field.splitFields}
-									<SplitNumeric bind:value {field} />
-								{/if}
-							</div>
+									{:else if field.type === 'age'}
+										<Age {field} bind:value />
+									{:else if field.type === 'drug'}
+										<Drug {chart} {field} bind:value />
+									{:else if field.splitFields}
+										<SplitNumeric bind:value {field} />
+									{/if}
+								</div>
+							{/if}
 						{/each}
 					</div>
 				{/each}

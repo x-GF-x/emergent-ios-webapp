@@ -10,5 +10,5 @@
 </script>
 
 <Modal on:backdropClick on:updateModal>
-	<Card collapsible={false} bind:value {data} {chart} />
+	<Card collapsible={false} bind:value {data} {chart} fromModal />
 </Modal>

@@ -39,7 +39,8 @@ export const tabs: Tab[] = [
 	{
 		label: 'Narrative',
 		id: '4',
-		type: 'static_scene',
+		type: 'dynamic_scene',
+		dynamic_ids: ['notes'],
 		scene_action: { label: 'ADD NOTE', fn: 'add_note' }
 	},
 	{
