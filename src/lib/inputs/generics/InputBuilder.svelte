@@ -17,7 +17,7 @@
 </script>
 
 {#if field?.type}
-	{#if field.type !== 'multiSelect' && field.type !== 'score'}
+	{#if field.type !== 'multiSelect' && field.type !== 'score' && field.type !== 'action'}
 		<div class="fieldTitle">
 			{field?.title}
 		</div>

@@ -75,6 +75,7 @@ interface Field {
 	scoreFields?: Field[];
 	subFields?: SubField[];
 	splitFields?: Field[];
+	action?: string;
 	pn?: { code: string; description: string }[];
 }
 
@@ -117,6 +118,7 @@ type FieldTypes =
 	| 'multiSelect'
 	| 'score'
 	| 'age'
+	| 'action'
 	| 'drug';
 
 type Option = {
