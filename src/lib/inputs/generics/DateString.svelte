@@ -87,6 +87,7 @@
 <style>
 	input {
 		border: none;
+		margin-left: 5px;
 		background: none;
 		width: 100%;
 		height: 100%;
