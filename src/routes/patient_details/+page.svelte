@@ -30,6 +30,8 @@
 		(value.notes = value.notes.filter((item) => item.uuid !== e.detail.uuid));
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
+
+	$: console.log(value);
 </script>
 
 {#if sceneAction}

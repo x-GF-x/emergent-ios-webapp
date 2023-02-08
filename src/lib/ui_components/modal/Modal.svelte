@@ -4,17 +4,22 @@
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 
+	export let hideContainer: boolean = false;
 	const dispatch = createEventDispatcher();
 </script>
 
-<ModalBackdrop on:backdropClick />
-<div class="modalContainer" transition:fade={{ duration: 150 }}>
+{#if hideContainer}
 	<slot />
-	<div class="footer">
-		<button class="cancel" on:click={() => dispatch('backdropClick')}>Cancel</button>
-		<button class="update" on:click={() => dispatch('updateModal')}>Update</button>
+{:else}
+	<div class="modalContainer" transition:fade={{ duration: 150 }}>
+		<slot />
+		<div class="footer">
+			<button class="cancel" on:click={() => dispatch('backdropClick')}>Cancel</button>
+			<button class="update" on:click={() => dispatch('updateModal')}>Update</button>
+		</div>
 	</div>
-</div>
+{/if}
+<ModalBackdrop on:backdropClick />
 
 <style>
 	.modalContainer {

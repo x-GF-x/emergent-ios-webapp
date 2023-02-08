@@ -1,21 +1,19 @@
 <script lang="ts">
 	import SelectHeader from '$lib/inputs/generics/select/SelectHeader.svelte';
 	import SelectOption from '$lib/inputs/generics/select/SelectOption.svelte';
-	import type Popper from '../Popper.svelte';
 
-	let searchValue = '';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	export let options: DropDownOption[] = [];
 	export let field: Field | SubField | undefined = undefined;
-	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined;
-
-	export let idOfActiveEmbeddedList: string | undefined = undefined;
-	export let popper: Popper;
+	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = undefined;
 	export let embeddedOptions: DropDownOption[] = [];
-	export let selectedItems: Option[] | undefined;
-	export let selectEmbeddedOption: (option: DropDownOption) => void;
+	export let idOfActiveEmbeddedList: string | undefined = undefined;
+	export let selectedItems: Option[] | undefined = undefined;
 	export let updateItems: () => void;
 
-	export let selectOption: (option: DropDownOption) => void;
+	let searchValue = '';
 </script>
 
 <SelectHeader
@@ -26,7 +24,7 @@
 		: field?.title}
 	on:close={() => {
 		idOfActiveEmbeddedList = undefined;
-		popper.toggle();
+		dispatch('close');
 	}}
 >
 	<div class="options">
@@ -44,8 +42,8 @@
 				{selected}
 				on:select={(e) =>
 					idOfActiveEmbeddedList && embeddedOptions
-						? selectEmbeddedOption(e.detail.option)
-						: selectOption(e.detail.option)}
+						? dispatch('selectEmbedded', { option: e.detail.option })
+						: dispatch('selectOption', { option: e.detail.option })}
 			/>
 		{/each}
 	</div>

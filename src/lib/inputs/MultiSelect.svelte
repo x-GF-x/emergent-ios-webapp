@@ -157,13 +157,13 @@
 		bind:idOfActiveEmbeddedList
 		{options}
 		{field}
-		{selectEmbeddedOption}
 		{selectedItems}
-		{selectOption}
 		{updateItems}
-		{popper}
 		{embeddedOptions}
 		{value}
+		on:close={() => popper.toggle()}
+		on:selectEmbedded={(e) => selectEmbeddedOption(e.detail.option)}
+		on:selectOption={(e) => selectOption(e.detail.option)}
 	/>
 </Popper>
 
