@@ -6,6 +6,7 @@
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 	import { ems_drugs } from '$lib/resource_file/lookups/ems_drugs';
 	import { createEventDispatcher } from 'svelte';
+	import { quickchartMapping } from '$lib/resource_file/ui/ui_quickchart_mapping';
 
 	const dispatch = createEventDispatcher();
 
@@ -17,18 +18,22 @@
 	export let hidePopperButton = false;
 
 	let fieldLookupId = field?.key;
-	let options: Array<DropDownOption | ScoreOption | PnOption> = [];
+	let options: Array<DropDownOption | ScoreOption | PnOption | QCMapping> = [];
 	let searchValue = '';
 
 	export const toggle = () => {
 		popper?.toggle();
 	};
 
+	let nonStandardLookups = ['eMedications03', 'eSituation11'];
+	let buildDataFromOptions = field && 'data' in field && field.data;
+
 	const buildOptions = () => {
 		if (
+			fieldLookupId &&
 			!pnOptions &&
-			fieldLookupId !== 'eMedications03' &&
-			!(field && 'data' in field && field.data)
+			!nonStandardLookups.includes(fieldLookupId) &&
+			!buildDataFromOptions
 		)
 			options = fieldOptions.filter(
 				(option) =>
@@ -44,24 +49,43 @@
 
 	//Reactive for when drugs are changed
 	$: field, buildOptions();
-	if (!pnOptions) {
-		if (fieldLookupId === 'eMedications03') {
-			//Drug lookup
-			options = ems_drugs.map((item) => {
-				return {
-					code: item.drug_id,
-					id: item.id,
-					type: 'drug',
-					value: item.name
-				};
-			});
-		} else if (field && 'data' in field && field.data) {
-			//Score card options
+
+	const drugOptions = () => {
+		options = ems_drugs.map((item) => {
+			return {
+				code: item.drug_id,
+				id: item.id,
+				type: 'drug',
+				value: item.name
+			};
+		});
+	};
+
+	const scoreCardOptions = () => {
+		if (field && 'data' in field && field.data) {
 			options = field.data;
 			if (options)
 				options.forEach((option) => {
 					if ('description' in option) option.value = option.description;
 				});
+		}
+	};
+
+	const clinicalImpressionOptions = () => {
+		options = quickchartMapping.map((item) => {
+			item.value = item.code_description;
+			item.code = item.qc_key;
+			return item;
+		});
+	};
+
+	if (!pnOptions) {
+		if (fieldLookupId === 'eSituation11') {
+			clinicalImpressionOptions();
+		} else if (fieldLookupId === 'eMedications03') {
+			drugOptions();
+		} else {
+			scoreCardOptions();
 		}
 	}
 

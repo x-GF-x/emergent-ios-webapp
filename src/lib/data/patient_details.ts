@@ -33,7 +33,8 @@ export const tabs: Tab[] = [
 	{
 		label: 'Photos & Forms',
 		id: '3',
-		type: 'static_scene',
+		type: 'dynamic_scene',
+		dynamic_ids: ['photo'],
 		scene_action: { label: 'ADD PHOTO', fn: 'add_photo' }
 	},
 	{

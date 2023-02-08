@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Card from '$lib/ui_components/Card.svelte';
+	import Photo from '$lib/inputs/Photo.svelte';
+
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 
 	export let selectedTab: Tab;
@@ -17,7 +19,7 @@
 
 {#if dynamicIds}
 	{#each dynamicIds as dynamicId}
-		{#if dynamicId === 'actions'}
+		{#if dynamicId === 'actions' && value[dynamicId]}
 			{#each value[dynamicId] as card}
 				{@const cardData = cards.find((item) => item.card_id === card.card_id)?.card_json}
 				{#if cardData && value.actions}
@@ -30,6 +32,15 @@
 					/>
 				{/if}
 			{/each}
+		{:else if dynamicId === 'photo'}
+			<div class="galleryGrid">
+				{#each value[dynamicId] as photo, photoIndex}
+					{@const cardData = cards.find((item) => item.card_id === photo.card_id)?.card_json}
+					{#if cardData}
+						<Photo bind:value={value.photo[photoIndex]} data={JSON.parse(cardData)} />
+					{/if}
+				{/each}
+			</div>
 		{:else if dynamicId === 'notes'}
 			{#each value[dynamicId] as card}
 				{@const cardData = cards.find((item) => item.card_id === card.card_id)?.card_json}
@@ -53,5 +64,9 @@
 {/if}
 
 <style>
-	/*  */
+	.galleryGrid {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
 </style>

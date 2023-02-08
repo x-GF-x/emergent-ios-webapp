@@ -6,6 +6,7 @@
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 	import { createdLastModified } from '$lib/fn/timestamp';
+	import { base64, base64_2 } from '$lib/resource_file/base64_example';
 
 	let value: DataStorage = {
 		created: new Date().toISOString(),
@@ -13,7 +14,17 @@
 		uuid: crypto.randomUUID(),
 		actions: [],
 		notes: [],
-		static_fields: {}
+		static_fields: {},
+		photo: [
+			{
+				card_id: 'photo',
+				fields: { name: 'First Photo', image_type: 'Example Type', value: base64 }
+			},
+			{
+				card_id: 'photo',
+				fields: { name: 'Second Photo', image_type: 'Other Type', value: base64_2 }
+			}
+		]
 	};
 
 	$dataStorageAccessor = value;
@@ -27,7 +38,10 @@
 	const handleSceneAction = (action: string | undefined) => {
 		if (action === 'expand') allCollapsed = false;
 		else if (action === 'collapse') allCollapsed = true;
-		else if (action === 'add_note') {
+		else if (action === 'impression') {
+			activeCard = cards.find((item) => item.card_id === 'clinical_impression')?.card_json;
+			cardValue.card_id = 'impression';
+		} else if (action === 'add_note') {
 			activeCard = cards.find((item) => item.card_id === 'narrative')?.card_json;
 			cardValue.card_id = 'narrative';
 		}
@@ -38,10 +52,13 @@
 			createdLastModified(cardValue);
 			cardValue.uuid = crypto.randomUUID();
 			value.notes = [...value.notes, Object.assign({}, cardValue)];
+		} else if (cardValue.card_id === 'impression') {
+			if ('eSituation11' in cardValue) {
+				selectedTab.id = cardValue.eSituation11;
+			}
 		}
 		cardValue = {};
 		activeCard = undefined;
-		console.log(value);
 	};
 
 	const deleteNote = (e: { detail: { uuid: string } }) =>
@@ -50,6 +67,7 @@
 	const handleChildCollapse = () => (allCollapsed = undefined);
 </script>
 
+<!-- Set selectedTab.id to the id of the clinical impression -->
 {#if activeCard}
 	<CardModal
 		bind:value={cardValue}

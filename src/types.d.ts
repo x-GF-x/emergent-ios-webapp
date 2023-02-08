@@ -8,6 +8,7 @@ type DataStorage = {
 		[key: string]: FieldValues;
 	};
 	notes: NoteItem[];
+	photo: Photo[];
 	last_modified: string; //timestamp
 	created: string; //timestamp
 	uuid: string;
@@ -163,7 +164,7 @@ type ScoreOption = {
 	value: string;
 };
 
-type DynamicIds = Array<'static_fields' | 'actions' | 'notes'>;
+type DynamicIds = Array<'static_fields' | 'actions' | 'notes' | 'photo'>;
 
 type Tab = {
 	label: string;
@@ -209,4 +210,24 @@ type CardJson = {
 			subFields?: SubField[];
 		}[];
 	}[];
+};
+
+interface QCMapping {
+	code: string;
+	code_description: string;
+	id: number;
+	qc_key: string;
+	value?: string;
+}
+
+type Photo = {
+	last_modified?: string; //timestamp
+	created?: string; //timestamp
+	title?: string;
+	card_id: string;
+	uuid?: string;
+	fields: {
+		//Individual fields within card: [lookup, value]
+		[key: string]: string;
+	};
 };
