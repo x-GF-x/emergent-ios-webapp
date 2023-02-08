@@ -3,11 +3,14 @@
 	import SelectHeader from './generics/SelectHeader.svelte';
 	import SelectOption from './generics/SelectOption.svelte';
 
-	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
-	import { ems_drugs } from '$lib/resource_file/lookups/ems_drugs';
-	import { createEventDispatcher } from 'svelte';
-	import { quickchartMapping } from '$lib/resource_file/ui/ui_quickchart_mapping';
+	import {
+		clinical_impression_options,
+		drug_options,
+		score_card_options,
+		standard_options
+	} from '$lib/fn/build_select_options';
 
+	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	export let value: SingleSelectValue | ScoreObject = undefined;
@@ -17,97 +20,45 @@
 	export let popper: Popper | undefined = undefined;
 	export let hidePopperButton = false;
 
-	let fieldLookupId = field?.key;
-	let options: Array<DropDownOption | ScoreOption | PnOption | QCMapping> = [];
-	let searchValue = '';
-
 	export const toggle = () => {
 		popper?.toggle();
 	};
 
+	let fieldLookupId = field?.key;
+	let options: Array<DropDownOption | ScoreOption | PnOption | QCMapping> = [];
+	let searchValue = '';
 	let nonStandardLookups = ['eMedications03', 'eSituation11'];
 	let buildDataFromOptions = field && 'data' in field && field.data;
+	const standardOptions =
+		fieldLookupId &&
+		!pnOptions &&
+		!nonStandardLookups.includes(fieldLookupId) &&
+		!buildDataFromOptions;
 
 	const buildOptions = () => {
-		if (
-			fieldLookupId &&
-			!pnOptions &&
-			!nonStandardLookups.includes(fieldLookupId) &&
-			!buildDataFromOptions
-		)
-			options = fieldOptions.filter(
-				(option) =>
-					option.type === fieldLookupId &&
-					(!field ||
-						!('available_units' in field) ||
-						(field && field.available_units?.includes(option.code))) &&
-					(!field ||
-						!('available_routes' in field) ||
-						(field && field.available_routes?.includes(option.code)))
-			);
+		if (standardOptions) options = standard_options(field);
 	};
-
 	//Reactive for when drugs are changed
 	$: field, buildOptions();
 
-	const drugOptions = () => {
-		options = ems_drugs.map((item) => {
-			return {
-				code: item.drug_id,
-				id: item.id,
-				type: 'drug',
-				value: item.name
-			};
-		});
-	};
-
-	const scoreCardOptions = () => {
-		if (field && 'data' in field && field.data) {
-			options = field.data;
-			if (options)
-				options.forEach((option) => {
-					if ('description' in option) option.value = option.description;
-				});
-		}
-	};
-
-	const clinicalImpressionOptions = () => {
-		options = quickchartMapping.map((item) => {
-			item.value = item.code_description;
-			item.code = item.qc_key;
-			return item;
-		});
-	};
-
 	if (!pnOptions) {
-		if (fieldLookupId === 'eSituation11') {
-			clinicalImpressionOptions();
-		} else if (fieldLookupId === 'eMedications03') {
-			drugOptions();
-		} else {
-			scoreCardOptions();
-		}
+		if (fieldLookupId === 'eSituation11') options = clinical_impression_options();
+		else if (fieldLookupId === 'eMedications03') options = drug_options();
+		else options = score_card_options(field);
 	}
 
 	const selectOption = (option: ScoreObject) => {
 		const code = option?.code;
-		if (value === code) {
-			value = undefined;
-		} else {
-			if (option.operator) {
-				value = option;
-			} else {
-				value = code;
-			}
+
+		if (value === code) value = undefined;
+		else {
+			if (option.operator) value = option;
+			else value = code;
 			popper?.toggle();
 		}
-		if (pnOptions) {
-			dispatch('setPn', { value: value });
-		}
 
-		if (fieldLookupId === 'eMedications03') {
-			dispatch('changeDrug', { value: value });
-		}
+		if (pnOptions) dispatch('setPn', { value: value });
+		if (fieldLookupId === 'eMedications03') dispatch('changeDrug', { value: value });
 	};
 
 	$: {
@@ -149,6 +100,3 @@
 		</SelectHeader>
 	</Popper>
 {/if}
-
-<style>
-</style>

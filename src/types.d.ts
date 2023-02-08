@@ -93,11 +93,13 @@ interface Field {
 	pn?: { code: string; description: string }[];
 }
 
+type SubFieldData = { id: number; type: string; code: string; value: string };
+
 interface SubField extends Field {
 	min?: number;
 	max?: number;
 	action?: string;
-	data?: { id: number; type: string; code: string; value: string }[];
+	data?: SubFieldData[];
 	//For drugs, manually set the available routes/units from the drug lookup
 	available_routes?: string[];
 	available_units?: string[];

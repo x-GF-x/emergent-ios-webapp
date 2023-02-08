@@ -2,7 +2,7 @@
 	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 
 	import { cards } from '$lib/resource_file/ui/ui_cards';
-	import { createdLastModified } from '$lib/fn/timestamp';
+	import { created_and_last_modified } from '$lib/fn/timestamp';
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -17,7 +17,7 @@
 	let cardValue: NoteItem = { card_id: 'narrative', last_modified: '', created: '', uuid: '' };
 
 	const saveModal = () => {
-		createdLastModified(cardValue);
+		created_and_last_modified(cardValue);
 		cardValue.uuid = crypto.randomUUID();
 		value.notes = [...value.notes, Object.assign({}, cardValue)];
 		cardValue = {};

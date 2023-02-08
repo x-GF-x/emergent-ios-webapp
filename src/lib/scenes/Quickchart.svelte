@@ -5,7 +5,7 @@
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts_with_drugs';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
-	import { createdLastModified } from '$lib/fn/timestamp';
+	import { created_and_last_modified } from '$lib/fn/timestamp';
 
 	export let selectedTab: Tab;
 	export let value: DataStorage;
@@ -43,7 +43,7 @@
 
 	const saveModal = () => {
 		setTimers();
-		createdLastModified(cardValue);
+		created_and_last_modified(cardValue);
 		value.actions = [...value.actions, cardValue];
 		clearActiveCard();
 	};
