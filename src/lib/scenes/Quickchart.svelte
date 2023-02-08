@@ -69,7 +69,7 @@
 					{@const matchingCards = value?.actions?.filter(
 						(item) => item?.card_id === chartCardId && item.title === chart.title
 					)}
-					{@const disabled = chart.type === 'unrepeatable' && matchingCards.length ? true : false}
+					{@const disabled = chart.type === 'unrepeatable' && matchingCards?.length ? true : false}
 					<button
 						class="cardButton"
 						class:active={matchingCards?.length && chart.type === 'untimed'}
@@ -84,7 +84,7 @@
 						class:disabled
 						{disabled}
 					>
-						{#if matchingCards.length && !disabled && chart.type !== 'secondary'}
+						{#if matchingCards?.length && !disabled && chart.type !== 'secondary'}
 							<div class="replayNumber">
 								<div class="matchingCardsLength">
 									{matchingCards.length}
@@ -98,8 +98,8 @@
 							<div class="buttonTitle">
 								{chart.title}
 							</div>
-							{#if (matchingCards.length && chart.type === 'untimed') || chart.type === 'timed'}
-								{@const lastInstance = matchingCards.at(-1)?.last_modified}
+							{#if (matchingCards?.length && chart.type === 'untimed') || chart.type === 'timed'}
+								{@const lastInstance = matchingCards?.at(-1)?.last_modified}
 								<div class="timestamp">
 									{#if chart.type === 'timed'}
 										{#if !lastInstance && chart.interval}

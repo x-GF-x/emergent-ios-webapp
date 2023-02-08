@@ -171,9 +171,22 @@ type Tab = {
 	id: string;
 	type: 'quickchart' | 'static_scene' | 'dynamic_scene';
 	dynamic_ids?: DynamicIds; //ids by which dynamic scenes get their data
-	scene_action?: { label: string; fn: string };
+	scene_action?: { label: string; fn: SubTabActions };
 	headerTabs?: boolean;
 };
+
+type ActionComponents = Impression | AddNote | undefined;
+
+type SubTabActions =
+	| 'expand'
+	| 'collapse'
+	| 'impression'
+	| 'add_note'
+	| 'delete'
+	| 'add_action'
+	| 'add_photo';
+
+type SubTab = { action: SubTabActions; label: string };
 
 type EmsDrug = {
 	available_routes: null | string;

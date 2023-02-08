@@ -1,11 +1,16 @@
 <script lang="ts">
-	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 
-	import { tabs, quickchartTabs, sceneTabs, scenes, footerItems } from '$lib/data/patient_details';
+	import {
+		tabs,
+		quickchartTabs,
+		sceneTabs,
+		scenes,
+		footerItems,
+		sceneActionComponents
+	} from '$lib/data/patient_details';
+
 	import { dataStorageAccessor } from '$lib/stores/data';
-	import { cards } from '$lib/resource_file/ui/ui_cards';
-	import { createdLastModified } from '$lib/fn/timestamp';
 	import { base64, base64_2 } from '$lib/resource_file/base64_example';
 
 	let value: DataStorage = {
@@ -32,33 +37,12 @@
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};
-	let activeCard: string | undefined = undefined;
-	let cardValue: NoteItem | Record<string, never> = {};
+	let sceneAction: ActionComponents;
 
-	const handleSceneAction = (action: string | undefined) => {
+	const handleSceneAction = (action: SubTabActions) => {
 		if (action === 'expand') allCollapsed = false;
 		else if (action === 'collapse') allCollapsed = true;
-		else if (action === 'impression') {
-			activeCard = cards.find((item) => item.card_id === 'clinical_impression')?.card_json;
-			cardValue.card_id = 'impression';
-		} else if (action === 'add_note') {
-			activeCard = cards.find((item) => item.card_id === 'narrative')?.card_json;
-			cardValue.card_id = 'narrative';
-		}
-	};
-
-	const saveModal = () => {
-		if (cardValue.card_id === 'narrative') {
-			createdLastModified(cardValue);
-			cardValue.uuid = crypto.randomUUID();
-			value.notes = [...value.notes, Object.assign({}, cardValue)];
-		} else if (cardValue.card_id === 'impression') {
-			if ('eSituation11' in cardValue) {
-				selectedTab.id = cardValue.eSituation11;
-			}
-		}
-		cardValue = {};
-		activeCard = undefined;
+		else sceneAction = sceneActionComponents[action];
 	};
 
 	const deleteNote = (e: { detail: { uuid: string } }) =>
@@ -67,14 +51,12 @@
 	const handleChildCollapse = () => (allCollapsed = undefined);
 </script>
 
-<!-- Set selectedTab.id to the id of the clinical impression -->
-{#if activeCard}
-	<CardModal
-		bind:value={cardValue}
-		data={JSON.parse(activeCard)}
-		on:backdropClick={() => (activeCard = undefined)}
-		on:updateModal={saveModal}
-		on:deleteNote={deleteNote}
+{#if sceneAction}
+	<svelte:component
+		this={sceneAction}
+		bind:selectedTab
+		bind:value
+		on:close={() => (sceneAction = undefined)}
 	/>
 {/if}
 
@@ -110,8 +92,11 @@
 				{#if selectedTab.scene_action}
 					<button
 						class="scene_action"
-						on:click={() => handleSceneAction(selectedTab?.scene_action?.fn)}
-						>{selectedTab.scene_action.label}
+						on:click={() => {
+							if (selectedTab.scene_action?.fn) handleSceneAction(selectedTab.scene_action.fn);
+						}}
+					>
+						{selectedTab.scene_action.label}
 					</button>
 				{/if}
 			</h1>

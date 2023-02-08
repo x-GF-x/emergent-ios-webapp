@@ -1,6 +1,8 @@
 import DynamicScene from '$lib/scenes/DynamicScene.svelte';
 import StaticScene from '$lib/scenes/StaticScene.svelte';
 import Quickchart from '$lib/scenes/Quickchart.svelte';
+import Impression from '$lib/scene_actions/Impression.svelte';
+import AddNote from '$lib/scene_actions/AddNote.svelte';
 
 export const scenes = {
 	quickchart: Quickchart,
@@ -52,16 +54,24 @@ export const tabs: Tab[] = [
 	}
 ];
 
-export const sceneTabs = [
+export const sceneTabs: SubTab[] = [
 	{ label: 'Expand All', action: 'expand' },
 	{ label: 'Collapse All', action: 'collapse' },
 	{ label: 'Delete Person', action: 'delete' }
 ];
 
-export const quickchartTabs = [
+export const quickchartTabs: SubTab[] = [
 	{ label: 'Edit Clinical Impression', action: 'impression' },
 	{ label: 'Delete Person', action: 'delete' }
 ];
+
+export const sceneActionComponents = {
+	impression: Impression,
+	add_note: AddNote,
+	delete: undefined,
+	add_action: undefined,
+	add_photo: undefined
+};
 
 export const footerItems = [
 	{ label: 'Pulse', id: 'pulse' },
