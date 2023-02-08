@@ -166,7 +166,7 @@ type ScoreOption = {
 	value: string;
 };
 
-type DynamicIds = Array<'static_fields' | 'actions' | 'notes' | 'photo'>;
+type DynamicId = 'static_fields' | 'actions' | 'notes' | 'photo';
 
 type Tab = {
 	label: string;

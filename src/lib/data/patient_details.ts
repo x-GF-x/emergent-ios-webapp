@@ -4,12 +4,17 @@ import Quickchart from '$lib/scenes/Quickchart.svelte';
 import Impression from '$lib/scene_actions/Impression.svelte';
 import AddNote from '$lib/scene_actions/AddNote.svelte';
 import AddAction from '$lib/scene_actions/AddAction.svelte';
+import Actions from '$lib/scenes/dynamic_scenes/Actions.svelte';
+import Gallery from '$lib/scenes/dynamic_scenes/Gallery.svelte';
+import Notes from '$lib/scenes/dynamic_scenes/Notes.svelte';
 
 export const scenes = {
 	quickchart: Quickchart,
 	static_scene: StaticScene,
 	dynamic_scene: DynamicScene
 };
+
+export const dynamicSceneTypes = { actions: Actions, photo: Gallery, notes: Notes };
 
 export const tabs: Tab[] = [
 	{

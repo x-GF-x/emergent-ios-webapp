@@ -3,18 +3,13 @@
 	import Photo from '$lib/inputs/Photo.svelte';
 
 	import { cards } from '$lib/resource_file/ui/ui_cards';
+	import { last_modified } from '$lib/fn/timestamp';
 
 	export let selectedTab: Tab;
 	export let value: DataStorage;
 	export let allCollapsed = false;
 
-	let dynamicIds: DynamicIds | undefined = selectedTab?.dynamic_ids;
-
-	const updateLastModified = (card: ActionItem | NoteItem) => {
-		card.last_modified = new Date().toLocaleTimeString('en-US', {
-			hour12: false
-		});
-	};
+	let dynamicIds: DynamicId[] | undefined = selectedTab?.dynamic_ids;
 </script>
 
 {#if dynamicIds}
@@ -28,7 +23,7 @@
 						collapsible
 						data={JSON.parse(cardData)}
 						bind:value={card.fields}
-						on:modify={() => updateLastModified(card)}
+						on:modify={() => last_modified(card)}
 					/>
 				{/if}
 			{/each}
@@ -50,7 +45,7 @@
 						collapsible
 						data={JSON.parse(cardData)}
 						bind:value={card}
-						on:modify={() => updateLastModified(card)}
+						on:modify={() => last_modified(card)}
 						on:deleteNote
 					/>
 				{/if}
