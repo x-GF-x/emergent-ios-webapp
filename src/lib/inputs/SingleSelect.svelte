@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Popper from './generics/Popper.svelte';
-	import SelectHeader from './generics/SelectHeader.svelte';
-	import SelectOption from './generics/SelectOption.svelte';
+	import SelectList from './generics/select/SelectList.svelte';
 
 	import {
 		clinical_impression_options,
@@ -26,7 +25,6 @@
 
 	let fieldLookupId = field?.key;
 	let options: Array<DropDownOption | ScoreOption | PnOption | QCMapping> = [];
-	let searchValue = '';
 	let nonStandardLookups = ['eMedications03', 'eSituation11'];
 	let buildDataFromOptions = field && 'data' in field && field.data;
 	const standardOptions =
@@ -79,24 +77,6 @@
 		type="singleSelect"
 		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 	>
-		<SelectHeader bind:searchValue title={pnOptions ? 'Pertinent Negatives' : field?.title} {props}>
-			{@const relevantOptions = pnOptions
-				? pnOptions.map((item) => {
-						item.value = item.description;
-						return item;
-				  })
-				: options}
-			<div class="options">
-				{#each relevantOptions.filter((option) => option.value && option.value
-							.toLowerCase()
-							.includes(searchValue.toLowerCase())) as option}
-					<SelectOption
-						{option}
-						selected={value === option.code}
-						on:select={(e) => selectOption(e.detail.option)}
-					/>
-				{/each}
-			</div>
-		</SelectHeader>
+		<SelectList {pnOptions} {options} {field} {props} {selectOption} {value} />
 	</Popper>
 {/if}

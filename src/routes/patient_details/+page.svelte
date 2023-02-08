@@ -11,29 +11,10 @@
 	} from '$lib/data/patient_details';
 
 	import { dataStorageAccessor } from '$lib/stores/data';
-	import { base64, base64_2 } from '$lib/resource_file/base64_example';
+	import { default_value } from '$lib/data/default_value';
 
-	let value: DataStorage = {
-		created: new Date().toISOString(),
-		last_modified: new Date().toISOString(),
-		uuid: crypto.randomUUID(),
-		actions: [],
-		notes: [],
-		static_fields: {},
-		photo: [
-			{
-				card_id: 'photo',
-				fields: { name: 'First Photo', image_type: 'Example Type', value: base64 }
-			},
-			{
-				card_id: 'photo',
-				fields: { name: 'Second Photo', image_type: 'Other Type', value: base64_2 }
-			}
-		]
-	};
-
+	let value: DataStorage = default_value;
 	$dataStorageAccessor = value;
-
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};

@@ -3,6 +3,7 @@ import StaticScene from '$lib/scenes/StaticScene.svelte';
 import Quickchart from '$lib/scenes/Quickchart.svelte';
 import Impression from '$lib/scene_actions/Impression.svelte';
 import AddNote from '$lib/scene_actions/AddNote.svelte';
+import AddAction from '$lib/scene_actions/AddAction.svelte';
 
 export const scenes = {
 	quickchart: Quickchart,
@@ -68,8 +69,8 @@ export const quickchartTabs: SubTab[] = [
 export const sceneActionComponents = {
 	impression: Impression,
 	add_note: AddNote,
+	add_action: AddAction,
 	delete: undefined,
-	add_action: undefined,
 	add_photo: undefined
 };
 

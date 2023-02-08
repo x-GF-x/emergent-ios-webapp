@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Search from '../Search.svelte';
+	import Search from '../../Search.svelte';
 
 	import { createEventDispatcher, tick } from 'svelte';
 

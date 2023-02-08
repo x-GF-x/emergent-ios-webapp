@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Popper from './generics/Popper.svelte';
-	import SelectHeader from './generics/SelectHeader.svelte';
-	import SelectOption from './generics/SelectOption.svelte';
+	import MultiSelectList from './generics/select/MultiSelectList.svelte';
 
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
-	import { createEventDispatcher, tick } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	export let field: Field;
@@ -16,7 +15,6 @@
 	let fieldLookupId = field?.key;
 	let options: DropDownOption[] = fieldOptions.filter((option) => option.type === fieldLookupId);
 	let idOfActiveEmbeddedList: string | undefined = undefined;
-	let searchValue = '';
 	let popper: Popper;
 	let noneSelected = false;
 	let storedValues: string = JSON.stringify(value);
@@ -155,47 +153,18 @@
 	}}
 	on:noneSelected={(e) => handleNoneSelected(e)}
 >
-	<SelectHeader
-		bind:searchValue
-		type="multiSelect"
-		title={idOfActiveEmbeddedList
-			? options.find((item) => item.code === idOfActiveEmbeddedList)?.value
-			: field?.title}
-		on:close={() => {
-			idOfActiveEmbeddedList = undefined;
-			popper.toggle();
-		}}
-	>
-		<div class="options">
-			{#each (!idOfActiveEmbeddedList ? options : embeddedOptions).filter((option) => option.value
-					.toLowerCase()
-					.includes(searchValue.toLowerCase())) as option}
-				{@const selected = (idOfActiveEmbeddedList && value && !Array.isArray(value)
-					? value[idOfActiveEmbeddedList]
-					: selectedItems
-				)?.find((item) => item.value === option.code)
-					? true
-					: false}
-				<SelectOption
-					{option}
-					{selected}
-					on:select={(e) =>
-						idOfActiveEmbeddedList && embeddedOptions
-							? selectEmbeddedOption(e.detail.option)
-							: selectOption(e.detail.option)}
-				/>
-			{/each}
-		</div>
-		<div class="footer">
-			<div class="numberOfSelections">
-				{(idOfActiveEmbeddedList && !Array.isArray(value)
-					? value?.[idOfActiveEmbeddedList]
-					: selectedItems
-				)?.length} Selections
-			</div>
-			<button on:click={updateItems} class="updateItems">Update Items</button>
-		</div>
-	</SelectHeader>
+	<MultiSelectList
+		bind:idOfActiveEmbeddedList
+		{options}
+		{field}
+		{selectEmbeddedOption}
+		{selectedItems}
+		{selectOption}
+		{updateItems}
+		{popper}
+		{embeddedOptions}
+		{value}
+	/>
 </Popper>
 
 {#if selectedItems?.length}
@@ -232,29 +201,6 @@
 {/if}
 
 <style>
-	.footer {
-		display: flex;
-		justify-content: space-between;
-		min-height: 60px;
-		background: var(--light1);
-		align-items: center;
-		padding: 0 10px;
-		border-top: 1px solid var(--border);
-		position: sticky;
-		bottom: 0;
-	}
-
-	.numberOfSelections {
-		font-weight: 400;
-	}
-
-	.updateItems {
-		color: var(--light1);
-		background: var(--primary);
-		padding: 12px 10px;
-		border-radius: 4px;
-	}
-
 	.selectedItemsList {
 		border-top: 1px solid var(--border);
 		margin-left: -10px;
