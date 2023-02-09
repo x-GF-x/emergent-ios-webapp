@@ -67,11 +67,13 @@
 	</section>
 	<section class="body">
 		<div class="sceneHeader">
-			<h1 class="sceneHeaderLabel">
-				{selectedTab.label}
+			<div class="headerAndActionButton">
+				<div class="label">
+					{selectedTab.label}
+				</div>
 				{#if selectedTab.scene_action}
 					<button
-						class="scene_action"
+						class="sceneAction"
 						on:click={() => {
 							if (selectedTab.scene_action?.fn) handleSceneAction(selectedTab.scene_action.fn);
 						}}
@@ -79,7 +81,7 @@
 						{selectedTab.scene_action.label}
 					</button>
 				{/if}
-			</h1>
+			</div>
 			{#if selectedTab.headerTabs}
 				{@const headerTabs = selectedTab.type === 'quickchart' ? quickchartTabs : sceneTabs}
 				<div class="sceneTabs">
@@ -212,13 +214,20 @@
 		background: var(--light3);
 	}
 
-	.sceneHeaderLabel {
+	.headerAndActionButton {
 		display: flex;
 		justify-content: space-between;
+		margin: 5px 0;
 	}
 
-	.scene_action {
+	.label {
+		font-size: 24px;
+		font-weight: 500;
+	}
+
+	.sceneAction {
 		color: var(--primary);
+		padding: 0px 16px;
 	}
 
 	.sceneTab {
@@ -261,10 +270,6 @@
 
 	.footerItem:not(:last-child) {
 		border-right: none;
-	}
-
-	h1 {
-		margin: 5px 0;
 	}
 
 	section {
