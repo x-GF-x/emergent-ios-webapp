@@ -16,6 +16,7 @@
 				{allCollapsed}
 				collapsible
 				data={JSON.parse(cardData)}
+				timestamp={card?.last_modified}
 				bind:value={card.fields}
 				on:modify={() => last_modified(card)}
 			/>

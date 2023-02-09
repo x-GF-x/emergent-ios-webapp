@@ -18,6 +18,7 @@
 	export let allCollapsed: boolean | undefined = false;
 	export let chart: QuickChartObject | undefined = undefined;
 	export let fromModal = false;
+	export let timestamp = value.last_modified ? value.last_modified : '';
 
 	let collapsed = false;
 	let pnField: Field | undefined = undefined;
@@ -64,21 +65,19 @@
 	{/if}
 	<div class="list">
 		{#if collapsible}
-			<button
-				class="listHeader collapsible"
-				class:timestamp={value.last_modified ? true : false}
-				class:collapsed
-				on:click={collapse}
-			>
+			<button class="listHeader collapsible" class:timestamp class:collapsed on:click={collapse}>
 				<div class="titleAndIcon">
 					<div class="material-symbols-outlined">{collapsed ? 'unfold_more' : 'unfold_less'}</div>
 					<div class="cardTitle">{data.properties.title}</div>
 				</div>
-				<div class="timestamp">
-					{#if typeof value?.last_modified === 'string'}
-						{value.last_modified.substring(0, 5)}
-					{/if}
-				</div>
+				{#if typeof timestamp === 'string'}
+					<button
+						class="timestampButton"
+						on:click|stopPropagation={() => console.log(timestamp, value)}
+					>
+						{timestamp.substring(0, 5)}
+					</button>
+				{/if}
 			</button>
 		{/if}
 		{#if !collapsed}
@@ -189,6 +188,10 @@
 
 	.timestamp {
 		justify-content: space-between;
+	}
+
+	.timestampButton {
+		color: var(--secondary);
 	}
 
 	.rows {

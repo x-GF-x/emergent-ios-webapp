@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Actions from './dynamic_scenes/Actions.svelte';
+	import Timeline from './dynamic_scenes/Timeline.svelte';
 	import Gallery from './dynamic_scenes/Gallery.svelte';
 	import Notes from './dynamic_scenes/Notes.svelte';
 
@@ -8,7 +8,7 @@
 	export let allCollapsed = false;
 
 	let dynamicIds: DynamicId[] | undefined = selectedTab?.dynamic_ids;
-	const dynamicSceneTypes = { actions: Actions, photo: Gallery, notes: Notes };
+	const dynamicSceneTypes = { actions: Timeline, photo: Gallery, notes: Notes };
 </script>
 
 {#if dynamicIds}
