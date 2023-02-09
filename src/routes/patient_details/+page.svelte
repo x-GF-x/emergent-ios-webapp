@@ -19,7 +19,6 @@
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};
 	let sceneAction: ActionComponents;
-	let timestampLocation: { section: 'actions' | 'notes'; index: number } | undefined = undefined;
 
 	const handleSceneAction = (action: SubTabActions) => {
 		if (action === 'expand') allCollapsed = false;
@@ -28,17 +27,6 @@
 	};
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
-
-	const editTimestamp = (e: { detail: { section: 'actions' | 'notes'; index: number } }) => {
-		timestampLocation = e.detail;
-		sceneAction = sceneActionComponents['edit_timestamp'];
-	};
-
-	const saveTimestamp = (e: { detail: { newTimestamp: string } }) => {
-		const { newTimestamp } = e.detail;
-		if (timestampLocation)
-			value[timestampLocation.section][timestampLocation.index].last_modified = newTimestamp;
-	};
 </script>
 
 {#if sceneAction}
@@ -47,7 +35,6 @@
 		bind:selectedTab
 		bind:value
 		on:close={() => (sceneAction = undefined)}
-		on:saveTimestamp={saveTimestamp}
 	/>
 {/if}
 
@@ -110,7 +97,6 @@
 			<svelte:component
 				this={scenes?.[selectedTab?.type]}
 				on:collapsed={handleChildCollapse}
-				on:editTimestamp={editTimestamp}
 				{selectedTab}
 				{allCollapsed}
 				{timers}
