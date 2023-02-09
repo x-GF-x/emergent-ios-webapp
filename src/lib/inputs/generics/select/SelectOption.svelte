@@ -17,6 +17,8 @@
 		background: var(--light1);
 		font-weight: 300;
 		line-height: 1.6;
+		text-align: left;
+		padding-left: 16px;
 	}
 
 	.option:not(:last-child) {

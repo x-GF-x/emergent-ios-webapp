@@ -17,13 +17,13 @@
 	.text {
 		border: none;
 		font-size: 12pt;
+		font-weight: 500;
 		caret-color: var(--primary);
-		background: var(--light2);
 		padding-left: 10px;
 	}
 
 	.text {
-		height: 35px;
+		padding: 4px 8px 8px 16px;
 	}
 
 	textarea {

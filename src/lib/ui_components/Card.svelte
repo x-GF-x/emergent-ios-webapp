@@ -72,7 +72,7 @@
 			>
 				<div class="titleAndIcon">
 					<div class="material-symbols-outlined">{collapsed ? 'unfold_more' : 'unfold_less'}</div>
-					<div class="title">{data.properties.title}</div>
+					<div class="cardTitle">{data.properties.title}</div>
 				</div>
 				<div class="timestamp">
 					{#if typeof value?.last_modified === 'string'}
@@ -84,7 +84,10 @@
 		{#if !collapsed}
 			<div class="rows" transition:slide|local>
 				{#each data.rows as row}
-					<div class="row">
+					<div
+						class="row"
+						class:actionButtonRow={row.fields?.length === 1 && row.fields[0].type === 'action'}
+					>
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
 
@@ -142,7 +145,7 @@
 		display: flex;
 		flex-direction: column;
 		max-width: 1200px;
-		margin: 0 10px 10px 10px;
+		margin: 0 16px 16px 16px;
 		background: var(--light2);
 		border: 1px solid var(--border);
 		border-radius: 5px;
@@ -164,6 +167,11 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		font-weight: 500;
+	}
+
+	.cardTitle {
+		padding: 6px;
 	}
 
 	.collapsible {
@@ -185,12 +193,13 @@
 
 	.rows {
 		margin: 15px;
+		background: var(--light1);
 	}
 
 	.row {
 		display: flex;
 		flex-direction: row;
-		border: 1px solid var(--border);
+		border: 1pt solid var(--border);
 		min-height: 40px;
 		justify-content: center;
 	}
@@ -205,10 +214,19 @@
 		justify-content: space-between;
 	}
 	.field:not(:last-child) {
-		border-right: 1px solid var(--border);
+		border-right: 1pt solid var(--border);
 	}
 
 	.multiSelect {
-		padding: 0 10px;
+		justify-content: center;
+	}
+
+	.actionButtonRow {
+		border: none;
+		border-top: 1pt solid var(--border);
+		background: var(--light2);
+		align-items: flex-end;
+		height: max-content;
+		min-height: 30px;
 	}
 </style>

@@ -43,14 +43,16 @@
 		<a href="/" class="return material-symbols-outlined">arrow_back_ios</a>
 	</section>
 	<section class="controls">
-		<SingleSelect
-			field={{}}
-			value={'Patient 1'}
-			props={{ icon: 'account_box', dropdownLabel: 'People' }}
-		/>
-		<div class="material-symbols-outlined swap">swap_horiz</div>
-		<button class="addPerson">Add Person</button>
-		<button class="endCall">End Call</button>
+		<div class="patientSelect">
+			<SingleSelect
+				field={{}}
+				value={'Patient 1'}
+				props={{ icon: 'account_box', dropdownLabel: 'People' }}
+			/>
+		</div>
+		<!-- <div class="material-symbols-outlined swap">swap_horiz</div> -->
+		<button class="addPerson">ADD PERSON</button>
+		<button class="endCall">END CALL</button>
 	</section>
 	<section class="tabs">
 		{#each tabs as tab}
@@ -143,32 +145,40 @@
 		display: grid;
 		gap: 10px;
 		margin: 0 10px;
-		grid-template-columns: auto 40% 20% 20%;
+		grid-template-columns: 1fr max-content max-content;
 		align-items: center;
 	}
-
-	.swap {
+	.patientSelect {
+		max-width: 250px;
+	}
+	/* .swap {
 		background: var(--primary);
 		width: max-content;
 		color: white;
 		padding: 10px;
 		border-radius: 5px;
 		cursor: pointer;
-	}
+	} */
 
 	.addPerson {
 		color: var(--primary);
 		background: var(--light3);
-		height: 40px;
+		height: 44px;
 		border-radius: 5px;
 		margin-right: 10px;
+		font-weight: 500;
+		white-space: nowrap;
+		padding: 0 16px;
 	}
 
 	.endCall {
 		color: var(--light1);
 		background: var(--primary);
-		height: 40px;
+		height: 44px;
 		border-radius: 5px;
+		font-weight: 500;
+		white-space: nowrap;
+		padding: 0 16px;
 	}
 
 	.tabs {
@@ -180,10 +190,12 @@
 	.tab {
 		border-bottom: 4px solid transparent;
 		min-width: max-content;
+		font-weight: 300;
 	}
 
 	.selectedTab {
 		border-bottom: 4px solid var(--primary);
+		font-weight: 500;
 	}
 
 	.body {
@@ -192,7 +204,7 @@
 	}
 
 	.sceneHeader {
-		padding: 10px 10px 0 10px;
+		padding: 16px 0 0 16px;
 		margin-bottom: 10px;
 		/* If you want sticky */
 		position: sticky;
@@ -212,6 +224,7 @@
 	.sceneTab {
 		padding: 10px 0;
 		color: var(--primary);
+		font-weight: 300;
 	}
 
 	.sceneTab:not(:last-child) {

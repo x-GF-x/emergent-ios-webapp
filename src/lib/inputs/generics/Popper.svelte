@@ -45,17 +45,17 @@
 
 <div
 	class="popperContainer"
-	style:min-height={!hidePopperButton ? '44px' : ''}
 	on:mouseenter={() => (overPopper = true)}
 	on:mouseleave={() => (overPopper = false)}
 	bind:this={toggleButton}
+	class:paddingDisabled={props}
+	class:multi={type === 'multiSelect'}
 >
 	{#if !hidePopperButton}
 		<button
 			class:iconToggle={props?.icon}
 			disabled={typeof props?.icon === 'string' || noneSelected}
 			class="toggleButton"
-			class:multiSelect={type === 'multiSelect'}
 			on:click={toggle}
 		>
 			{#if props?.icon}
@@ -134,6 +134,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		padding: 4px 8px 8px 16px;
 	}
 
 	.toggleButton {
@@ -142,11 +143,19 @@
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		padding: 10px;
+		padding: 0;
+		font-size: 12pt;
+		font-weight: 500;
 	}
 
-	.multiSelect {
+	.paddingDisabled {
 		padding: 0;
+		height: 100%;
+	}
+
+	.multi {
+		padding: 0 0 0 16px;
+		min-height: 48px;
 	}
 
 	.icon {
@@ -160,7 +169,6 @@
 		padding: 10px;
 		border: 1px solid var(--border);
 		border-radius: 5px;
-		max-height: 44px;
 	}
 
 	.buttonLabel {
@@ -175,6 +183,8 @@
 	.multiNone {
 		display: flex;
 		align-items: center;
+		font-weight: 300;
+		color: var(--dark1);
 	}
 
 	.none {
@@ -192,7 +202,11 @@
 		height: 100%;
 		display: flex;
 		align-items: center;
-		padding-left: 10px;
+		padding: 0 12px;
+	}
+
+	.value {
+		white-space: nowrap;
 	}
 
 	.modal {

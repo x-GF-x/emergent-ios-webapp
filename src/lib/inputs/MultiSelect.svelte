@@ -203,16 +203,13 @@
 <style>
 	.selectedItemsList {
 		border-top: 1px solid var(--border);
-		margin-left: -10px;
-		margin-right: -10px;
-		padding: 0 10px;
 	}
 
 	.selectedItem {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 5px 0;
+		padding: 5px 10px;
 	}
 
 	.selectedItem:nth-child(even) {

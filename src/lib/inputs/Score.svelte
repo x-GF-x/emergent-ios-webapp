@@ -80,9 +80,9 @@
 	}
 
 	.fieldTitle {
-		padding: 10px;
-		padding-bottom: 0;
-		font-weight: 200;
+		padding: 8px 8px 0 16px;
+		font-weight: 300;
 		font-size: 10pt;
+		color: var(--dark3);
 	}
 </style>

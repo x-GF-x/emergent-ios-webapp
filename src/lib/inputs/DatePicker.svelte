@@ -18,6 +18,11 @@
 	};
 </script>
 
-<Popper bind:this={popper} value={value ? value : undefined} on:open={numpad.focusInput}>
+<Popper
+	bind:this={popper}
+	toggleIcon={{ open: 'unfold_less', closed: 'unfold_more' }}
+	value={value ? value : undefined}
+	on:open={numpad.focusInput}
+>
 	<Numpad bind:this={numpad} {value} type="date" on:update={update} {field} />
 </Popper>

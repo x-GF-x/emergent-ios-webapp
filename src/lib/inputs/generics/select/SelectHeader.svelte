@@ -79,7 +79,7 @@
 	}
 
 	.title {
-		padding: 10px;
+		padding: 16px;
 	}
 
 	.multiControls {

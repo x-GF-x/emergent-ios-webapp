@@ -16,11 +16,19 @@ body {
 	font-weight: 300;
 }
 
+input {
+	font-family: 'Inter';
+	font-size: 12pt;
+	font-weight: 500;
+	padding: 4px 8px 8px 16px;
+}
+
 button {
 	border: none;
 	background: none;
 	cursor: pointer;
 	font-size: 12pt;
+	font-family: 'Inter';
 }
 
 html {
