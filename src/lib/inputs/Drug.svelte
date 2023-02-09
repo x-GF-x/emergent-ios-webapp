@@ -26,7 +26,6 @@
 		setDrug();
 		setSubFields();
 	};
-
 	const setSubFields = () => {
 		subFields.forEach((subField) => {
 			if (subField.id) {
@@ -35,7 +34,8 @@
 					drug?.available_routes
 						? (subField.available_routes = drug.available_routes.split(',  '))
 						: delete subField?.available_routes;
-				if (subField.id === 'eMedications06')
+				else if (subField.id === 'eMedications05') value['eMedications05'] = undefined;
+				else if (subField.id === 'eMedications06')
 					drug?.available_units
 						? (subField.available_units = drug.available_units.split(',  '))
 						: delete subField?.available_units;
