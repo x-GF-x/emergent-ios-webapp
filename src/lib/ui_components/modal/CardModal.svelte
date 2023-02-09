@@ -15,5 +15,5 @@
 </script>
 
 <Modal on:backdropClick on:updateModal>
-	<Card collapsible={false} bind:value {data} {chart} fromModal on:deleteNote />
+	<Card collapsible={false} bind:value {data} {chart} fromModal />
 </Modal>

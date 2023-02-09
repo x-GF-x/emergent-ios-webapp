@@ -6,6 +6,9 @@
 
 	export let value: DataStorage;
 	export let allCollapsed = false;
+
+	const deleteNote = (e: { detail: { uuid: string } }) =>
+		(value.notes = value.notes.filter((item) => item.uuid !== e.detail.uuid));
 </script>
 
 {#if value.notes}
@@ -18,7 +21,7 @@
 				data={JSON.parse(cardData)}
 				bind:value={card}
 				on:modify={() => last_modified(card)}
-				on:deleteNote
+				on:deleteNote={deleteNote}
 			/>
 		{/if}
 	{/each}

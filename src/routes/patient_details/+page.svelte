@@ -26,9 +26,6 @@
 		else sceneAction = sceneActionComponents[action];
 	};
 
-	const deleteNote = (e: { detail: { uuid: string } }) =>
-		(value.notes = value.notes.filter((item) => item.uuid !== e.detail.uuid));
-
 	const handleChildCollapse = () => (allCollapsed = undefined);
 </script>
 
@@ -96,7 +93,6 @@
 			<svelte:component
 				this={scenes?.[selectedTab?.type]}
 				on:collapsed={handleChildCollapse}
-				on:deleteNote={deleteNote}
 				{selectedTab}
 				{allCollapsed}
 				{timers}

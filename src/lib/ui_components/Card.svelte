@@ -45,8 +45,8 @@
 
 	const handleActionButton = (e: { detail: { action: string } }) => {
 		const action = e.detail.action;
-		console.log(value);
 		if (action === 'DELETE_OBJECT') {
+			console.log(value, action);
 			dispatch('deleteNote', { uuid: value.uuid });
 		}
 	};
