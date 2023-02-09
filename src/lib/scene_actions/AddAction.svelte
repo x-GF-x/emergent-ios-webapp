@@ -3,15 +3,13 @@
 	import MultiSelectList from '$lib/inputs/generics/select/MultiSelectList.svelte';
 
 	import { cards } from '$lib/resource_file/ui/ui_cards';
-	import { createEventDispatcher } from 'svelte';
-	import { fly } from 'svelte/transition';
 	import { created_and_last_modified } from '$lib/fn/timestamp';
+	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	export let selectedTab: Tab;
 	selectedTab = selectedTab;
 	export let value: DataStorage;
-	value = value;
 
 	let options: DropDownOption[] = cards.map((item) => {
 		return { code: item.card_id, value: item.title, id: 0, type: '' };
@@ -24,7 +22,6 @@
 		if (!selectedItems.find((item) => item.value == option.code)) {
 			selectedItems = [...selectedItems, { value: option.code, label: option.value }];
 		} else selectedItems = selectedItems.filter((item) => item.value !== option.code);
-		console.log(selectedItems);
 	};
 
 	const updateItems = () => {
@@ -39,26 +36,12 @@
 </script>
 
 <Modal hideContainer on:backdropClick={() => dispatch('close')}>
-	<div class="container" transition:fly={{ duration: 500, y: 1000 }}>
-		<MultiSelectList
-			{selectedItems}
-			{updateItems}
-			{options}
-			field={{ title: 'Add Action' }}
-			on:close
-			on:selectOption={selectOption}
-		/>
-	</div>
+	<MultiSelectList
+		{selectedItems}
+		{updateItems}
+		{options}
+		field={{ title: 'Add Action' }}
+		on:close
+		on:selectOption={selectOption}
+	/>
 </Modal>
-
-<style>
-	.container {
-		position: relative;
-		top: 20vh;
-		width: 350px;
-		max-height: 440px;
-		overflow: auto;
-		margin: auto;
-		z-index: 100;
-	}
-</style>

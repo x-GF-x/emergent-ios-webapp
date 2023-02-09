@@ -14,7 +14,12 @@
 {#if dynamicIds}
 	{#each dynamicIds as dynamicId}
 		{#if dynamicId !== 'static_fields' && value[dynamicId] && dynamicSceneTypes[dynamicId]}
-			<svelte:component this={dynamicSceneTypes[dynamicId]} {value} {allCollapsed} />
+			<svelte:component
+				this={dynamicSceneTypes[dynamicId]}
+				{value}
+				{allCollapsed}
+				on:editTimestamp
+			/>
 		{/if}
 	{/each}
 {/if}

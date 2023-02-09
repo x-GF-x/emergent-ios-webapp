@@ -3,13 +3,15 @@
 
 	import { last_modified } from '$lib/fn/timestamp';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let value: DataStorage;
 	export let allCollapsed = false;
 </script>
 
 {#if value.actions}
-	{#each value.actions as card}
+	{#each value.actions as card, cardIndex}
 		{@const cardData = cards.find((item) => item.card_id === card.card_id)?.card_json}
 		{#if cardData && value.actions}
 			<Card
@@ -19,6 +21,7 @@
 				timestamp={card?.last_modified}
 				bind:value={card.fields}
 				on:modify={() => last_modified(card)}
+				on:editTimestamp={() => dispatch('editTimestamp', { section: 'actions', index: cardIndex })}
 			/>
 		{/if}
 	{/each}

@@ -2,14 +2,16 @@
 	import ModalBackdrop from '$lib/ui_components/modal/ModalBackdrop.svelte';
 
 	import { createEventDispatcher } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	export let hideContainer: boolean = false;
 	const dispatch = createEventDispatcher();
 </script>
 
 {#if hideContainer}
-	<slot />
+	<div class="minimalContainer" transition:fly={{ duration: 500, y: 1000 }}>
+		<slot />
+	</div>
 {:else}
 	<div class="modalContainer" transition:fade={{ duration: 150 }}>
 		<slot />
@@ -53,5 +55,15 @@
 		border-radius: 5px;
 		padding: 12px;
 		color: var(--light1);
+	}
+
+	.minimalContainer {
+		position: relative;
+		top: 20vh;
+		width: 350px;
+		max-height: 440px;
+		overflow: auto;
+		margin: auto;
+		z-index: 100;
 	}
 </style>

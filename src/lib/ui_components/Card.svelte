@@ -73,7 +73,7 @@
 				{#if typeof timestamp === 'string'}
 					<button
 						class="timestampButton"
-						on:click|stopPropagation={() => console.log(timestamp, value)}
+						on:click|stopPropagation={() => dispatch('editTimestamp')}
 					>
 						{timestamp.substring(0, 5)}
 					</button>
