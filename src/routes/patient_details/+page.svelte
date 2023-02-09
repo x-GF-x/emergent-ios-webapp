@@ -152,6 +152,7 @@
 	}
 	.patientSelect {
 		max-width: 250px;
+		height: 60px;
 	}
 	/* .swap {
 		background: var(--primary);
@@ -165,7 +166,7 @@
 	.addPerson {
 		color: var(--primary);
 		background: var(--light3);
-		height: 44px;
+		height: 60px;
 		border-radius: 5px;
 		margin-right: 10px;
 		font-weight: 500;
@@ -176,7 +177,7 @@
 	.endCall {
 		color: var(--light1);
 		background: var(--primary);
-		height: 44px;
+		height: 60px;
 		border-radius: 5px;
 		font-weight: 500;
 		white-space: nowrap;
@@ -201,7 +202,7 @@
 	}
 
 	.body {
-		overflow: auto;
+		overflow-y: scroll;
 		background: var(--light3);
 	}
 

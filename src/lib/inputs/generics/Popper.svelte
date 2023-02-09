@@ -56,6 +56,7 @@
 			class:iconToggle={props?.icon}
 			disabled={typeof props?.icon === 'string' || noneSelected}
 			class="toggleButton"
+			style:padding={type === 'multiSelect' ? 0 : '4px 8px 8px 16px'}
 			on:click={toggle}
 		>
 			{#if props?.icon}
@@ -88,6 +89,8 @@
 					class="material-symbols-outlined caret"
 					style:color={noneSelected ? 'lightgray' : toggleIcon?.color}
 					style={toggleIcon?.style}
+					style:padding={type === 'multiSelect' ? '0 12px' : '0'}
+					class:largeIcon={props}
 				>
 					{isOpen ? toggleIcon.open : toggleIcon.closed}
 				</div>
@@ -134,7 +137,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 4px 8px 8px 16px;
 	}
 
 	.toggleButton {
@@ -143,7 +145,6 @@
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		padding: 0;
 		font-size: 12pt;
 		font-weight: 500;
 	}
@@ -202,7 +203,12 @@
 		height: 100%;
 		display: flex;
 		align-items: center;
-		padding: 0 12px;
+	}
+
+	.largeIcon {
+		font-size: 42px;
+		font-weight: 100;
+		margin-top: 4px;
 	}
 
 	.value {

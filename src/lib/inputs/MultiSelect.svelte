@@ -209,7 +209,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 5px 10px;
+		padding: 5px 5px 5px 16px;
 	}
 
 	.selectedItem:nth-child(even) {

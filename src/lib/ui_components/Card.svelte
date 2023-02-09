@@ -160,7 +160,7 @@
 		align-items: center;
 		font-weight: 300;
 		font-size: 14pt;
-		margin: 0 10px 10px 10px;
+		margin: 0 16px 16px 16px;
 	}
 
 	.titleAndIcon {
@@ -201,7 +201,7 @@
 		flex-direction: row;
 		border: 1pt solid var(--border);
 		min-height: 40px;
-		justify-content: center;
+		justify-content: flex-start;
 	}
 
 	.row:not(:last-child) {
