@@ -7,7 +7,7 @@
 
 {#if multiline}
 	<!-- svelte-ignore a11y-autofocus -->
-	<textarea autofocus={fromModal ? true : false} bind:value cols="30" />
+	<textarea placeholder="Note" autofocus={fromModal ? true : false} bind:value cols="30" />
 {:else}
 	<input class="text" type="text" bind:value />
 {/if}
@@ -27,9 +27,10 @@
 	}
 
 	textarea {
-		height: 100px;
+		height: 270px;
 		font-family: inherit;
 		padding-top: 10px;
+		resize: vertical;
 	}
 
 	textarea:focus-visible,

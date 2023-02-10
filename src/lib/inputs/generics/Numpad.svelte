@@ -148,7 +148,7 @@
 				</div>
 			</div>
 		{:else}
-			<div class="error" style:height="22px" />
+			<div class="error" style:height="32px" />
 		{/if}
 	</div>
 	<div class="numPad">
@@ -189,6 +189,9 @@
 	.numpadControl {
 		background: var(--light1);
 		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		height: 424px;
 	}
 
 	.header {
@@ -220,7 +223,7 @@
 		display: flex;
 		align-items: baseline;
 		padding: 4px 16px;
-		max-width: 180px;
+		max-width: 224px;
 		overflow: hidden;
 	}
 
@@ -246,7 +249,7 @@
 		justify-content: center;
 		font-size: var(--fontSmall);
 		width: 100%;
-		height: 22px;
+		height: 32px;
 		background: var(--light3);
 	}
 
@@ -264,13 +267,13 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 25% 25% 25% 25%;
+		height: 100%;
 		background: var(--light3);
 		gap: 1px;
 	}
 
 	.numberButton {
 		font-size: var(--fontXL);
-		height: 50px;
 		min-width: 75px;
 		background: var(--light1);
 		font-weight: var(--weightBold);
@@ -295,6 +298,7 @@
 		align-items: center;
 		justify-content: center;
 		font-weight: var(--weightBold);
+		font-size: var(--fontXL);
 		color: var(--dark3);
 	}
 
@@ -305,7 +309,7 @@
 	}
 
 	.update {
-		height: 40px;
+		height: 60px;
 		width: 100%;
 		background: var(--primary);
 		color: white;

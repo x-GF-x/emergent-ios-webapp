@@ -99,6 +99,7 @@ interface SubField extends Field {
 	min?: number;
 	max?: number;
 	action?: string;
+	nv?: boolean;
 	data?: SubFieldData[];
 	//For drugs, manually set the available routes/units from the drug lookup
 	available_routes?: string[];
@@ -221,6 +222,7 @@ type CardJson = {
 			min?: number;
 			max?: number;
 			key?: string;
+			nv?: boolean;
 			splitFields?: SubField[];
 			subFields?: SubField[];
 		}[];

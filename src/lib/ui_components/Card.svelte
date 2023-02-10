@@ -55,15 +55,18 @@
 	$: {
 		if (allCollapsed !== undefined) collapsed = allCollapsed;
 	}
+
+	console.log(data);
 </script>
 
 {#if value}
+	{@const title = data.properties.title}
 	{#if !collapsible}
 		<div class="listHeader">
-			<div class="title">{data.properties.title}</div>
+			<div class="title">{title}</div>
 		</div>
 	{/if}
-	<div class="list">
+	<div class="list" class:hiddenList={title === 'Notes' && data.rows.length === 1}>
 		{#if collapsible}
 			<button class="listHeader collapsible" class:timestamp class:collapsed on:click={collapse}>
 				<div class="titleAndIcon">
@@ -94,27 +97,34 @@
 								style:width={width + '%'}
 								aria-label={field?.type}
 								class:multiSelect={field.type === 'multiSelect'}
-								class="field"
+								class="fieldContainer"
 							>
-								{#if !field.subFields && !field.splitFields}
-									<InputBuilder
-										{field}
-										{fromModal}
-										bind:value={value[field.id]}
-										on:modify
-										on:actionButton={(e) => handleActionButton(e)}
-										on:handlePn={handlePn}
-										on:handleNa={handleNa}
-									/>
-									<!-- Handling fields with subfields separately
+								<div class="fieldAndNv">
+									<div class="field">
+										{#if !field.subFields && !field.splitFields}
+											<InputBuilder
+												{field}
+												{fromModal}
+												bind:value={value[field.id]}
+												on:modify
+												on:actionButton={(e) => handleActionButton(e)}
+												on:handlePn={handlePn}
+												on:handleNa={handleNa}
+											/>
+											<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
-								{:else if field.type === 'age'}
-									<Age {field} bind:value />
-								{:else if field.type === 'drug'}
-									<Drug {chart} {field} bind:value />
-								{:else if field.splitFields}
-									<SplitNumeric bind:value {field} />
-								{/if}
+										{:else if field.type === 'age'}
+											<Age {field} bind:value />
+										{:else if field.type === 'drug'}
+											<Drug {chart} {field} bind:value />
+										{:else if field.splitFields}
+											<SplitNumeric bind:value {field} />
+										{/if}
+									</div>
+									{#if field.nv && field.type !== 'multiSelect'}
+										<button class="material-symbols-outlined notValue">block</button>
+									{/if}
+								</div>
 							</div>
 						{/each}
 					</div>
@@ -148,6 +158,12 @@
 		background: var(--light2);
 		border: var(--1pxBorder);
 		border-radius: 5px;
+	}
+
+	.hiddenList {
+		margin: 0;
+		background: none;
+		border: none;
 	}
 
 	.list:last-child {
@@ -211,13 +227,35 @@
 		border-bottom: none;
 	}
 
-	.field {
+	.fieldContainer {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		overflow: hidden;
 	}
-	.field:not(:last-child) {
+	.fieldContainer:not(:last-child) {
 		border-right: 1pt solid var(--border);
+	}
+
+	.fieldAndNv {
+		display: grid;
+		grid-template-columns: 1fr max-content;
+		align-items: center;
+	}
+
+	.field {
+		width: 100%;
+	}
+
+	.notValue {
+		border-left: var(--1pxBorder);
+		color: var(--dark2);
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		font-size: var(--fontXL);
 	}
 
 	.multiSelect {
