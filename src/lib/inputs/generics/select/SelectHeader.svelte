@@ -60,15 +60,15 @@
 
 <style>
 	/* .dropdown {
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 	} */
 
 	.dropdownLabel {
 		display: flex;
 		justify-content: center;
 		background: var(--light4);
-		font-weight: 500;
-		border-bottom: 1px solid var(--border);
+		font-weight: var(--weightBold);
+		border-bottom: var(--1pxBorder);
 		position: sticky;
 		top: 0;
 	}
@@ -92,10 +92,10 @@
 
 	.searchOpen {
 		color: var(--primary);
-		font-size: 14pt;
+		font-size: var(--fontLarge);
 	}
 
 	.close {
-		border-left: 1px solid var(--border);
+		border-left: var(--1pxBorder);
 	}
 </style>

@@ -188,7 +188,7 @@
 <style>
 	.numpadControl {
 		background: var(--light1);
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		border-radius: 10px;
 		width: max-content;
 	}
@@ -198,8 +198,8 @@
 		align-items: center;
 		justify-content: center;
 		text-align: start;
-		font-size: 12pt;
-		font-weight: 400;
+		font-size: var(--fontSmall);
+		font-weight: var(--weightSemiBold);
 	}
 
 	.inputWrapper {
@@ -231,7 +231,7 @@
 		background: none;
 		color: white;
 		margin-right: 5px;
-		font-size: 20pt;
+		font-size: var(--fontXXL);
 	}
 
 	.numInput:focus-visible {
@@ -239,14 +239,14 @@
 	}
 
 	.unit {
-		font-size: 10pt;
+		font-size: var(--fontSmall);
 	}
 
 	.error {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 14px;
+		font-size: var(--fontLarge);
 		width: 100%;
 		background: var(--light1);
 	}
@@ -254,7 +254,7 @@
 	.errorIcon {
 		color: orange;
 		margin-right: 10px;
-		font-size: 14px;
+		font-size: var(--fontLarge);
 	}
 
 	.errorMessage {
@@ -269,11 +269,11 @@
 	}
 
 	.numberButton {
-		font-size: 18pt;
+		font-size: var(--fontLarge);
 		height: 50px;
 		min-width: 75px;
 		background: var(--light1);
-		font-weight: 600;
+		font-weight: var(--weightBold);
 	}
 
 	.numberButton:hover {
@@ -294,7 +294,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-weight: 600;
+		font-weight: var(--weightBold);
 		color: var(--dark3);
 	}
 
@@ -310,12 +310,12 @@
 		background: var(--primary);
 		color: white;
 		border-radius: 5px;
-		font-size: 10pt;
-		font-weight: 400;
+		font-size: var(--fontSmall);
+		font-weight: var(--weightSemiBold);
 	}
 
 	.cancel {
-		font-size: 12pt;
+		font-size: var(--fontSmall);
 		cursor: pointer;
 		color: var(--light1);
 	}

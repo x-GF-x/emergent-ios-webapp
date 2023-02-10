@@ -180,7 +180,7 @@
 		height: 60px;
 		border-radius: 5px;
 		margin-right: 10px;
-		font-weight: 500;
+		font-weight: var(--weightBold);
 		white-space: nowrap;
 		padding: 0 16px;
 	}
@@ -190,7 +190,7 @@
 		background: var(--primary);
 		height: 60px;
 		border-radius: 5px;
-		font-weight: 500;
+		font-weight: var(--weightBold);
 		white-space: nowrap;
 		padding: 0 16px;
 	}
@@ -204,12 +204,12 @@
 	.tab {
 		border-bottom: 4px solid transparent;
 		min-width: max-content;
-		font-weight: 300;
+		font-weight: var(--weightRegular);
 	}
 
 	.selectedTab {
 		border-bottom: 4px solid var(--primary);
-		font-weight: 500;
+		font-weight: var(--weightBold);
 	}
 
 	.body {
@@ -218,8 +218,7 @@
 	}
 
 	.sceneHeader {
-		padding: 16px 0 0 16px;
-		margin-bottom: 10px;
+		padding: 8px 0 0 16px;
 		/* If you want sticky */
 		position: sticky;
 		top: 0;
@@ -233,25 +232,26 @@
 	}
 
 	.label {
-		font-size: 24px;
-		font-weight: 500;
+		font-size: var(--fontXL);
+		font-weight: var(--weightBold);
 	}
 
 	.sceneAction {
 		color: var(--primary);
+		font-weight: var(--weightBold);
 		padding: 0px 16px;
 	}
 
 	.sceneTab {
 		padding: 10px 0;
 		color: var(--primary);
-		font-weight: 300;
+		font-weight: var(--weightRegular);
 	}
 
 	.sceneTab:not(:last-child) {
 		margin-right: 7px;
 		padding-right: 7px;
-		border-right: 1px solid var(--border);
+		border-right: var(--1pxBorder);
 	}
 
 	.footer {
@@ -277,7 +277,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 	}
 
 	.footerItem:not(:last-child) {

@@ -41,8 +41,8 @@
 <style>
 	.fieldTitle {
 		padding: 8px 8px 0 16px;
-		font-weight: 300;
-		font-size: 10pt;
+		font-weight: var(--weightRegular);
+		font-size: var(--fontSmall);
 		color: var(--dark2);
 	}
 </style>

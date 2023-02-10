@@ -60,7 +60,10 @@
 		<div class="section">
 			{#if title}
 				<div class="sectionHeader">
-					{title}
+					<div class="sectionTitle">
+						{title}
+					</div>
+					<div class="dottedLine" />
 				</div>
 			{/if}
 			<div class="sectionBody">
@@ -84,7 +87,7 @@
 						class:disabled
 						{disabled}
 					>
-						{#if matchingCards?.length && !disabled && chart.type !== 'secondary'}
+						{#if matchingCards?.length && !disabled}
 							<div class="replayNumber">
 								<div class="matchingCardsLength">
 									{matchingCards.length}
@@ -103,9 +106,8 @@
 								<div class="timestamp">
 									{#if chart.type === 'timed'}
 										{#if !lastInstance && chart.interval}
-											Perform every <b>
-												{new Date(chart.interval * 1000).toISOString().slice(11, 19)}
-											</b>
+											Perform every
+											{new Date(chart.interval * 1000).toISOString().slice(11, 19)}
 										{:else if lastInstance && chart.interval}
 											<Timer
 												deadline={timers[chartCardId].deadline}
@@ -141,23 +143,35 @@
 		display: grid;
 	}
 	.sectionHeader {
-		border-bottom: 1px solid var(--border);
-		margin: 10px;
+		margin: 10px 16px;
+		display: flex;
+	}
+
+	.sectionTitle {
+		margin-top: -5px;
+		margin-right: 5px;
+	}
+
+	.dottedLine {
+		background-image: url('/quick_chart_section_header_dots@3x.png');
+		background-repeat: repeat-x;
+		background-size: 4px;
+		width: 100%;
 	}
 
 	.sectionBody {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		gap: 20px;
-		padding: 20px;
+		gap: 8pt;
+		padding: 16px;
 	}
 
 	.cardButton {
 		color: var(--primary);
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		background: var(--light1);
-		padding: 10px;
-		min-height: 60px;
+		padding: 15px 10px;
+		min-height: 68px;
 		text-align: start;
 		display: flex;
 		align-items: center;
@@ -173,21 +187,20 @@
 	}
 
 	.buttonTitle {
-		font-weight: 500;
+		font-weight: var(--weightBold);
 	}
 
 	.replayNumber {
 		height: 30px;
 		position: relative;
 		text-align: center;
-		width: 60px;
 		display: flex;
 		margin-top: 5px;
 		margin-left: -10px;
 	}
 
 	.matchingCardsLength {
-		width: 100%;
+		width: 54px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -197,13 +210,14 @@
 		font-size: 40pt;
 		font-weight: 100;
 		top: -15px;
-		width: 100%;
 		position: absolute;
+		transform: scaleX(-1);
 	}
 
 	.timestamp {
 		color: var(--dark1);
-		font-size: 10pt;
+		font-size: var(--fontXS);
+		font-weight: var(--weightBold);
 	}
 
 	.redTimer {

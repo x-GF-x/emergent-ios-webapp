@@ -47,7 +47,7 @@
 
 	.cancel {
 		color: var(--primary);
-		font-weight: 600;
+		font-weight: var(--weightBold);
 	}
 
 	.update {

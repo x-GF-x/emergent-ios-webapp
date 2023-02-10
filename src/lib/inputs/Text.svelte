@@ -16,8 +16,8 @@
 	textarea,
 	.text {
 		border: none;
-		font-size: 12pt;
-		font-weight: 500;
+		font-size: var(--fontSmall);
+		font-weight: var(--weightBold);
 		caret-color: var(--primary);
 		padding-left: 10px;
 	}

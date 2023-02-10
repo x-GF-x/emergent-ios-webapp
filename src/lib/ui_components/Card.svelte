@@ -146,7 +146,7 @@
 		max-width: 1200px;
 		margin: 0 16px 16px 16px;
 		background: var(--light2);
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		border-radius: 5px;
 	}
 
@@ -157,8 +157,8 @@
 	.listHeader {
 		display: flex;
 		align-items: center;
-		font-weight: 300;
-		font-size: 14pt;
+		font-weight: var(--weightRegular);
+		font-size: var(--fontLarge);
 		margin: 0 16px 16px 16px;
 	}
 
@@ -166,7 +166,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		font-weight: 500;
+		font-weight: var(--weightBold);
 	}
 
 	.cardTitle {
@@ -176,10 +176,10 @@
 	.collapsible {
 		margin: 0;
 		color: var(--secondary);
-		font-size: 12pt;
+		font-size: var(--fontSmall);
 		margin-bottom: 0;
 		padding: 10px;
-		border-bottom: 1px solid var(--border);
+		border-bottom: var(--1pxBorder);
 	}
 
 	.collapsed {

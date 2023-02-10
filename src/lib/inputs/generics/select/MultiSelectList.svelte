@@ -66,13 +66,13 @@
 		background: var(--light1);
 		align-items: center;
 		padding: 0 10px;
-		border-top: 1px solid var(--border);
+		border-top: var(--1pxBorder);
 		position: sticky;
 		bottom: 0;
 	}
 
 	.numberOfSelections {
-		font-weight: 400;
+		font-weight: var(--weightSemiBold);
 	}
 
 	.updateItems {

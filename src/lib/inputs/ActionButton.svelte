@@ -16,7 +16,7 @@
 		height: 100%;
 		border: none;
 		text-align: end;
-		font-weight: 500;
-		font-size: 14px;
+		font-weight: var(--weightBold);
+		font-size: var(--fontLarge);
 	}
 </style>

@@ -62,7 +62,7 @@
 	}
 
 	.scoreField:not(:last-child) {
-		border-bottom: 1px solid var(--border);
+		border-bottom: var(--1pxBorder);
 	}
 
 	.score {
@@ -70,19 +70,19 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		border-left: 1px solid var(--border);
+		border-left: var(--1pxBorder);
 		background: var(--light4);
-		font-weight: 500;
+		font-weight: var(--weightBold);
 	}
 
 	.result {
-		font-size: 50pt;
+		font-size: var(--fontScore);
 	}
 
 	.fieldTitle {
 		padding: 8px 8px 0 16px;
-		font-weight: 300;
-		font-size: 10pt;
+		font-weight: var(--weightRegular);
+		font-size: var(--fontSmall);
 		color: var(--light4);
 	}
 </style>

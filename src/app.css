@@ -10,16 +10,29 @@
 	--dark3: #9b9b9b;
 	--border: #d8d8d8;
 	--active4: #e8c3c7;
+
+	--fontXS: 10pt;
+	--fontSmall: 12pt;
+	--fontRegular: 16pt;
+	--fontXL: 24pt;
+	--fontXXL: 32pt;
+	--fontScore: 72pt;
+
+	--weightRegular: 300;
+	--weightSemiBold: 400;
+	--weightBold: 500;
+
+	--1pxBorder: 1px solid var(--border);
 }
 
 body {
-	font-weight: 300;
+	font-weight: var(--weightRegular);
 }
 
 input {
 	font-family: 'Inter';
-	font-size: 12pt;
-	font-weight: 500;
+	font-size: var(--fontSmall);
+	font-weight: var(--weightBold);
 }
 
 input:not(.numInput) {
@@ -30,7 +43,7 @@ button {
 	border: none;
 	background: none;
 	cursor: pointer;
-	font-size: 12pt;
+	font-size: var(--fontSmall);
 	font-family: 'Inter';
 }
 

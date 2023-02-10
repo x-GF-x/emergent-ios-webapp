@@ -126,7 +126,7 @@
 	}
 
 	.popperBorder {
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 	}
 
 	.closed {
@@ -145,8 +145,8 @@
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		font-size: 12pt;
-		font-weight: 500;
+		font-size: var(--fontSmall);
+		font-weight: var(--weightBold);
 	}
 
 	.paddingDisabled {
@@ -168,7 +168,7 @@
 		display: flex;
 		align-items: center;
 		padding: 10px;
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		border-radius: 5px;
 	}
 
@@ -184,7 +184,7 @@
 	.multiNone {
 		display: flex;
 		align-items: center;
-		font-weight: 300;
+		font-weight: var(--weightRegular);
 		color: var(--dark1);
 	}
 
@@ -203,11 +203,11 @@
 		height: 100%;
 		display: flex;
 		align-items: center;
-		font-weight: 300;
+		font-weight: var(--weightRegular);
 	}
 
 	.largeIcon {
-		font-size: 42px;
+		font-size: var(--fontXXL);
 		font-weight: 100;
 		margin-top: 4px;
 	}

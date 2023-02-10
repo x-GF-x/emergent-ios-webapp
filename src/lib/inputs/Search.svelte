@@ -27,14 +27,14 @@
 		justify-content: center;
 		padding: 10px;
 		background: var(--light4);
-		font-weight: 500;
-		border-bottom: 1px solid var(--border);
+		font-weight: var(--weightBold);
+		border-bottom: var(--1pxBorder);
 	}
 
 	.search {
 		width: 100%;
 		padding: 10px;
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		border-left: 0;
 		border-radius: 0 10px 10px 0;
 	}
@@ -48,7 +48,7 @@
 		display: flex;
 		align-items: center;
 		background: white;
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		border-right: 0;
 		border-radius: 10px 0 0 10px;
 	}

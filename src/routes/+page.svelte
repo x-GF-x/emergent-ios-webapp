@@ -153,7 +153,7 @@
 		width: 100%;
 		cursor: pointer;
 		color: var(--dark3);
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		background-color: var(--light0);
 	}
 	.selectedTab {
@@ -171,7 +171,7 @@
 		display: grid;
 		grid-template-columns: 120px 75px 75px 1fr 50px;
 		background: var(--light1);
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		border-top: none;
 	}
 
@@ -180,7 +180,7 @@
 	}
 
 	.bodyHeaderValue {
-		font-weight: 400;
+		font-weight: var(--weightSemiBold);
 	}
 
 	.cell {
@@ -188,7 +188,7 @@
 	}
 
 	.cell:not(:last-of-type) {
-		border-right: 1px solid var(--border);
+		border-right: var(--1pxBorder);
 	}
 
 	.editBodyHeader {
@@ -198,14 +198,14 @@
 	.bodyGrid {
 		display: grid;
 		grid-template-columns: 33.3% 1fr;
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		border-top: none;
 	}
 
 	.list {
 		display: flex;
 		flex-direction: column;
-		border-right: 1px solid var(--border);
+		border-right: var(--1pxBorder);
 	}
 	.calls {
 		display: flex;
@@ -222,7 +222,7 @@
 	.callButton {
 		display: flex;
 		flex-direction: row;
-		border-bottom: 1px solid var(--border);
+		border-bottom: var(--1pxBorder);
 		background: var(--light1);
 		text-align: initial;
 	}
@@ -248,7 +248,7 @@
 	.callSmall {
 		display: flex;
 		flex-direction: column;
-		font-size: 10pt;
+		font-size: var(--fontSmall);
 	}
 
 	.callArrow {
@@ -262,7 +262,7 @@
 		grid-template-rows: 70% 30%;
 		margin: 10px;
 		padding: 10px;
-		border: 1px solid var(--border);
+		border: var(--1pxBorder);
 		background: var(--light2);
 	}
 
@@ -290,6 +290,6 @@
 		text-decoration: none;
 	}
 	.selectedUnits {
-		font-size: 20pt;
+		font-size: var(--fontLarge);
 	}
 </style>

@@ -149,7 +149,7 @@
 		open: 'add',
 		closed: 'add',
 		color: 'var(--primary)',
-		style: 'border-left:1px solid var(--border);'
+		style: 'border-left:var(--1pxBorder);'
 	}}
 	on:noneSelected={(e) => handleNoneSelected(e)}
 >
@@ -202,7 +202,7 @@
 
 <style>
 	.selectedItemsList {
-		border-top: 1px solid var(--border);
+		border-top: var(--1pxBorder);
 	}
 
 	.selectedItem {
@@ -223,6 +223,6 @@
 
 	.embeddedSelections {
 		padding: 0 0 0 20px;
-		border-top: 1px solid var(--border);
+		border-top: var(--1pxBorder);
 	}
 </style>
