@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ModalBackdrop from '$lib/ui_components/modal/ModalBackdrop.svelte';
 
-	import { reposition, createPopper } from 'nanopop';
+	import * as nanopop from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import { fly } from 'svelte/transition';
 
@@ -24,7 +24,7 @@
 		isOpen = !isOpen;
 		if (isOpen) {
 			if (!modal) {
-				reposition(toggleButton, popper, {
+				nanopop.reposition(toggleButton, popper, {
 					position: hidePopperButton ? 'top-end' : 'bottom-middle'
 				});
 			}
@@ -33,7 +33,7 @@
 	};
 
 	onMount(() => {
-		if (!modal) createPopper(toggleButton, popper);
+		if (!modal) nanopop.createPopper(toggleButton, popper);
 	});
 </script>
 
