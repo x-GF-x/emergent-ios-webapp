@@ -27,12 +27,14 @@
 
 body {
 	font-weight: var(--weightRegular);
+	box-sizing: border-box;
 }
 
 input {
 	font-family: 'Inter';
 	font-size: var(--fontSmall);
 	font-weight: var(--weightBold);
+	box-sizing: border-box;
 }
 
 input:not(.numInput) {
@@ -45,6 +47,7 @@ button {
 	cursor: pointer;
 	font-size: var(--fontSmall);
 	font-family: 'Inter';
+	box-sizing: border-box;
 }
 
 html {

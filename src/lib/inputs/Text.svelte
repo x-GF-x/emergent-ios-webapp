@@ -24,6 +24,8 @@
 
 	.text {
 		padding: 2px 8px 8px 16px;
+		width: 100%;
+		background: transparent;
 	}
 
 	textarea {

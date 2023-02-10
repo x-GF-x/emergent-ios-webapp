@@ -123,7 +123,7 @@
 				value: noneSelected
 			});
 		} else {
-			dispatch('handleNa', {
+			dispatch('handleNv', {
 				field: field,
 				value: noneSelected
 			});

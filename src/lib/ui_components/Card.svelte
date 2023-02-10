@@ -33,14 +33,18 @@
 		value[e.detail.field.id + '_pn'] = undefined;
 		$dataStorageAccessor = $dataStorageAccessor;
 		if (e.detail.value) {
-			pnField = e.detail.field;
-			await tick().then(() => pnSelector?.toggle());
+			if (e.detail.field.pn?.length === 1) {
+				value[e.detail.field.id + '_pn'] = e.detail.field.pn[0].code;
+			} else {
+				pnField = e.detail.field;
+				await tick().then(() => pnSelector?.toggle());
+			}
 		}
 	};
 
-	const handleNa = (e: { detail: { field: Field; value: boolean } }) => {
-		if (!value[e.detail.field.id + '_na']) value[e.detail.field.id + '_na'] = true;
-		else value[e.detail.field.id + '_na'] = false;
+	const handleNv = (e: { detail: { field: Field; value: boolean } }) => {
+		if (!value[e.detail.field.id + '_nv']) value[e.detail.field.id + '_nv'] = true;
+		else value[e.detail.field.id + '_nv'] = false;
 		console.log(value);
 	};
 
@@ -98,6 +102,8 @@
 								aria-label={field?.type}
 								class:multiSelect={field.type === 'multiSelect'}
 								class="fieldContainer"
+								class:disabled={(value[field.id + '_nv'] || value[field.id + '_pn']) &&
+									field.type !== 'multiSelect'}
 							>
 								<div class="fieldAndNv">
 									<div class="field">
@@ -109,7 +115,7 @@
 												on:modify
 												on:actionButton={(e) => handleActionButton(e)}
 												on:handlePn={handlePn}
-												on:handleNa={handleNa}
+												on:handleNv={handleNv}
 											/>
 											<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
@@ -121,8 +127,24 @@
 											<SplitNumeric bind:value {field} />
 										{/if}
 									</div>
-									{#if field.nv && field.type !== 'multiSelect'}
-										<button class="material-symbols-outlined notValue">block</button>
+									{#if (field.nv || field.pn) && field.type !== 'multiSelect'}
+										<button
+											class="material-symbols-outlined notValue"
+											on:click={() => {
+												let matchingValue = field.nv
+													? value[field.id + '_nv']
+														? true
+														: false
+													: value[field.id + '_pn']
+													? false
+													: true;
+												field.nv
+													? handleNv({ detail: { field: field, value: matchingValue } })
+													: handlePn({ detail: { field: field, value: matchingValue } });
+											}}
+										>
+											block
+										</button>
 									{/if}
 								</div>
 							</div>
@@ -248,14 +270,14 @@
 	}
 
 	.notValue {
-		border-left: var(--1pxBorder);
-		color: var(--dark2);
-		height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		height: 100%;
 		width: 60px;
+		color: var(--dark3);
 		font-size: var(--fontXL);
+		border-left: var(--1pxBorder);
 	}
 
 	.multiSelect {
@@ -269,5 +291,9 @@
 		align-items: flex-end;
 		height: max-content;
 		min-height: 30px;
+	}
+
+	.disabled {
+		background: var(--border);
 	}
 </style>

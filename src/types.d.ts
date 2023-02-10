@@ -90,7 +90,7 @@ interface Field {
 	splitFields?: Field[];
 	action?: string;
 	multiline?: boolean;
-	pn?: { code: string; description: string }[];
+	pn?: PnOption[];
 }
 
 type SubFieldData = { id: number; type: string; code: string; value: string };
@@ -223,6 +223,7 @@ type CardJson = {
 			max?: number;
 			key?: string;
 			nv?: boolean;
+			pn?: PnOption[];
 			splitFields?: SubField[];
 			subFields?: SubField[];
 		}[];

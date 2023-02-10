@@ -32,7 +32,7 @@
 			on:setDate
 			on:changeDrug
 			on:handlePn
-			on:handleNa
+			on:handleNv
 			on:actionButton
 		/>
 	{/if}
