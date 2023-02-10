@@ -23,7 +23,7 @@
 	}
 
 	.text {
-		padding: 4px 8px 8px 16px;
+		padding: 2px 8px 8px 16px;
 	}
 
 	textarea {

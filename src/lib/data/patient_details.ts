@@ -74,10 +74,11 @@ export const sceneActionComponents = {
 	add_photo: undefined
 };
 
+//These ids are not all accurate- specifically spO2
 export const footerItems = [
-	{ label: 'Pulse', id: 'pulse' },
-	{ label: 'Respirations', id: 'respirations' },
-	{ label: 'Blood Pressure', id: 'blood_pressure' },
-	{ label: 'SpO2', id: 'sp02' },
-	{ label: 'ETC02', id: 'etc02' }
+	{ label: 'Pulse', id: 'eVitals12' },
+	{ label: 'Respirations', id: 'eVitals14' },
+	{ label: 'Blood Pressure', id: 'eVitals09' },
+	{ label: 'SpO2', id: 'eVitals18' },
+	{ label: 'ETC02', id: 'eVitals16' }
 ];

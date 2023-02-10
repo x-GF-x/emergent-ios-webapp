@@ -84,6 +84,11 @@
 			}
 		}
 	}
+
+	$: {
+		if (typeof value === 'string') value = value.replace(/[^0-9./]/g, '');
+		if (!value) value = '';
+	}
 </script>
 
 <div class="numpadControl">
@@ -99,7 +104,7 @@
 						max={'max' in field ? field.max : ''}
 						min={'min' in field ? field.min : ''}
 						style:width={value || value === 0 ? value.toString().length + 'ch' : '10px'}
-						class="input"
+						class="numInput"
 						bind:value
 						type="text"
 						on:keypress={(e) => {
@@ -221,7 +226,7 @@
 		overflow: hidden;
 	}
 
-	.input {
+	.numInput {
 		border: none;
 		background: none;
 		color: white;
@@ -229,7 +234,7 @@
 		font-size: 20pt;
 	}
 
-	.input:focus-visible {
+	.numInput:focus-visible {
 		outline: none;
 	}
 
@@ -266,7 +271,7 @@
 	.numberButton {
 		font-size: 18pt;
 		height: 50px;
-		width: 75px;
+		min-width: 75px;
 		background: var(--light1);
 		font-weight: 600;
 	}

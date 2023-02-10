@@ -71,7 +71,7 @@
 		align-items: center;
 		flex-direction: column;
 		border-left: 1px solid var(--border);
-		background: var(--dark2);
+		background: var(--light4);
 		font-weight: 500;
 	}
 
@@ -83,6 +83,6 @@
 		padding: 8px 8px 0 16px;
 		font-weight: 300;
 		font-size: 10pt;
-		color: var(--dark3);
+		color: var(--light4);
 	}
 </style>

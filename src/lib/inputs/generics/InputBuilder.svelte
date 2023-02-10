@@ -43,6 +43,6 @@
 		padding: 8px 8px 0 16px;
 		font-weight: 300;
 		font-size: 10pt;
-		color: var(--dark3);
+		color: var(--dark2);
 	}
 </style>

@@ -66,7 +66,7 @@
 	.dropdownLabel {
 		display: flex;
 		justify-content: center;
-		background: var(--dark2);
+		background: var(--light4);
 		font-weight: 500;
 		border-bottom: 1px solid var(--border);
 		position: sticky;

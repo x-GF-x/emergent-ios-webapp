@@ -6,7 +6,7 @@
 	--light3: #f2f2f2;
 	--light4: #f4f9ff;
 	--dark1: #000000d0;
-	--dark2: #f4f9ff;
+	--dark2: #4a4a4a;
 	--dark3: #9b9b9b;
 	--border: #d8d8d8;
 	--active4: #e8c3c7;
@@ -20,7 +20,10 @@ input {
 	font-family: 'Inter';
 	font-size: 12pt;
 	font-weight: 500;
-	padding: 4px 8px 8px 16px;
+}
+
+input:not(.numInput) {
+	padding: 2px 8px 8px 16px;
 }
 
 button {

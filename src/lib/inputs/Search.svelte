@@ -26,7 +26,7 @@
 		display: flex;
 		justify-content: center;
 		padding: 10px;
-		background: var(--dark2);
+		background: var(--light4);
 		font-weight: 500;
 		border-bottom: 1px solid var(--border);
 	}

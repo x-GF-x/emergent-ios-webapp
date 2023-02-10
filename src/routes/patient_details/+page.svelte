@@ -27,6 +27,8 @@
 	};
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
+
+	$: console.log(value);
 </script>
 
 {#if sceneAction}
@@ -107,11 +109,20 @@
 	<section class="footer">
 		<!-- <button class="protocols">Protocols</button> -->
 		{#each footerItems as footerItem}
+			{@const mostRecentVitals = value.actions.find(
+				(item) => item.card_id === 'vital_signs'
+			)?.fields}
 			<div class="footerItem">
 				<div class="footerItemHeader">
 					{footerItem.label}
 				</div>
-				<div class="footerItemValue">-</div>
+				<div class="footerItemValue">
+					{#if mostRecentVitals?.[footerItem.id]}
+						{mostRecentVitals[footerItem.id]}
+					{:else}
+						-
+					{/if}
+				</div>
 			</div>
 		{/each}
 	</section>

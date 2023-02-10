@@ -56,7 +56,7 @@
 			class:iconToggle={props?.icon}
 			disabled={typeof props?.icon === 'string' || noneSelected}
 			class="toggleButton"
-			style:padding={type === 'multiSelect' ? 0 : '4px 8px 8px 16px'}
+			style:padding={type === 'multiSelect' ? 0 : '2px 4px 8px 16px'}
 			on:click={toggle}
 		>
 			{#if props?.icon}
@@ -199,10 +199,11 @@
 	}
 
 	.caret {
-		color: var(--dark3);
+		color: var(--dark2);
 		height: 100%;
 		display: flex;
 		align-items: center;
+		font-weight: 300;
 	}
 
 	.largeIcon {
