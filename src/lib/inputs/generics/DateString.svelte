@@ -29,7 +29,7 @@
 					value?.charAt(0) === '1' ? arrayBuilder(3) : oneNine,
 					['/'],
 					arrayBuilder(4),
-					value?.charAt(3) === '3' ? arrayBuilder(2) : oneNine,
+					value?.charAt(3) === '3' ? arrayBuilder(2) : zeroNine,
 					['/'],
 					['1', '2'],
 					value?.charAt(6) === '1' ? ['9'] : ['0'],
@@ -79,7 +79,7 @@
 		bind:value
 		on:keypress={(e) => {
 			setLastKey(e.key);
-			if (e.key === 'Enter') dispatch('update');
+			if (e.key === 'Enter' && !error) dispatch('update');
 		}}
 	/>
 </div>
@@ -87,12 +87,12 @@
 <style>
 	input {
 		border: none;
-		margin-left: 5px;
 		background: none;
 		width: 100%;
 		height: 100%;
-		padding: 10px 0;
+		padding: 4px 16px;
 		color: var(--light1);
+		font-size: var(--fontXL);
 	}
 
 	input:focus-visible {

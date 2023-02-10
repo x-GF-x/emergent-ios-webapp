@@ -26,7 +26,7 @@
 		display: flex;
 		justify-content: center;
 		padding: 10px;
-		background: var(--light4);
+		background: var(--light2);
 		font-weight: var(--weightBold);
 		border-bottom: var(--1pxBorder);
 	}

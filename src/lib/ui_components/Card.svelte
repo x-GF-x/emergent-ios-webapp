@@ -144,7 +144,7 @@
 		display: flex;
 		flex-direction: column;
 		max-width: 1200px;
-		margin: 0 16px 16px 16px;
+		margin: 16px 16px 0px 16px;
 		background: var(--light2);
 		border: var(--1pxBorder);
 		border-radius: 5px;

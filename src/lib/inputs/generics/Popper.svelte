@@ -101,9 +101,8 @@
 		<div
 			transition:fly={{ duration: modal ? 500 : 0, y: 1000 }}
 			bind:this={popper}
-			class="popper {!isOpen && !modal ? 'closed' : ''}"
+			class="popper {!isOpen && !modal ? 'closed' : ''} {!modal ? 'boxShadow' : ''}"
 			class:modal
-			class:popperBorder={type === 'multiSelect' || type === 'singleSelect'}
 			on:mouseenter={() => (overPopper = true)}
 			on:mouseleave={() => (overPopper = false)}
 		>
@@ -119,14 +118,16 @@
 <style>
 	.popper {
 		position: fixed;
-		width: 350px;
-		max-height: 440px;
+		width: 290px;
+		max-height: 424px;
 		overflow: auto;
 		z-index: 100;
+		border-radius: 10px;
 	}
 
-	.popperBorder {
-		border: var(--1pxBorder);
+	.boxShadow {
+		box-shadow: 5px 5px 80px 20px lightgrey;
+		width: max-content;
 	}
 
 	.closed {
@@ -217,8 +218,9 @@
 	}
 
 	.modal {
-		width: 50vh;
-		top: 20vh !important;
+		width: 452px;
+		top: 20vh;
 		z-index: 100;
+		max-height: 660px;
 	}
 </style>

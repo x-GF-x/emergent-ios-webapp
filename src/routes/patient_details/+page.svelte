@@ -218,7 +218,7 @@
 	}
 
 	.sceneHeader {
-		padding: 8px 0 0 16px;
+		padding: 16px 0 0 16px;
 		/* If you want sticky */
 		position: sticky;
 		top: 0;
@@ -228,12 +228,11 @@
 	.headerAndActionButton {
 		display: flex;
 		justify-content: space-between;
-		margin: 5px 0;
 	}
 
 	.label {
 		font-size: var(--fontXL);
-		font-weight: var(--weightBold);
+		font-weight: var(--weightSemiBold);
 	}
 
 	.sceneAction {

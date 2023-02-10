@@ -24,11 +24,11 @@
 	const selectNumber = (number: number) => {
 		if (!disabled) {
 			if (type === 'numeric') {
-				if (value) value = value + '' + number;
+				if (value || value === 0) value = value + '' + number;
 				else value = number;
 			} else if (type === 'date') {
 				datestring.setLastKey('any');
-				if (value) value = value + '' + number;
+				if (value || value === 0) value = value + '' + number.toString();
 				else value = number.toString();
 			}
 		}
@@ -86,12 +86,12 @@
 	}
 
 	$: {
-		if (typeof value === 'string') value = value.replace(/[^0-9./]/g, '');
-		if (!value) value = '';
+		if (typeof value === 'string') value = value.replace(/[^0-9./:]/g, '');
+		if (!value && value !== 0) value = '';
 	}
 </script>
 
-<div class="numpadControl">
+<div class="numpadControl" style:width={style === 'time' ? '290px' : '290px'}>
 	<div class="header">
 		<div class="label">{field.title}</div>
 	</div>
@@ -111,7 +111,7 @@
 							if (disabled && typeof value === 'string') {
 								value = value.substring(0, value.length - 1);
 							}
-							if (e.key === 'Enter') dispatch('update', { value: value });
+							if (e.key === 'Enter' && !error) dispatch('update', { value: value });
 						}}
 					/>
 					{#if field.unitText}
@@ -148,7 +148,7 @@
 				</div>
 			</div>
 		{:else}
-			<div class="error" style:height="17px" />
+			<div class="error" style:height="22px" />
 		{/if}
 	</div>
 	<div class="numPad">
@@ -188,10 +188,9 @@
 <style>
 	.numpadControl {
 		background: var(--light1);
-		border: var(--1pxBorder);
 		border-radius: 10px;
-		width: max-content;
 	}
+
 	.header {
 		padding: 10px 5px;
 		display: grid;
@@ -212,16 +211,15 @@
 	}
 
 	.inputAndClear {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr 40px;
 		width: 100%;
-		justify-content: space-between;
 	}
 
 	.inputAndUnit {
 		display: flex;
 		align-items: baseline;
-		padding: 10px 0;
-		margin-left: 10px;
+		padding: 4px 16px;
 		max-width: 180px;
 		overflow: hidden;
 	}
@@ -231,7 +229,7 @@
 		background: none;
 		color: white;
 		margin-right: 5px;
-		font-size: var(--fontXXL);
+		font-size: var(--fontXL);
 	}
 
 	.numInput:focus-visible {
@@ -246,9 +244,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--fontLarge);
+		font-size: var(--fontSmall);
 		width: 100%;
-		background: var(--light1);
+		height: 22px;
+		background: var(--light3);
 	}
 
 	.errorIcon {
@@ -263,13 +262,14 @@
 
 	.numPad {
 		display: grid;
-		grid-template-columns: 33.3% 33.3% 33.3%;
+		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 25% 25% 25% 25%;
 		background: var(--light3);
+		gap: 1px;
 	}
 
 	.numberButton {
-		font-size: var(--fontLarge);
+		font-size: var(--fontXL);
 		height: 50px;
 		min-width: 75px;
 		background: var(--light1);

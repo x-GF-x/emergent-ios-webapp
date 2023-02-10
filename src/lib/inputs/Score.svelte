@@ -77,6 +77,7 @@
 
 	.result {
 		font-size: var(--fontScore);
+		font-weight: var(--weightSemiBold);
 	}
 
 	.fieldTitle {

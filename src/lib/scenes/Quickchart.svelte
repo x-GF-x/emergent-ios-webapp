@@ -175,6 +175,7 @@
 		text-align: start;
 		display: flex;
 		align-items: center;
+		/* max-width: 234pt; */
 	}
 
 	.disabled {
