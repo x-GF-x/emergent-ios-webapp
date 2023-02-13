@@ -91,6 +91,7 @@ interface Field {
 	action?: string;
 	multiline?: boolean;
 	pn?: PnOption[];
+	nv?: boolean;
 }
 
 type SubFieldData = { id: number; type: string; code: string; value: string };

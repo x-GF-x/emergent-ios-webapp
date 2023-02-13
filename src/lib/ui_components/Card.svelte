@@ -29,17 +29,39 @@
 		dispatch('collapsed');
 	};
 
-	const handlePn = async (e: { detail: { field: Field; value: boolean } }) => {
-		value[e.detail.field.id + '_pn'] = undefined;
-		$dataStorageAccessor = $dataStorageAccessor;
-		if (e.detail.value) {
-			if (e.detail.field.pn?.length === 1) {
-				value[e.detail.field.id + '_pn'] = e.detail.field.pn[0].code;
+	const setPnSelection = (e: { detail: { value: string } }) => {
+		if (pnField?.id) {
+			const selectedCode = e.detail.value;
+			if (selectedCode === 'nv') {
+				value[pnField.id + '_nv'] = true;
+				value[pnField.id + '_pn'] = undefined;
 			} else {
-				pnField = e.detail.field;
-				await tick().then(() => pnSelector?.toggle());
+				value[pnField.id + '_pn'] = selectedCode;
+				value[pnField.id + '_nv'] = undefined;
 			}
+			$dataStorageAccessor = $dataStorageAccessor;
 		}
+	};
+
+	const openPnSelector = async (field: Field) => {
+		pnField = field;
+		if (Array.isArray(pnField.pn) && pnField.nv && !pnField.pn.find((item) => item.code === 'nv')) {
+			pnField.pn = [...pnField.pn, { code: 'nv', description: 'None' }];
+		}
+		await tick().then(() => pnSelector?.toggle());
+	};
+
+	const handlePn = (e: { detail: { field: Field; value: boolean } }) => {
+		const { field } = e.detail;
+		value[field.id + '_pn'] = undefined;
+		value[field.id + '_nv'] = undefined;
+		if (pnField) pnField = undefined; //Close popover if open
+		else if (e.detail.value) {
+			if (field.pn?.length === 1 && !field?.nv) {
+				value[field.id + '_pn'] = field.pn[0].code;
+			} else openPnSelector(field);
+		}
+		$dataStorageAccessor = $dataStorageAccessor;
 	};
 
 	const handleNv = (e: { detail: { field: Field; value: boolean } }) => {
@@ -59,8 +81,6 @@
 	$: {
 		if (allCollapsed !== undefined) collapsed = allCollapsed;
 	}
-
-	console.log(data);
 </script>
 
 {#if value}
@@ -96,7 +116,6 @@
 					>
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
-
 							<div
 								style:width={width + '%'}
 								aria-label={field?.type}
@@ -131,16 +150,16 @@
 										<button
 											class="material-symbols-outlined notValue"
 											on:click={() => {
-												let matchingValue = field.nv
-													? value[field.id + '_nv']
-														? true
-														: false
-													: value[field.id + '_pn']
-													? false
-													: true;
-												field.nv
-													? handleNv({ detail: { field: field, value: matchingValue } })
-													: handlePn({ detail: { field: field, value: matchingValue } });
+												let matchingValue = field.pn
+													? value[field.id + '_pn']
+														? false
+														: true
+													: value[field.id + '_nv']
+													? true
+													: false;
+												field.pn
+													? handlePn({ detail: { field: field, value: matchingValue } })
+													: handleNv({ detail: { field: field, value: matchingValue } });
 											}}
 										>
 											block
@@ -162,12 +181,7 @@
 		pnOptions={pnField.pn}
 		hidePopperButton
 		value={undefined}
-		on:setPn={(e) => {
-			if (pnField?.id) {
-				value[pnField.id + '_pn'] = e.detail.value;
-				$dataStorageAccessor = $dataStorageAccessor;
-			}
-		}}
+		on:setPn={(e) => setPnSelection(e)}
 	/>
 {/if}
 
@@ -240,7 +254,7 @@
 	.row {
 		display: flex;
 		flex-direction: row;
-		border: 1pt solid var(--border);
+		border: var(--1pxBorder);
 		min-height: 40px;
 		justify-content: flex-start;
 	}
@@ -275,6 +289,7 @@
 		justify-content: center;
 		height: 100%;
 		width: 60px;
+		font-weight: 300;
 		color: var(--dark3);
 		font-size: var(--fontXL);
 		border-left: var(--1pxBorder);

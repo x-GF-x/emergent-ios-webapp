@@ -27,8 +27,6 @@
 	};
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
-
-	$: console.log(value);
 </script>
 
 {#if sceneAction}

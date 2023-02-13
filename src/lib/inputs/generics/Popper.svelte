@@ -126,7 +126,7 @@
 	}
 
 	.boxShadow {
-		box-shadow: 5px 5px 80px 20px lightgrey;
+		box-shadow: 1px 1px 80px 1px #727272b5;
 		max-width: max-content;
 	}
 
