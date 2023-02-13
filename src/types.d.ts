@@ -74,7 +74,7 @@ type NumPadIconSlot = { icon: string; fn: () => void };
 
 type ToggleIcon = { open: string; closed: string; color?: string; style?: string } | undefined;
 
-type PnOption = { code: string; description: string; value?: string };
+type PnOption = { code: string; description?: string; value?: string };
 
 interface Field {
 	ds?: string;

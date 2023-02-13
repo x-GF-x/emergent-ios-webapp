@@ -90,7 +90,7 @@
 {#if pnField?.id}
 	<SingleSelect
 		bind:this={pnSelector}
-		pnOptions={pnField.pn}
+		passedInOptions={pnField.pn}
 		hidePopperButton
 		value={undefined}
 		on:setPn={(e) => setPnSelection(e)}

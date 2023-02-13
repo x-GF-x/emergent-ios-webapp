@@ -37,6 +37,3 @@
 		on:updateModal={saveModal}
 	/>
 {/if}
-
-<style>
-</style>

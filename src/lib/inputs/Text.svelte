@@ -1,15 +1,34 @@
 <script lang="ts">
-	export let value: string | undefined;
+	import Address from './Address.svelte';
+
+	export let value: string = '';
 	export let field: Field;
 	export let fromModal = false;
+
 	let multiline = field?.multiline;
+	let address: Address;
 </script>
+
+{#if field.id === 'ePatient06'}
+	<Address bind:this={address} {field} bind:value />
+{/if}
 
 {#if multiline}
 	<!-- svelte-ignore a11y-autofocus -->
 	<textarea placeholder="Note" autofocus={fromModal ? true : false} bind:value cols="30" />
 {:else}
-	<input class="text" type="text" bind:value />
+	<input
+		class="text"
+		type="text"
+		bind:value
+		on:keydown={() => {
+			if (address) {
+				if (value?.length && value.length > 1) {
+					address?.openPopper();
+				} else address?.closePopper();
+			}
+		}}
+	/>
 {/if}
 
 <style>

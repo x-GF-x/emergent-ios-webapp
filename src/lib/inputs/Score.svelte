@@ -84,6 +84,6 @@
 		padding: 8px 8px 0 16px;
 		font-weight: var(--weightRegular);
 		font-size: var(--fontSmall);
-		color: var(--light4);
+		color: var(--dark2);
 	}
 </style>

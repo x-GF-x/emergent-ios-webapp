@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	export let selected: boolean;
-	export let option: { code: string; value?: string };
+	export let option: { code?: string; value?: string };
 	const dispatch = createEventDispatcher();
 </script>
 

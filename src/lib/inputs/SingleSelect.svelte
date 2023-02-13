@@ -15,9 +15,10 @@
 	export let value: SingleSelectValue | ScoreObject = undefined;
 	export let props: InputProps = undefined;
 	export let field: Field | SubField | undefined = undefined;
-	export let pnOptions: PnOption[] | undefined = undefined;
+	export let passedInOptions: PnOption[] | undefined = undefined;
 	export let popper: Popper | undefined = undefined;
 	export let hidePopperButton = false;
+	export let searchValue = '';
 
 	export const toggle = () => {
 		popper?.toggle();
@@ -27,9 +28,10 @@
 	let options: Array<DropDownOption | ScoreOption | PnOption | QCMapping> = [];
 	let nonStandardLookups = ['eMedications03', 'eSituation11'];
 	let buildDataFromOptions = field && 'data' in field && field.data;
+
 	const standardOptions =
 		fieldLookupId &&
-		!pnOptions &&
+		!passedInOptions &&
 		!nonStandardLookups.includes(fieldLookupId) &&
 		!buildDataFromOptions;
 
@@ -39,7 +41,7 @@
 	//Reactive for when drugs are changed
 	$: field, buildOptions();
 
-	if (!pnOptions) {
+	if (!passedInOptions) {
 		if (fieldLookupId === 'eSituation11') options = clinical_impression_options();
 		else if (fieldLookupId === 'eMedications03') options = drug_options();
 		else options = score_card_options(field);
@@ -55,16 +57,16 @@
 			popper?.toggle();
 		}
 
-		if (pnOptions) dispatch('setPn', { value: value });
+		if (passedInOptions) dispatch('setPn', { value: value });
 		if (fieldLookupId === 'eMedications03') dispatch('changeDrug', { value: value });
 	};
 
 	$: {
-		if (pnOptions) value = undefined;
+		if (passedInOptions) value = undefined;
 	}
 </script>
 
-{#if Array.isArray(options) || Array.isArray(pnOptions)}
+{#if Array.isArray(options) || Array.isArray(passedInOptions)}
 	<Popper
 		bind:this={popper}
 		value={options?.find((item) => item.code === value)?.value
@@ -77,6 +79,6 @@
 		type="singleSelect"
 		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 	>
-		<SelectList {pnOptions} {options} {field} {props} {selectOption} {value} />
+		<SelectList {passedInOptions} {options} {field} {props} {selectOption} {value} {searchValue} />
 	</Popper>
 {/if}
