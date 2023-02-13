@@ -5,7 +5,11 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<button on:click={() => dispatch('select', { option: option })} class:selected class="option">
+<button
+	on:click|stopPropagation={() => dispatch('select', { option: option })}
+	class:selected
+	class="option"
+>
 	{option.value}
 </button>
 

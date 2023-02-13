@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ModalBackdrop from '$lib/ui_components/modal/ModalBackdrop.svelte';
+	import PnNv from '$lib/ui_components/PnNv.svelte';
 
 	import * as nanopop from 'nanopop';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
@@ -11,6 +12,7 @@
 	export let type: FieldTypes | undefined = undefined;
 	export let hidePopperButton = false;
 	export let modal = false;
+	export let field: Field = {};
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
@@ -71,17 +73,7 @@
 					{/if}
 				</div>
 				{#if type === 'multiSelect'}
-					<div class="multiNone">
-						<button
-							class="none"
-							on:click|stopPropagation={() => {
-								noneSelected = !noneSelected;
-								dispatch('noneSelected', { value: noneSelected });
-							}}
-							class:noneFilled={noneSelected}
-						/>
-						None
-					</div>
+					<PnNv {field} on:handlePnNv />
 				{/if}
 			</div>
 			{#if toggleIcon}
@@ -182,23 +174,6 @@
 		text-align: initial;
 	}
 
-	.multiNone {
-		display: flex;
-		align-items: center;
-		font-weight: var(--weightRegular);
-		color: var(--dark1);
-	}
-
-	.none {
-		height: 20px;
-		width: 20px;
-		margin-right: 10px;
-		border: 1px solid var(--dark1);
-	}
-	.noneFilled {
-		background: var(--dark1);
-	}
-
 	.caret {
 		color: var(--dark2);
 		height: 100%;
@@ -221,6 +196,7 @@
 
 	.value {
 		white-space: nowrap;
+		width: 100%;
 	}
 
 	.modal {

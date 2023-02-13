@@ -3,12 +3,11 @@
 	import Drug from '$lib/inputs/Drug.svelte';
 	import InputBuilder from '$lib/inputs/generics/InputBuilder.svelte';
 	import SplitNumeric from '$lib/inputs/SplitNumeric.svelte';
-	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
+	import PnNv from './PnNv.svelte';
 
 	import { widthConversion } from './width_conversion';
-	import { createEventDispatcher, tick } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	import { slide } from 'svelte/transition';
-	import { dataStorageAccessor } from '$lib/stores/data';
 
 	const dispatch = createEventDispatcher();
 
@@ -21,53 +20,10 @@
 	export let timestamp = value.last_modified ? value.last_modified : '';
 
 	let collapsed = false;
-	let pnField: Field | undefined = undefined;
-	let pnSelector: SingleSelect;
 
 	const collapse = () => {
 		collapsed = !collapsed;
 		dispatch('collapsed');
-	};
-
-	const setPnSelection = (e: { detail: { value: string } }) => {
-		if (pnField?.id) {
-			const selectedCode = e.detail.value;
-			if (selectedCode === 'nv') {
-				value[pnField.id + '_nv'] = true;
-				value[pnField.id + '_pn'] = undefined;
-			} else {
-				value[pnField.id + '_pn'] = selectedCode;
-				value[pnField.id + '_nv'] = undefined;
-			}
-			$dataStorageAccessor = $dataStorageAccessor;
-		}
-	};
-
-	const openPnSelector = async (field: Field) => {
-		pnField = field;
-		if (Array.isArray(pnField.pn) && pnField.nv && !pnField.pn.find((item) => item.code === 'nv')) {
-			pnField.pn = [...pnField.pn, { code: 'nv', description: 'None' }];
-		}
-		await tick().then(() => pnSelector?.toggle());
-	};
-
-	const handlePn = (e: { detail: { field: Field; value: boolean } }) => {
-		const { field } = e.detail;
-		value[field.id + '_pn'] = undefined;
-		value[field.id + '_nv'] = undefined;
-		if (pnField) pnField = undefined; //Close popover if open
-		else if (e.detail.value) {
-			if (field.pn?.length === 1 && !field?.nv) {
-				value[field.id + '_pn'] = field.pn[0].code;
-			} else openPnSelector(field);
-		}
-		$dataStorageAccessor = $dataStorageAccessor;
-	};
-
-	const handleNv = (e: { detail: { field: Field; value: boolean } }) => {
-		if (!value[e.detail.field.id + '_nv']) value[e.detail.field.id + '_nv'] = true;
-		else value[e.detail.field.id + '_nv'] = false;
-		console.log(value);
 	};
 
 	const handleActionButton = (e: { detail: { action: string } }) => {
@@ -133,8 +89,6 @@
 												bind:value={value[field.id]}
 												on:modify
 												on:actionButton={(e) => handleActionButton(e)}
-												on:handlePn={handlePn}
-												on:handleNv={handleNv}
 											/>
 											<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
@@ -147,23 +101,7 @@
 										{/if}
 									</div>
 									{#if (field.nv || field.pn) && field.type !== 'multiSelect'}
-										<button
-											class="material-symbols-outlined notValue"
-											on:click={() => {
-												let matchingValue = field.pn
-													? value[field.id + '_pn']
-														? false
-														: true
-													: value[field.id + '_nv']
-													? true
-													: false;
-												field.pn
-													? handlePn({ detail: { field: field, value: matchingValue } })
-													: handleNv({ detail: { field: field, value: matchingValue } });
-											}}
-										>
-											block
-										</button>
+										<PnNv bind:value {field} />
 									{/if}
 								</div>
 							</div>
@@ -173,16 +111,6 @@
 			</div>
 		{/if}
 	</div>
-{/if}
-
-{#if pnField?.id}
-	<SingleSelect
-		bind:this={pnSelector}
-		pnOptions={pnField.pn}
-		hidePopperButton
-		value={undefined}
-		on:setPn={(e) => setPnSelection(e)}
-	/>
 {/if}
 
 <style>
@@ -281,18 +209,6 @@
 
 	.field {
 		width: 100%;
-	}
-
-	.notValue {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-		width: 60px;
-		font-weight: 300;
-		color: var(--dark3);
-		font-size: var(--fontXL);
-		border-left: var(--1pxBorder);
 	}
 
 	.multiSelect {

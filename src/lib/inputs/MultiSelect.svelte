@@ -113,22 +113,9 @@
 		}
 	};
 
-	const handleNoneSelected = async (e: { detail: { value: boolean } }) => {
+	const handlePnNv = async (e: { detail: { value: boolean } }) => {
 		noneSelected = e.detail.value;
 		pnLabel = undefined;
-
-		if (field.pn) {
-			dispatch('handlePn', {
-				field: field,
-				value: noneSelected
-			});
-		} else {
-			dispatch('handleNv', {
-				field: field,
-				value: noneSelected
-			});
-		}
-
 		if (noneSelected) {
 			storedValues = JSON.stringify(value);
 			value = [];
@@ -141,6 +128,7 @@
 </script>
 
 <Popper
+	{field}
 	value={field.title ? field?.title + (pnLabel ? ': ' + pnLabel : '') : ''}
 	type={field?.type}
 	bind:this={popper}
@@ -151,7 +139,7 @@
 		color: 'var(--primary)',
 		style: 'border-left:var(--1pxBorder);'
 	}}
-	on:noneSelected={(e) => handleNoneSelected(e)}
+	on:handlePnNv={(e) => handlePnNv(e)}
 >
 	<MultiSelectList
 		bind:idOfActiveEmbeddedList

@@ -31,8 +31,6 @@
 			bind:value
 			on:setDate
 			on:changeDrug
-			on:handlePn
-			on:handleNv
 			on:actionButton
 		/>
 	{/if}
