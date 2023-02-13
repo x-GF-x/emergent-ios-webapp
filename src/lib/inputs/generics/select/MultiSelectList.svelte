@@ -5,7 +5,7 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let options: DropDownOption[] = [];
+	export let options: Array<undefined | DropDownOption> = [];
 	export let field: Field | SubField | undefined = undefined;
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = undefined;
 	export let embeddedOptions: DropDownOption[] = [];
@@ -20,7 +20,7 @@
 	bind:searchValue
 	type="multiSelect"
 	title={idOfActiveEmbeddedList
-		? options.find((item) => item.code === idOfActiveEmbeddedList)?.value
+		? options.find((item) => item?.code === idOfActiveEmbeddedList)?.value
 		: field?.title}
 	on:close={() => {
 		idOfActiveEmbeddedList = undefined;
@@ -28,13 +28,13 @@
 	}}
 >
 	<div class="options">
-		{#each (!idOfActiveEmbeddedList ? options : embeddedOptions).filter((option) => option.value
+		{#each (!idOfActiveEmbeddedList ? options : embeddedOptions).filter((option) => option?.value
 				.toLowerCase()
 				.includes(searchValue.toLowerCase())) as option}
 			{@const selected = (idOfActiveEmbeddedList && value && !Array.isArray(value)
 				? value[idOfActiveEmbeddedList]
 				: selectedItems
-			)?.find((item) => item.value === option.code)
+			)?.find((item) => item.value === option?.code)
 				? true
 				: false}
 			<SelectOption

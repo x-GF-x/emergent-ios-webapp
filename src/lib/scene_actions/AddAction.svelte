@@ -5,15 +5,25 @@
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 	import { created_and_last_modified } from '$lib/fn/timestamp';
 	import { createEventDispatcher } from 'svelte';
+	import { scenes } from '$lib/resource_file/ui/ui_scenes';
 	const dispatch = createEventDispatcher();
 
 	export let selectedTab: Tab;
 	selectedTab = selectedTab;
 	export let value: DataStorage;
 
-	let options: DropDownOption[] = cards.map((item) => {
-		return { code: item.card_id, value: item.title, id: 0, type: '' };
-	});
+	let options: Array<undefined | DropDownOption> = scenes
+		.filter((item) => item.scene_id === 'ems_timeline')
+		.map((item) => {
+			let matchingCard = cards.find((card) => card.card_id === item.card_id);
+			if (matchingCard)
+				return {
+					code: matchingCard.card_id,
+					value: matchingCard.title,
+					id: matchingCard.id,
+					type: ''
+				};
+		});
 
 	let selectedItems: Option[] = [];
 
