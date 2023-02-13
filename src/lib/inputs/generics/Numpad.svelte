@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DateString from './DateString.svelte';
 
+	import { format, none, phoneNumber } from '$lib/inputs/masking/phone_format';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
@@ -31,6 +32,9 @@
 				if (value || value === 0) value = value + '' + number.toString();
 				else value = number.toString();
 			}
+		}
+		if (field.style === 'phone' && value && typeof value === 'string') {
+			value = phoneNumber(value);
 		}
 	};
 
@@ -86,8 +90,10 @@
 	}
 
 	$: {
-		if (typeof value === 'string') value = value.replace(/[^0-9./:]/g, '');
+		if (typeof value === 'string') value = value.replace(/[^0-9./:-]/g, '');
 		if (!value && value !== 0) value = '';
+		// if (field.style === 'phone' && typeof value === 'string' && value?.length > 12)
+		// 	value = value.slice(0, -1);
 	}
 </script>
 
@@ -100,10 +106,12 @@
 			{#if type === 'numeric'}
 				<div class="inputAndUnit">
 					<input
+						use:format={field.style === 'phone' ? phoneNumber : none}
 						bind:this={valueInput}
 						max={'max' in field ? field.max : ''}
 						min={'min' in field ? field.min : ''}
-						style:width={value || value === 0 ? value.toString().length + 'ch' : '10px'}
+						style:width={value || value === 0 ? value.toString().length + 1 + 'ch' : '10px'}
+						class:smallFont={field.style === 'phone' || field.style === 'ssn'}
 						class="numInput"
 						bind:value
 						type="text"
@@ -233,6 +241,11 @@
 		color: white;
 		margin-right: 5px;
 		font-size: var(--fontXL);
+		width: 100%;
+	}
+
+	.smallFont {
+		font-size: 20pt;
 	}
 
 	.numInput:focus-visible {
