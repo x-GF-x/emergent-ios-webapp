@@ -87,10 +87,10 @@
 			{#if toggleIcon}
 				<div
 					class="material-symbols-outlined caret"
-					style:color={noneSelected ? 'lightgray' : toggleIcon?.color}
-					style={toggleIcon?.style}
-					style:padding={type === 'multiSelect' ? '0 12px' : '0'}
+					class:multiSelect={type === 'multiSelect'}
 					class:largeIcon={props}
+					style={toggleIcon?.style}
+					style:color={noneSelected ? 'lightgray' : toggleIcon?.color}
 				>
 					{isOpen ? toggleIcon.open : toggleIcon.closed}
 				</div>
@@ -203,8 +203,14 @@
 		color: var(--dark2);
 		height: 100%;
 		display: flex;
+		padding: 0;
 		align-items: center;
 		font-weight: var(--weightRegular);
+	}
+
+	.multiSelect {
+		height: 48px;
+		padding: 0 12px;
 	}
 
 	.largeIcon {
