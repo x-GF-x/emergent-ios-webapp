@@ -42,7 +42,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin: 0 10px;
+		margin: 10px;
 	}
 
 	.cancel {
