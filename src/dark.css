@@ -1,7 +1,7 @@
 :root {
 	color-scheme: dark;
 	--primary: #ff737b;
-	--secondary: #59c3ff;
+	--secondary: #62a5cc;
 	--light1: #303030;
 	--light2: #272727;
 	--light3: #252525;
@@ -13,6 +13,7 @@
 	--active4: #502d2f;
 	--green: #224f23;
 	--yellow: #f5b40087;
+	--modalBoxShadow: black;
 
 	--fontXS: 10pt;
 	--fontSmall: 12pt;

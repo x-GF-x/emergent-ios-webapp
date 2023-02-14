@@ -201,6 +201,7 @@
 	.disabled {
 		background: var(--dark3);
 		color: var(--light1);
+		filter: var(--contrastFilter);
 	}
 
 	.active {

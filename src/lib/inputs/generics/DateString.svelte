@@ -74,6 +74,7 @@
 
 <div class="datestring">
 	<input
+		class="numInput"
 		bind:this={valueInput}
 		type="text"
 		bind:value

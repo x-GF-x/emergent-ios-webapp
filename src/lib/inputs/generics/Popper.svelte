@@ -118,7 +118,7 @@
 	}
 
 	.boxShadow {
-		box-shadow: 1px 1px 80px 1px #727272b5;
+		box-shadow: 1px 1px 80px 1px var(--modalBoxShadow);
 		max-width: max-content;
 	}
 

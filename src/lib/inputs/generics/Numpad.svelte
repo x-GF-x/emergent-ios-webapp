@@ -325,10 +325,10 @@
 		height: 60px;
 		width: 100%;
 		background: var(--primary);
-		color: white;
+		color: var(--light1);
 		border-radius: 5px;
 		font-size: var(--fontSmall);
-		font-weight: var(--weightSemiBold);
+		font-weight: var(--weightBold);
 	}
 
 	.cancel {

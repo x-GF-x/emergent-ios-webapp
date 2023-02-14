@@ -36,5 +36,6 @@
 	.selected {
 		background: var(--secondary);
 		color: var(--light1);
+		font-weight: 500;
 	}
 </style>
