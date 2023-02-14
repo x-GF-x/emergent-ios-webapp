@@ -4,6 +4,7 @@
 	export let value: string = '';
 	export let field: Field;
 	export let fromModal = false;
+	export let disabled = false;
 
 	let multiline = field?.multiline;
 	let address: Address;
@@ -15,9 +16,10 @@
 
 {#if multiline}
 	<!-- svelte-ignore a11y-autofocus -->
-	<textarea placeholder="Note" autofocus={fromModal ? true : false} bind:value />
+	<textarea {disabled} placeholder="Note" autofocus={fromModal ? true : false} bind:value />
 {:else}
 	<input
+		{disabled}
 		class="text"
 		type="text"
 		bind:value

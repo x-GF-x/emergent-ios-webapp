@@ -5,6 +5,7 @@
 	export let field: Field | SubField;
 	export let value: FieldValues | any;
 	export let fromModal = false;
+	export let disabled = false;
 
 	let originalValue = JSON.stringify(value);
 
@@ -28,6 +29,7 @@
 			this={input_components[field.type]}
 			{field}
 			{fromModal}
+			{disabled}
 			bind:value
 			on:setDate
 			on:changeDrug

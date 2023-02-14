@@ -2,11 +2,16 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let field: Field;
+	export let disabled = false;
 
 	const dispatch = createEventDispatcher();
 </script>
 
-<button class="actionButton" on:click={() => dispatch('actionButton', { action: field.action })}>
+<button
+	{disabled}
+	class="actionButton"
+	on:click={() => dispatch('actionButton', { action: field.action })}
+>
 	{field.title}
 </button>
 

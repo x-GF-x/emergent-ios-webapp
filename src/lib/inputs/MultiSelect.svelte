@@ -8,6 +8,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let field: Field;
+	export let disabled = false;
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = field?.embedded
 		? {}
 		: [];
@@ -129,6 +130,7 @@
 
 <Popper
 	{field}
+	{disabled}
 	value={field.title ? field?.title + (pnLabel ? ': ' + pnLabel : '') : ''}
 	type={field?.type}
 	bind:this={popper}

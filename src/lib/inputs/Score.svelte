@@ -1,7 +1,10 @@
 <script lang="ts">
 	import SingleSelect from './SingleSelect.svelte';
+
 	export let value: { [key: string]: ScoreObject };
 	export let field: Field;
+	export let disabled = false;
+
 	const mathOperations = {
 		'+': (val: number) => {
 			totalScore += val;
@@ -36,7 +39,7 @@
 						<div class="fieldTitle">
 							{scoreField.title}
 						</div>
-						<SingleSelect field={scoreField} bind:value={value[scoreField.id]} />
+						<SingleSelect {disabled} field={scoreField} bind:value={value[scoreField.id]} />
 					{/if}
 				</div>
 			{/each}

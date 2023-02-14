@@ -13,6 +13,7 @@
 	export let hidePopperButton = false;
 	export let modal = false;
 	export let field: Field = {};
+	export let disabled = false;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
@@ -56,7 +57,7 @@
 	{#if !hidePopperButton}
 		<button
 			class:iconToggle={props?.icon}
-			disabled={typeof props?.icon === 'string' || noneSelected}
+			disabled={typeof props?.icon === 'string' || noneSelected || disabled}
 			class="toggleButton"
 			style:padding={type === 'multiSelect' || props ? 0 : '2px 4px 8px 16px'}
 			on:click={toggle}

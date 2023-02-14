@@ -53,11 +53,14 @@ input:not(.numInput) {
 button {
 	border: none;
 	background: none;
-	cursor: pointer;
 	font-size: var(--fontSmall);
 	font-family: 'Inter';
 	box-sizing: border-box;
 	color: var(--dark2);
+}
+
+button:not(:disabled) {
+	cursor: pointer;
 }
 
 html {

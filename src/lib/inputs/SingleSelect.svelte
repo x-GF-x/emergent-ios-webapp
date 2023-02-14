@@ -19,6 +19,7 @@
 	export let popper: Popper | undefined = undefined;
 	export let hidePopperButton = false;
 	export let searchValue = '';
+	export let disabled = false;
 
 	export const toggle = () => {
 		popper?.toggle();
@@ -76,6 +77,7 @@
 			: value}
 		{props}
 		{hidePopperButton}
+		{disabled}
 		type="singleSelect"
 		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
 	>
