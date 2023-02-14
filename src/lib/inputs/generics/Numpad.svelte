@@ -238,7 +238,7 @@
 	.numInput {
 		border: none;
 		background: none;
-		color: white;
+		color: var(--light1);
 		margin-right: 5px;
 		font-size: var(--fontXL);
 		width: 100%;
