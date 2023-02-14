@@ -13,6 +13,8 @@
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { default_value } from '$lib/data/default_value';
 
+	let theme: 'light' | 'dark' = 'light';
+
 	let value: DataStorage = default_value;
 	$dataStorageAccessor = value;
 	let selectedTab: Tab = tabs?.[0];
@@ -41,6 +43,15 @@
 <div class="grid">
 	<section class="navigation">
 		<a href="/" class="return material-symbols-outlined">arrow_back_ios</a>
+		<button
+			class="theme material-symbols-outlined"
+			on:click={() => {
+				if (theme === 'dark') theme = 'light';
+				else theme = 'dark';
+			}}
+		>
+			{theme}_mode
+		</button>
 	</section>
 	<section class="controls">
 		<div class="patientSelect">
@@ -279,6 +290,12 @@
 
 	.footerItem:not(:last-child) {
 		border-right: none;
+	}
+
+	.theme {
+		display: flex;
+		justify-content: flex-end;
+		margin-right: 6px;
 	}
 
 	section {
