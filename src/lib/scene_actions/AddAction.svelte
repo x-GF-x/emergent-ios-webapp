@@ -2,28 +2,16 @@
 	import Modal from '$lib/ui_components/modal/Modal.svelte';
 	import MultiSelectList from '$lib/inputs/generics/select/MultiSelectList.svelte';
 
-	import { cards } from '$lib/resource_file/ui/ui_cards';
 	import { created_and_last_modified } from '$lib/fn/timestamp';
 	import { createEventDispatcher } from 'svelte';
-	import { scenes } from '$lib/resource_file/ui/ui_scenes';
+	import { timeline_options } from '$lib/fn/build_select_options';
 	const dispatch = createEventDispatcher();
 
-	export let selectedTab: Tab;
+	export let selectedTab: Tab = { label: '', id: '', type: 'static_scene' };
 	selectedTab = selectedTab;
 	export let value: DataStorage;
 
-	let options: Array<undefined | DropDownOption> = scenes
-		.filter((item) => item.scene_id === 'ems_timeline')
-		.map((item) => {
-			let matchingCard = cards.find((card) => card.card_id === item.card_id);
-			if (matchingCard)
-				return {
-					code: matchingCard.card_id,
-					value: matchingCard.title,
-					id: matchingCard.id,
-					type: ''
-				};
-		});
+	let options: Array<undefined | DropDownOption> = timeline_options();
 
 	let selectedItems: Option[] = [];
 

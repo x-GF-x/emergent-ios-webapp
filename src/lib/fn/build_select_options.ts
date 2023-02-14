@@ -1,6 +1,8 @@
 import { fieldOptions } from '$lib/resource_file/lookups/lookups';
 import { ems_drugs } from '$lib/resource_file/lookups/ems_drugs';
 import { quickchartMapping } from '$lib/resource_file/ui/ui_quickchart_mapping';
+import { scenes } from '$lib/resource_file/ui/ui_scenes';
+import { cards } from '$lib/resource_file/ui/ui_cards';
 
 export const standard_options = (field: Field | SubField | undefined) => {
 	const fieldLookupId = field?.key;
@@ -45,4 +47,19 @@ export const clinical_impression_options = () => {
 		item.code = item.qc_key;
 		return item;
 	});
+};
+
+export const timeline_options = () => {
+	return scenes
+		.filter((item) => item.scene_id === 'ems_timeline')
+		.map((item) => {
+			const matchingCard = cards.find((card) => card.card_id === item.card_id);
+			if (matchingCard)
+				return {
+					code: matchingCard.card_id,
+					value: matchingCard.title,
+					id: matchingCard.id,
+					type: ''
+				};
+		});
 };

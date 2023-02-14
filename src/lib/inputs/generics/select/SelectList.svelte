@@ -3,7 +3,7 @@
 	import SelectOption from '$lib/inputs/generics/select/SelectOption.svelte';
 
 	export let passedInOptions: PnOption[] | undefined = undefined;
-	export let options: Array<DropDownOption | ScoreOption | PnOption | QCMapping> = [];
+	export let options: Array<DropDownOption | ScoreOption | PnOption | QCMapping | undefined> = [];
 	export let field: Field | SubField | undefined = undefined;
 	export let props: InputProps = undefined;
 	export let value: SingleSelectValue | ScoreObject = undefined;
@@ -30,12 +30,12 @@
 			  })
 		: options}
 	<div class="options">
-		{#each relevantOptions.filter((option) => option.value && option.value
+		{#each relevantOptions.filter((option) => option?.value && option.value
 					.toLowerCase()
 					.includes(searchValue?.toLowerCase())) as option}
 			<SelectOption
 				{option}
-				selected={value === option.code}
+				selected={value === option?.code}
 				on:select={(e) => selectOption(e.detail.option)}
 			/>
 		{/each}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 	import Timer from '$lib/ui_components/Timer.svelte';
+	import OtherActions from '$lib/scene_actions/OtherActions.svelte';
 
 	import { quickchartSections } from '$lib/resource_file/ui/ui_quickchart_sections';
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts_with_drugs';
@@ -18,6 +19,7 @@
 	let activeChart: QuickChartObject | undefined = undefined;
 	let cardValue: ActionItem = { card_id: '', fields: {} };
 	let activeCard: string | undefined = undefined;
+	let showTimelineCards = false;
 
 	filteredCharts.forEach((chart) => {
 		if (chart.type === 'timed' && !timers[chart.card]) {
@@ -25,10 +27,14 @@
 		}
 	});
 
-	const handleChartButton = (chart: QuickChartObject) => {
+	const handleChartButton = (chart: QuickChartObject | undefined) => {
 		activeChart = chart;
-		activeCard = cards.find((item) => item.card_id === chart.card)?.card_json;
-		cardValue = { card_id: chart.card, fields: {}, title: chart.title };
+		if (chart?.card === 'timeline_cards') {
+			showTimelineCards = true;
+		} else {
+			activeCard = cards.find((item) => item.card_id === chart?.card)?.card_json;
+			if (chart?.card) cardValue = { card_id: chart.card, fields: {}, title: chart?.title };
+		}
 	};
 
 	const setTimers = () => {
@@ -53,6 +59,18 @@
 	};
 </script>
 
+{#if showTimelineCards}
+	<div class="fixed">
+		<OtherActions
+			on:close={() => (showTimelineCards = false)}
+			on:select={(e) => {
+				cardValue = { card_id: e.detail.value.code, fields: {}, title: e.detail.value?.value };
+				activeCard = cards.find((item) => item.id === e.detail.value.id)?.card_json;
+			}}
+		/>
+	</div>
+{/if}
+
 <div class="quickchart">
 	{#each sections as section}
 		{@const title = quickchartSections.find((item) => item.id === section)?.title}
@@ -68,6 +86,7 @@
 			{/if}
 			<div class="sectionBody">
 				{#each chartsInSection as chart}
+					<!-- Other Actions: chart.card === 'timeline_cards'-->
 					{@const chartCardId = chart.card}
 					{@const matchingCards = value?.actions?.filter(
 						(item) => item?.card_id === chartCardId && item.title === chart.title
@@ -233,5 +252,14 @@
 	.greenTimer {
 		background: #417505;
 		color: var(--light1);
+	}
+
+	.fixed {
+		position: fixed;
+		bottom: 0;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1;
 	}
 </style>
