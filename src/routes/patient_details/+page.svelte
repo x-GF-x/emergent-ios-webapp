@@ -12,8 +12,7 @@
 
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { default_value } from '$lib/data/default_value';
-
-	let theme: 'light' | 'dark' = 'light';
+	import { theme } from '$lib/stores/theme';
 
 	let value: DataStorage = default_value;
 	$dataStorageAccessor = value;
@@ -46,11 +45,11 @@
 		<button
 			class="theme material-symbols-outlined"
 			on:click={() => {
-				if (theme === 'dark') theme = 'light';
-				else theme = 'dark';
+				if ($theme === 'dark') $theme = 'light';
+				else $theme = 'dark';
 			}}
 		>
-			{theme}_mode
+			{$theme}_mode
 		</button>
 	</section>
 	<section class="controls">

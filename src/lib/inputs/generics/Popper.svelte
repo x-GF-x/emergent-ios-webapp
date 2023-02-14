@@ -58,7 +58,7 @@
 			class:iconToggle={props?.icon}
 			disabled={typeof props?.icon === 'string' || noneSelected}
 			class="toggleButton"
-			style:padding={type === 'multiSelect' ? 0 : '2px 4px 8px 16px'}
+			style:padding={type === 'multiSelect' || props ? 0 : '2px 4px 8px 16px'}
 			on:click={toggle}
 		>
 			{#if props?.icon}
@@ -153,7 +153,7 @@
 	}
 
 	.icon {
-		margin-right: 20px;
+		margin: 0 16px;
 	}
 
 	.iconToggle {

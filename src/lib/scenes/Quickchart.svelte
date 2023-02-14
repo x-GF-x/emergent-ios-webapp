@@ -176,6 +176,7 @@
 		background-repeat: repeat-x;
 		background-size: 4px;
 		width: 100%;
+		filter: var(--contrastFilter);
 	}
 
 	.sectionBody {
@@ -245,13 +246,13 @@
 		color: var(--light1);
 	}
 	.yellowTimer {
-		background: #d19d00;
-		color: var(--light1);
+		background: var(--yellow);
+		color: white;
 	}
 
 	.greenTimer {
-		background: #417505;
-		color: var(--light1);
+		background: var(--green);
+		color: white;
 	}
 
 	.fixed {

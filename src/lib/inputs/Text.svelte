@@ -15,7 +15,7 @@
 
 {#if multiline}
 	<!-- svelte-ignore a11y-autofocus -->
-	<textarea placeholder="Note" autofocus={fromModal ? true : false} bind:value cols="30" />
+	<textarea placeholder="Note" autofocus={fromModal ? true : false} bind:value />
 {:else}
 	<input
 		class="text"
@@ -38,20 +38,24 @@
 		font-size: var(--fontSmall);
 		font-weight: var(--weightBold);
 		caret-color: var(--primary);
-		padding-left: 10px;
 	}
 
 	.text {
 		padding: 2px 8px 8px 16px;
 		width: 100%;
 		background: transparent;
+		padding-left: 10px;
 	}
 
 	textarea {
-		height: 270px;
+		display: flex;
 		font-family: inherit;
-		padding-top: 10px;
 		resize: vertical;
+		width: 100%;
+		height: 270px;
+		padding: 0px;
+		text-indent: 10px;
+		padding-top: 5px;
 	}
 
 	textarea:focus-visible,

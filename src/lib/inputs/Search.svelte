@@ -47,7 +47,7 @@
 		color: var(--dark3);
 		display: flex;
 		align-items: center;
-		background: white;
+		background: var(--light1);
 		border: var(--1pxBorder);
 		border-right: 0;
 		border-radius: 10px 0 0 10px;

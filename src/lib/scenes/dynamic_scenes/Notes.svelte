@@ -26,6 +26,3 @@
 		{/if}
 	{/each}
 {/if}
-
-<style>
-</style>

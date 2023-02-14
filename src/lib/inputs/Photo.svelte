@@ -73,7 +73,7 @@
 		padding: 10px;
 		width: 100%;
 		background: rgba(0, 0, 0, 0.673);
-		color: var(--light1);
+		color: white;
 	}
 	.name {
 		padding-bottom: 5px;

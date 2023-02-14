@@ -35,6 +35,3 @@
 	{field}
 	on:setPn={closePopper}
 />
-
-<style>
-</style>

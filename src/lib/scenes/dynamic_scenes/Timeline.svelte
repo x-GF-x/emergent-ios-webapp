@@ -30,6 +30,3 @@
 {#if timestampLocation}
 	<Timestamp bind:value bind:timestampLocation />
 {/if}
-
-<style>
-</style>

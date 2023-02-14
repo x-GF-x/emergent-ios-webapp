@@ -39,7 +39,7 @@
 	});
 </script>
 
-<div class="time">
+<div class="time" class:overdue>
 	{overdue ? 'Overdue by' : 'Perform again in'}
 	<b>
 		{h < 10 ? 0 + '' + h : h}:{m < 10 ? 0 + '' + m : m}:{s < 10 ? 0 + '' + s : s}
@@ -48,6 +48,9 @@
 
 <style>
 	.time {
+		color: white;
+	}
+	.overdue {
 		color: var(--light1);
 	}
 </style>
