@@ -37,6 +37,7 @@
 		border: var(--1pxBorder);
 		border-left: 0;
 		border-radius: 0 10px 10px 0;
+		background: var(--light1);
 	}
 
 	.search:focus-visible {
@@ -51,5 +52,6 @@
 		border: var(--1pxBorder);
 		border-right: 0;
 		border-radius: 10px 0 0 10px;
+		padding-left: 5px;
 	}
 </style>

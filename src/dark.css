@@ -14,6 +14,7 @@
 	--green: #224f23;
 	--yellow: #f5b40087;
 	--modalBoxShadow: black;
+	--disabledField: #505050;
 
 	--fontXS: 10pt;
 	--fontSmall: 12pt;
@@ -34,6 +35,7 @@
 body {
 	font-weight: var(--weightRegular);
 	box-sizing: border-box;
+	color: var(--dark2);
 }
 
 input {
@@ -41,6 +43,7 @@ input {
 	font-size: var(--fontSmall);
 	font-weight: var(--weightBold);
 	box-sizing: border-box;
+	color: var(--dark2);
 }
 
 input:not(.numInput) {
@@ -54,6 +57,7 @@ button {
 	font-size: var(--fontSmall);
 	font-family: 'Inter';
 	box-sizing: border-box;
+	color: var(--dark2);
 }
 
 html {

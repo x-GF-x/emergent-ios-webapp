@@ -72,13 +72,15 @@
 					>
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
+							{@const disabled =
+								(value[field.id + '_nv'] || value[field.id + '_pn']) &&
+								field.type !== 'multiSelect'}
 							<div
 								style:width={width + '%'}
 								aria-label={field?.type}
 								class:multiSelect={field.type === 'multiSelect'}
 								class="fieldContainer"
-								class:disabled={(value[field.id + '_nv'] || value[field.id + '_pn']) &&
-									field.type !== 'multiSelect'}
+								class:disabled
 							>
 								<div class="fieldAndNv">
 									<div class="field">

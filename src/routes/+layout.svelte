@@ -34,6 +34,5 @@
 <style>
 	main {
 		font-family: 'Inter';
-		color: var(--dark1);
 	}
 </style>
