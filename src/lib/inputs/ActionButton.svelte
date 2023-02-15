@@ -3,6 +3,8 @@
 
 	export let field: Field;
 	export let disabled = false;
+	export let fromModal = false;
+	fromModal = fromModal;
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -10,8 +12,7 @@
 <button
 	{disabled}
 	class="actionButton"
-	on:click={() => dispatch('actionButton', { action: field.action })}
->
+	on:click={() => dispatch('actionButton', { action: field.action })}>
 	{field.title}
 </button>
 

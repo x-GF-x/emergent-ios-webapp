@@ -8,6 +8,8 @@
 	export let value: string | undefined;
 	export let field: Field;
 	export let disabled = false;
+	export let fromModal = false;
+	fromModal = fromModal;
 
 	let popper: Popper;
 	let numpad: Numpad;
@@ -24,7 +26,6 @@
 	toggleIcon={{ open: 'unfold_less', closed: 'unfold_more' }}
 	value={value ? value : undefined}
 	on:open={numpad.focusInput}
-	{disabled}
->
+	{disabled}>
 	<Numpad bind:this={numpad} {value} type="date" on:update={update} {field} />
 </Popper>

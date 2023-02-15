@@ -11,6 +11,8 @@
 	export let selectedTab: Tab;
 	export let value: DataStorage;
 	export let timers: Timers = {};
+	export let allCollapsed = false;
+	allCollapsed = allCollapsed;
 
 	let filteredCharts = quickcharts.filter(
 		(chart) => chart.key === selectedTab.id && chart.card !== 'violation'

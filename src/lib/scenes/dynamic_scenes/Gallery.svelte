@@ -4,6 +4,8 @@
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 
 	export let value: DataStorage;
+	export let allCollapsed = false;
+	allCollapsed = allCollapsed;
 </script>
 
 {#if value.photo}

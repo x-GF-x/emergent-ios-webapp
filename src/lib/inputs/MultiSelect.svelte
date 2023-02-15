@@ -9,6 +9,8 @@
 
 	export let field: Field;
 	export let disabled = false;
+	export let fromModal = false;
+	fromModal = fromModal;
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = field?.embedded
 		? {}
 		: [];
@@ -141,8 +143,7 @@
 		color: 'var(--primary)',
 		style: 'border-left:var(--1pxBorder);'
 	}}
-	on:handlePnNv={(e) => handlePnNv(e)}
->
+	on:handlePnNv={(e) => handlePnNv(e)}>
 	<MultiSelectList
 		bind:idOfActiveEmbeddedList
 		{options}
@@ -153,8 +154,7 @@
 		{value}
 		on:close={() => popper.toggle()}
 		on:selectEmbedded={(e) => selectEmbeddedOption(e.detail.option)}
-		on:selectOption={(e) => selectOption(e.detail.option)}
-	/>
+		on:selectOption={(e) => selectOption(e.detail.option)} />
 </Popper>
 
 {#if selectedItems?.length}
@@ -178,8 +178,7 @@
 							</div>
 							<button
 								class="material-symbols-outlined close"
-								on:click={() => closeEmbedded(selected, embeddedSelection)}
-							>
+								on:click={() => closeEmbedded(selected, embeddedSelection)}>
 								close
 							</button>
 						</div>

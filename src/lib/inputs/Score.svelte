@@ -4,6 +4,8 @@
 	export let value: { [key: string]: ScoreObject };
 	export let field: Field;
 	export let disabled = false;
+	export let fromModal = false;
+	fromModal = fromModal;
 
 	const mathOperations = {
 		'+': (val: number) => {

@@ -6,6 +6,8 @@
 	export let selectedTab: Tab;
 	export let value: DataStorage;
 	export let allCollapsed = false;
+	export let timers;
+	timers = timers;
 
 	let dynamicIds: DynamicId[] | undefined = selectedTab?.dynamic_ids;
 	const dynamicSceneTypes = { actions: Timeline, photo: Gallery, notes: Notes };
@@ -18,8 +20,7 @@
 				this={dynamicSceneTypes[dynamicId]}
 				{value}
 				{allCollapsed}
-				on:editTimestamp
-			/>
+				on:editTimestamp />
 		{/if}
 	{/each}
 {/if}

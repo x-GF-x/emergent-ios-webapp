@@ -20,6 +20,8 @@
 	export let hidePopperButton = false;
 	export let searchValue = '';
 	export let disabled = false;
+	export let fromModal = false;
+	fromModal = fromModal;
 
 	export const toggle = () => {
 		popper?.toggle();
@@ -79,8 +81,7 @@
 		{hidePopperButton}
 		{disabled}
 		type="singleSelect"
-		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}
-	>
+		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}>
 		<SelectList {passedInOptions} {options} {field} {props} {selectOption} {value} {searchValue} />
 	</Popper>
 {/if}

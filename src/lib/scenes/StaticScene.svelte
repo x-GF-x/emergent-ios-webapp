@@ -7,6 +7,8 @@
 	export let selectedTab: Tab;
 	export let value: DataStorage;
 	export let allCollapsed = false;
+	export let timers;
+	timers = timers;
 
 	let filteredScenes = scenes.filter((scene) => scene.scene_id === selectedTab.id);
 </script>
@@ -19,8 +21,7 @@
 			collapsible
 			data={JSON.parse(cardData)}
 			bind:value={value.static_fields}
-			on:collapsed
-		/>
+			on:collapsed />
 	{/if}
 {/each}
 
