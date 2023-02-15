@@ -15,6 +15,7 @@ type DataStorage = {
 	//Actions is array of cards- think quickcharts, where card can be set multiple times
 	//To get count for quickchart buttons, count instances of the card in this array.
 	actions: ActionItem[] | [];
+	readonly?: boolean;
 };
 
 type SingleSelectValue = string | undefined;

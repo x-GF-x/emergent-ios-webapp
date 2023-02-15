@@ -1,6 +1,7 @@
 import { base64, base64_2 } from '$lib/resource_file/base64_example';
 
 export const default_value: DataStorage = {
+	readonly: false,
 	created: new Date().toISOString(),
 	last_modified: new Date().toISOString(),
 	uuid: crypto.randomUUID(),

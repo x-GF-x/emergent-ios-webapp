@@ -7,6 +7,7 @@
 	export let value: { [key: string]: FieldValues } = {};
 	export let field: Field | undefined = undefined;
 	export let chart;
+	export let disabled = false;
 
 	let drugId = chart?.card_data ? JSON.parse(chart?.card_data)?.drug_id : undefined;
 	let drug: EmsDrug | undefined = undefined;
@@ -54,4 +55,4 @@
 	});
 </script>
 
-<Subfields bind:value {subFields} on:changeDrug={(e) => changeDrugId(e)} />
+<Subfields bind:value {disabled} {subFields} on:changeDrug={(e) => changeDrugId(e)} />

@@ -3,6 +3,7 @@
 
 	export let subFields: SubField[];
 	export let value: { [key: string]: FieldValues } = {};
+	export let disabled = false;
 </script>
 
 {#if Array.isArray(subFields)}
@@ -10,7 +11,13 @@
 		{#each subFields as subField}
 			{#if value && subField.id}
 				<div class="subField">
-					<InputBuilder field={subField} bind:value={value[subField.id]} on:setDate on:changeDrug />
+					<InputBuilder
+						{disabled}
+						field={subField}
+						bind:value={value[subField.id]}
+						on:setDate
+						on:changeDrug
+					/>
 				</div>
 			{/if}
 		{/each}

@@ -3,6 +3,7 @@
 
 	export let value: DataStorage['static_fields'];
 	export let field: Field | undefined = undefined;
+	export let disabled = false;
 
 	let splitFields = field?.splitFields;
 
@@ -16,7 +17,7 @@
 		{#each splitFields as split}
 			{#if split?.id}
 				<div class="split">
-					<InputBuilder bind:value={value[split.id]} field={split} />
+					<InputBuilder bind:value={value[split.id]} {disabled} field={split} />
 				</div>
 			{/if}
 		{/each}

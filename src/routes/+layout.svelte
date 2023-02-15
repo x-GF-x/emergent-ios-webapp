@@ -1,7 +1,13 @@
 <script lang="ts">
-	// import type { LayoutData } from './$types';
-	// export let data: LayoutData;
+	import { browser } from '$app/environment';
 	import { theme } from '$lib/stores/theme';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		if (browser && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			$theme = 'dark';
+		}
+	});
 </script>
 
 <svelte:head>

@@ -5,6 +5,7 @@
 
 	export let value: { [key: string]: FieldValues } = {};
 	export let field: Field;
+	export let disabled = false;
 
 	let subFields: SubField[];
 	let setterId = ''; //ID of subfield that is of type date
@@ -116,6 +117,7 @@
 <Subfields
 	bind:value
 	{subFields}
+	{disabled}
 	on:setDate={(e) => {
 		const { id } = e.detail;
 		if (id === setterId) setAgeValueAndUnit(value?.[setterId]);

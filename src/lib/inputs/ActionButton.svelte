@@ -24,4 +24,7 @@
 		text-align: end;
 		font-weight: var(--weightBold);
 	}
+	.actionButton:disabled {
+		color: var(--dark3);
+	}
 </style>

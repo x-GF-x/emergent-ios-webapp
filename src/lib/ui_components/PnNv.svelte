@@ -66,6 +66,7 @@
 	{/if}
 
 	<button
+		disabled={$dataStorageAccessor.readonly}
 		class="notValue"
 		class:material-symbols-outlined={field.type !== 'multiSelect'}
 		class:multiCheckbox={field.type === 'multiSelect'}
@@ -104,8 +105,8 @@
 		justify-content: center;
 		height: 100%;
 		width: 60px;
-		font-weight: 300;
-		color: var(--dark3);
+		font-weight: 200;
+		color: var(--dark2);
 		font-size: var(--fontXL);
 		border-left: var(--1pxBorder);
 	}

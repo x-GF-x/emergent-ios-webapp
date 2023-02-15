@@ -8,6 +8,7 @@
 	import { widthConversion } from './width_conversion';
 	import { createEventDispatcher } from 'svelte';
 	import { slide } from 'svelte/transition';
+	import { dataStorageAccessor } from '$lib/stores/data';
 
 	const dispatch = createEventDispatcher();
 
@@ -46,7 +47,11 @@
 			<div class="title">{title}</div>
 		</div>
 	{/if}
-	<div class="list" class:hiddenList={title === 'Notes' && data.rows.length === 1}>
+	<div
+		class="list"
+		class:hiddenList={title === 'Notes' && data.rows.length === 1}
+		class:inactive={$dataStorageAccessor.readonly}
+	>
 		{#if collapsible}
 			<button class="listHeader collapsible" class:timestamp class:collapsed on:click={collapse}>
 				<div class="titleAndIcon">
@@ -67,18 +72,30 @@
 			<div class="rows" transition:slide|local>
 				{#each data.rows as row}
 					<div
+						style:background={$dataStorageAccessor.readonly ? 'transparent' : ''}
 						class="row"
 						class:actionButtonRow={row.fields?.length === 1 && row.fields[0].type === 'action'}
 					>
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
-							{@const disabled = value[field.id + '_nv'] || value[field.id + '_pn'] ? true : false}
+							{@const disabled =
+								value[field.id + '_nv'] || value[field.id + '_pn'] || $dataStorageAccessor.readonly
+									? true
+									: false}
 							<div
 								style:width={width + '%'}
 								aria-label={field?.type}
 								class:multiSelect={field.type === 'multiSelect'}
 								class="fieldContainer"
-								class:disabled={disabled && field.type !== 'multiSelect'}
+								style:background={$dataStorageAccessor.readonly
+									? 'transparent'
+									: field.type !== 'action'
+									? 'var(--light1)'
+									: ''}
+								class:disabled={disabled &&
+									field.type !== 'multiSelect' &&
+									field.type !== 'action' &&
+									!$dataStorageAccessor.readonly}
 							>
 								<div class="fieldAndNv">
 									<div class="field">
@@ -94,14 +111,14 @@
 											<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
 										{:else if field.type === 'age'}
-											<Age {field} bind:value />
+											<Age bind:value {disabled} {field} />
 										{:else if field.type === 'drug'}
-											<Drug {chart} {field} bind:value />
+											<Drug bind:value {disabled} {chart} {field} />
 										{:else if field.splitFields}
-											<SplitNumeric bind:value {field} />
+											<SplitNumeric bind:value {disabled} {field} />
 										{/if}
 									</div>
-									{#if (field.nv || field.pn) && field.type !== 'multiSelect'}
+									{#if (field.nv || field.pn) && field.type !== 'multiSelect' && !$dataStorageAccessor.readonly}
 										<PnNv bind:value {field} />
 									{/if}
 								</div>
@@ -177,7 +194,6 @@
 
 	.rows {
 		margin: 15px;
-		background: var(--light1);
 	}
 
 	.row {
@@ -198,6 +214,7 @@
 		justify-content: space-between;
 		overflow: hidden;
 	}
+
 	.fieldContainer:not(:last-child) {
 		border-right: 1pt solid var(--border);
 	}
@@ -225,7 +242,11 @@
 		min-height: 30px;
 	}
 
+	.inactive {
+		background: var(--disabled);
+	}
+
 	.disabled {
-		background: var(--border);
+		background: var(--disabled) !important;
 	}
 </style>

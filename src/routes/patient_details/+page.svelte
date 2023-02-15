@@ -30,6 +30,7 @@
 	const handleChildCollapse = () => (allCollapsed = undefined);
 </script>
 
+<!-- <button on:click={() => (value.readonly = !value.readonly)}>Dev</button> -->
 {#if sceneAction}
 	<svelte:component
 		this={sceneAction}
@@ -227,6 +228,7 @@
 
 	.sceneHeader {
 		padding: 16px 0 0 16px;
+		z-index: 1;
 		/* If you want sticky */
 		position: sticky;
 		top: 0;

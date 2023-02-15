@@ -91,7 +91,10 @@
 					{@const matchingCards = value?.actions?.filter(
 						(item) => item?.card_id === chartCardId && item.title === chart.title
 					)}
-					{@const disabled = chart.type === 'unrepeatable' && matchingCards?.length ? true : false}
+					{@const disabled =
+						(chart.type === 'unrepeatable' && matchingCards?.length) || value.readonly
+							? true
+							: false}
 					<button
 						class="cardButton"
 						class:active={matchingCards?.length && chart.type === 'untimed'}
@@ -122,7 +125,7 @@
 							</div>
 							{#if (matchingCards?.length && chart.type === 'untimed') || chart.type === 'timed'}
 								{@const lastInstance = matchingCards?.at(-1)?.last_modified}
-								<div class="timestamp">
+								<div class="timestamp" style:color={disabled ? 'var(--light1)' : ''}>
 									{#if chart.type === 'timed'}
 										{#if !lastInstance && chart.interval}
 											Perform every
@@ -213,7 +216,7 @@
 	}
 
 	.replayNumber {
-		height: 30px;
+		height: 26px;
 		position: relative;
 		text-align: center;
 		display: flex;
