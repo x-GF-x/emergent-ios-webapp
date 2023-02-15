@@ -20,8 +20,7 @@
 			<button
 				class:selectedTab={selectedTab === tab.value}
 				class="tab"
-				on:click={() => (selectedTab = tab.value)}
-			>
+				on:click={() => (selectedTab = tab.value)}>
 				{tab.label}
 			</button>
 		{/each}
@@ -40,8 +39,7 @@
 			{/each}
 			<div class="cell" style="display: flex;align-items: center;">
 				<button class="editBodyHeader material-symbols-outlined" on:click={editBodyHeader}
-					>edit_square</button
-				>
+					>edit_square</button>
 			</div>
 		</div>
 		<div class="bodyGrid">
@@ -55,8 +53,7 @@
 							class:selectedCall={call.incident_number === selectedCall}
 							class:activeCall={call.active}
 							class="callButton"
-							on:click={() => (selectedCall = call.incident_number)}
-						>
+							on:click={() => (selectedCall = call.incident_number)}>
 							<div class="call">
 								<div class="callLarge">
 									<div class="cellLargeItem">
@@ -282,9 +279,10 @@
 	}
 
 	.incidentAction {
-		padding: 10px 20px;
+		padding: 20px;
 		background: var(--primary);
-		color: white;
+		color: var(--light4);
+		font-weight: var(--weightSemiBold);
 		border-radius: 5px;
 		text-align: center;
 		text-decoration: none;
