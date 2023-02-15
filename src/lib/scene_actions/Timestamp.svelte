@@ -20,8 +20,7 @@
 			bind:value={newTimestamp}
 			type="date"
 			field={{ id: 'time', style: 'time', title: 'Timestamp', type: 'date' }}
-			on:update={handleUpdate}
-		/>
+			on:update={handleUpdate} />
 	</Modal>
 </div>
 
@@ -32,5 +31,6 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
+		z-index: 100;
 	}
 </style>
