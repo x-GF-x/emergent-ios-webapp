@@ -97,9 +97,11 @@
 		noneSelected = e.detail.value;
 		pnLabel = undefined;
 		if (noneSelected) {
+			disabled = true;
 			storedValues = JSON.stringify(value);
 			value = [];
 		} else {
+			disabled = false;
 			if (storedValues) {
 				value = JSON.parse(storedValues);
 			}
@@ -113,6 +115,8 @@
 			embeddedOptions = fieldOptions.filter((option) => option.type === embeddedLookupId);
 
 		if (!value) hasEmbeddedOptions ? (value = {}) : (value = []);
+
+		if (noneSelected) disabled = true;
 	});
 
 	$: value, getSelectedItems();
