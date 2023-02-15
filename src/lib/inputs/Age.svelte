@@ -122,5 +122,4 @@
 		const { id } = e.detail;
 		if (id === setterId) setAgeValueAndUnit(value?.[setterId]);
 		else if (id === 'time') applyTime();
-	}}
-/>
+	}} />

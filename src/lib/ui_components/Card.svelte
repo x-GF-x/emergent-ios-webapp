@@ -237,6 +237,7 @@
 		align-items: flex-end;
 		height: max-content;
 		min-height: 30px;
+		width: calc(100% + 2px);
 	}
 
 	.inactive {
