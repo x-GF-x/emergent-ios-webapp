@@ -3,10 +3,13 @@
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
 
+	let mounted = false;
+
 	onMount(() => {
 		if (browser && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 			$theme = 'dark';
 		}
+		mounted = true;
 	});
 </script>
 
@@ -15,13 +18,11 @@
 
 	<link
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100;200;300;400"
-		rel="stylesheet"
-	/>
+		rel="stylesheet" />
 
 	<link
 		href="https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600"
-		rel="stylesheet"
-	/>
+		rel="stylesheet" />
 
 	{#if $theme === 'dark'}
 		<style lang="css">
@@ -34,7 +35,9 @@
 	{/if}
 </svelte:head>
 <main>
-	<slot />
+	{#if mounted}
+		<slot />
+	{/if}
 </main>
 
 <style>
