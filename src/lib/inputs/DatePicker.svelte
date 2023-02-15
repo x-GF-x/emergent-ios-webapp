@@ -10,6 +10,8 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal = fromModal;
+	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	pnNvStorage = pnNvStorage;
 
 	let popper: Popper;
 	let numpad: Numpad;

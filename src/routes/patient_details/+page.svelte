@@ -32,6 +32,7 @@
 	onMount(() => {
 		$dataStorageAccessor = value;
 	});
+	$: console.log(value);
 </script>
 
 {#if sceneAction}
@@ -108,9 +109,9 @@
 	</section>
 	<section class="footer">
 		{#each footerItems as footerItem}
-			{@const mostRecentVitals = value.actions
-				.reverse()
-				.find((item) => item.card_id === 'vital_signs')?.fields}
+			{@const mostRecentVitals = value.actions.find(
+				(item) => item.card_id === 'vital_signs'
+			)?.fields}
 			<div class="footerItem">
 				<div class="footerItemHeader">{footerItem.label}</div>
 				<div class="footerItemValue">

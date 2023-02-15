@@ -6,6 +6,8 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal = fromModal;
+	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	pnNvStorage = pnNvStorage;
 
 	const mathOperations = {
 		'+': (val: number) => {

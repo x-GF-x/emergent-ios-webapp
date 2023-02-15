@@ -7,6 +7,7 @@
 	};
 	export let data: CardJson;
 	export let chart: QuickChartObject | undefined = undefined;
+	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
 
 	//We do not want the "remove note" button when adding a new note
 	if (value.card_id === 'narrative') {
@@ -15,5 +16,5 @@
 </script>
 
 <Modal on:backdropClick on:updateModal>
-	<Card collapsible={false} bind:value {data} {chart} fromModal />
+	<Card collapsible={false} bind:value bind:pnNvStorage {data} {chart} fromModal />
 </Modal>

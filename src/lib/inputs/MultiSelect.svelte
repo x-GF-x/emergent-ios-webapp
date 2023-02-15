@@ -13,6 +13,7 @@
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = field?.embedded
 		? {}
 		: [];
+	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
 
 	let fieldLookupId = field?.key;
 	let options: DropDownOption[] = fieldOptions.filter((option) => option.type === fieldLookupId);
@@ -94,13 +95,17 @@
 	};
 
 	const handlePnNv = async (e: { detail: { value: boolean } }) => {
+		console.log(e.detail.value);
 		noneSelected = e.detail.value;
 		pnLabel = undefined;
 		if (noneSelected) {
+			console.log('store away values');
 			disabled = true;
 			storedValues = JSON.stringify(value);
 			value = [];
 		} else {
+			console.log('add back in value');
+
 			disabled = false;
 			if (storedValues) {
 				value = JSON.parse(storedValues);
@@ -132,6 +137,7 @@
 <Popper
 	{field}
 	{disabled}
+	bind:pnNvStorage
 	value={field.title ? field?.title + (pnLabel ? ': ' + pnLabel : '') : ''}
 	type={field?.type}
 	bind:this={popper}

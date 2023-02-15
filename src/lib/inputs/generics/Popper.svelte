@@ -14,6 +14,7 @@
 	export let modal = false;
 	export let field: Field = {};
 	export let disabled = false;
+	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
@@ -71,7 +72,7 @@
 					{/if}
 				</div>
 				{#if type === 'multiSelect'}
-					<PnNv {field} on:handlePnNv />
+					<PnNv bind:pnNvStorage {field} on:handlePnNv />
 				{/if}
 			</div>
 			{#if toggleIcon}

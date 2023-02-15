@@ -6,10 +6,12 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let field: Field;
+	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	console.log(pnNvStorage);
 
 	const dispatch = createEventDispatcher();
 
-	export let value = $dataStorageAccessor.static_fields; //Value is passed in from cards, except for multiSelects;
+	export let value = pnNvStorage ? pnNvStorage : $dataStorageAccessor.static_fields; //Value is passed in from cards, except for multiSelects;
 
 	let pnField: Field | undefined = undefined;
 	let pnSelector: SingleSelect;
@@ -18,6 +20,7 @@
 		if (!value[e.detail.field.id + '_nv']) value[e.detail.field.id + '_nv'] = true;
 		else value[e.detail.field.id + '_nv'] = false;
 		dispatch('handlePnNv', { value: e.detail.value });
+		value = value;
 	};
 
 	const handlePn = (e: { detail: { field: Field; value: boolean } }) => {
@@ -33,7 +36,7 @@
 		}
 		if (!e.detail.value) dispatch('handlePnNv', { value: false });
 
-		$dataStorageAccessor = $dataStorageAccessor;
+		value = value;
 	};
 
 	const openPnSelector = async (field: Field) => {
@@ -45,6 +48,7 @@
 	};
 
 	const setPnSelection = (e: { detail: { value: string } }) => {
+		console.log(pnField);
 		if (pnField?.id) {
 			const selectedCode = e.detail.value;
 			if (selectedCode === 'nv') {
@@ -55,7 +59,7 @@
 				value[pnField.id + '_nv'] = undefined;
 			}
 			dispatch('handlePnNv', { value: true });
-			$dataStorageAccessor = $dataStorageAccessor;
+			value = value;
 		}
 	};
 </script>
@@ -83,8 +87,7 @@
 			field.pn
 				? handlePn({ detail: { field: field, value: matchingValue } })
 				: handleNv({ detail: { field: field, value: matchingValue } });
-		}}
-	>
+		}}>
 		{field.type === 'multiSelect' ? '' : 'block'}
 	</button>
 </div>
@@ -94,8 +97,7 @@
 		passedInOptions={pnField.pn}
 		hidePopperButton
 		value={undefined}
-		on:setPn={(e) => setPnSelection(e)}
-	/>
+		on:setPn={(e) => setPnSelection(e)} />
 {/if}
 
 <style>

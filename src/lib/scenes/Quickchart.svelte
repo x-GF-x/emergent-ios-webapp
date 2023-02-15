@@ -52,7 +52,7 @@
 	const saveModal = () => {
 		setTimers();
 		created_and_last_modified(cardValue);
-		value.actions = [...value.actions, cardValue];
+		value.actions = [...value.actions, Object.assign({}, cardValue)];
 		clearActiveCard();
 	};
 
@@ -150,8 +150,10 @@
 </div>
 
 {#if activeCard}
+	<!-- this value is where we need to store nv's -->
 	<CardModal
 		bind:value={cardValue.fields}
+		bind:pnNvStorage={cardValue.fields}
 		data={JSON.parse(activeCard)}
 		chart={activeChart}
 		on:backdropClick={clearActiveCard}

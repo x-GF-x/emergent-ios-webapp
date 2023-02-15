@@ -19,6 +19,7 @@
 	export let chart: QuickChartObject | undefined = undefined;
 	export let fromModal = false;
 	export let timestamp = value.last_modified ? value.last_modified : undefined;
+	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
 
 	let collapsed = false;
 
@@ -104,6 +105,7 @@
 												{fromModal}
 												{disabled}
 												bind:value={value[field.id]}
+												bind:pnNvStorage
 												on:modify
 												on:actionButton={(e) => handleActionButton(e)} />
 											<!-- Handling fields with subfields separately
