@@ -4,8 +4,7 @@
 
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { fieldOptions } from '$lib/resource_file/lookups/lookups';
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	import { onMount } from 'svelte';
 
 	export let field: Field;
 	export let disabled = false;
@@ -22,23 +21,10 @@
 	let noneSelected = false;
 	let storedValues: string = JSON.stringify(value);
 	let hasEmbeddedOptions = field?.embedded ? true : false;
-	let embeddedLookupId: string | undefined = undefined;
+	let embeddedLookupId: string | undefined = field?.embedded?.key;
 	let embeddedOptions: DropDownOption[] = [];
 	let pnLabel: string | undefined = undefined;
-
-	//Build the pnLabel
-	$: field.pn && $dataStorageAccessor?.static_fields?.[field.id + '_pn']
-		? (pnLabel = field.pn.find(
-				(item) => item.code === $dataStorageAccessor?.static_fields?.[field.id + '_pn']
-		  )?.description)
-		: '';
-
-	if (hasEmbeddedOptions) {
-		embeddedLookupId = field?.embedded?.key;
-		embeddedOptions = fieldOptions.filter((option) => option.type === embeddedLookupId);
-	}
-
-	if (!value) hasEmbeddedOptions ? (value = {}) : (value = []);
+	let selectedItems: Option[] | undefined;
 
 	const editArray = (passedInValue: MultiSelectValues, code: string, label: string) => {
 		if (passedInValue?.find((item: { value: string }) => item.value === code)) {
@@ -76,8 +62,6 @@
 		}
 	};
 
-	let selectedItems: Option[] | undefined;
-
 	const getSelectedItems = () => {
 		if (Array.isArray(value)) {
 			selectedItems = value.filter((item) => item.value);
@@ -91,29 +75,22 @@
 		}
 	};
 
-	getSelectedItems();
-
-	$: value, getSelectedItems();
-	$: idOfActiveEmbeddedList, getSelectedItems();
-
 	const updateItems = () => {
 		idOfActiveEmbeddedList ? (idOfActiveEmbeddedList = undefined) : popper.toggle();
 	};
 
 	const closeParent = (parentItem: Option) => {
-		if (Array.isArray(value)) {
-			value = value.filter((item) => item.value !== parentItem.value);
-		} else if (value) {
+		if (Array.isArray(value)) value = value.filter((item) => item.value !== parentItem.value);
+		else if (value) {
 			delete value[parentItem.value];
 			value = value;
 		}
 	};
 	const closeEmbedded = (parentItem: Option, embeddedItem: Option) => {
-		if (!Array.isArray(value) && value) {
+		if (!Array.isArray(value) && value)
 			value[parentItem.value] = value[parentItem.value].filter(
 				(item: Option) => item.value !== embeddedItem.value
 			);
-		}
 	};
 
 	const handlePnNv = async (e: { detail: { value: boolean } }) => {
@@ -128,6 +105,24 @@
 			}
 		}
 	};
+
+	onMount(() => {
+		getSelectedItems();
+
+		if (hasEmbeddedOptions)
+			embeddedOptions = fieldOptions.filter((option) => option.type === embeddedLookupId);
+
+		if (!value) hasEmbeddedOptions ? (value = {}) : (value = []);
+	});
+
+	$: value, getSelectedItems();
+	$: idOfActiveEmbeddedList, getSelectedItems();
+	//Build the pnLabel
+	$: field.pn && $dataStorageAccessor?.static_fields?.[field.id + '_pn']
+		? (pnLabel = field.pn.find(
+				(item) => item.code === $dataStorageAccessor?.static_fields?.[field.id + '_pn']
+		  )?.description)
+		: '';
 </script>
 
 <Popper
