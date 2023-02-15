@@ -13,9 +13,9 @@
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { default_value } from '$lib/data/default_value';
 	import { theme } from '$lib/stores/theme';
+	import { onMount } from 'svelte';
 
 	let value: DataStorage = default_value;
-	$dataStorageAccessor = value;
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};
@@ -28,16 +28,18 @@
 	};
 
 	const handleChildCollapse = () => (allCollapsed = undefined);
+
+	onMount(() => {
+		$dataStorageAccessor = value;
+	});
 </script>
 
-<!-- <button on:click={() => (value.readonly = !value.readonly)}>Dev</button> -->
 {#if sceneAction}
 	<svelte:component
 		this={sceneAction}
 		bind:selectedTab
 		bind:value
-		on:close={() => (sceneAction = undefined)}
-	/>
+		on:close={() => (sceneAction = undefined)} />
 {/if}
 
 <div class="grid">
@@ -45,12 +47,8 @@
 		<a href="/" class="return material-symbols-outlined">arrow_back_ios</a>
 		<button
 			class="theme material-symbols-outlined"
-			on:click={() => {
-				if ($theme === 'dark') $theme = 'light';
-				else $theme = 'dark';
-			}}
-		>
-			{$theme}_mode
+			on:click={() => ($theme === 'dark' ? ($theme = 'light') : ($theme = 'dark'))}>
+			{$theme === 'dark' ? 'dark_mode' : 'light_mode'}
 		</button>
 	</section>
 	<section class="controls">
@@ -58,10 +56,8 @@
 			<SingleSelect
 				field={{}}
 				value={'Patient 1'}
-				props={{ icon: 'account_box', dropdownLabel: 'People' }}
-			/>
+				props={{ icon: 'account_box', dropdownLabel: 'People' }} />
 		</div>
-		<!-- <div class="material-symbols-outlined swap">swap_horiz</div> -->
 		<button class="addPerson">ADD PERSON</button>
 		<button class="endCall">END CALL</button>
 	</section>
@@ -70,8 +66,7 @@
 			<button
 				class:selectedTab={tab.id === selectedTab.id}
 				class="tab"
-				on:click={() => (selectedTab = tab)}
-			>
+				on:click={() => (selectedTab = tab)}>
 				{tab.label}
 			</button>
 		{/each}
@@ -79,16 +74,13 @@
 	<section class="body">
 		<div class="sceneHeader">
 			<div class="headerAndActionButton">
-				<div class="label">
-					{selectedTab.label}
-				</div>
+				<div class="label">{selectedTab.label}</div>
 				{#if selectedTab.scene_action}
 					<button
 						class="sceneAction"
 						on:click={() => {
 							if (selectedTab.scene_action?.fn) handleSceneAction(selectedTab.scene_action.fn);
-						}}
-					>
+						}}>
 						{selectedTab.scene_action.label}
 					</button>
 				{/if}
@@ -111,16 +103,14 @@
 				{selectedTab}
 				{allCollapsed}
 				{timers}
-				bind:value
-			/>
+				bind:value />
 		{/key}
 	</section>
 	<section class="footer">
-		<!-- <button class="protocols">Protocols</button> -->
 		{#each footerItems as footerItem}
-			{@const mostRecentVitals = value.actions.find(
-				(item) => item.card_id === 'vital_signs'
-			)?.fields}
+			{@const mostRecentVitals = value.actions
+				.reverse()
+				.find((item) => item.card_id === 'vital_signs')?.fields}
 			<div class="footerItem">
 				<div class="footerItemHeader">
 					{footerItem.label}
@@ -195,7 +185,7 @@
 	}
 
 	.endCall {
-		color: var(--light1);
+		color: var(--light4);
 		background: var(--primary);
 		height: 60px;
 		border-radius: 5px;
@@ -267,6 +257,7 @@
 		display: grid;
 		grid-template-columns: auto auto auto auto auto;
 		align-items: center;
+		z-index: 1;
 	}
 
 	/* .protocols {

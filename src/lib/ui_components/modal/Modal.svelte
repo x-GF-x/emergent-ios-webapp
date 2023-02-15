@@ -54,7 +54,7 @@
 		background: var(--primary);
 		border-radius: 5px;
 		padding: 12px;
-		color: var(--light1);
+		color: var(--light4);
 	}
 
 	.minimalContainer {

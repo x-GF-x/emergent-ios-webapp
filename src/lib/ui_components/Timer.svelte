@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import { theme } from '$lib/stores/theme';
 
 	export let count = 0;
 	export let overdue = false;
@@ -39,7 +40,10 @@
 	});
 </script>
 
-<div class="time" class:overdue>
+<div
+	class="time"
+	class:overdue
+	style:color={$theme === 'dark' && s > 0 && s < 60 && m < 1 ? 'var(--light4)' : ''}>
 	{overdue ? 'Overdue by' : 'Perform again in'}
 	<b>
 		{h < 10 ? 0 + '' + h : h}:{m < 10 ? 0 + '' + m : m}:{s < 10 ? 0 + '' + s : s}
@@ -51,6 +55,6 @@
 		color: white;
 	}
 	.overdue {
-		color: var(--light1);
+		color: var(--light4);
 	}
 </style>

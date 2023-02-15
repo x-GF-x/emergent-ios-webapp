@@ -66,8 +66,7 @@
 			on:select={(e) => {
 				cardValue = { card_id: e.detail.value.code, fields: {}, title: e.detail.value?.value };
 				activeCard = cards.find((item) => item.id === e.detail.value.id)?.card_json;
-			}}
-		/>
+			}} />
 	</div>
 {/if}
 
@@ -107,8 +106,7 @@
 						class:redTimer={chartCardId in timers && timers[chartCardId].overdue}
 						on:click={() => handleChartButton(chart)}
 						class:disabled
-						{disabled}
-					>
+						{disabled}>
 						{#if matchingCards?.length && !disabled}
 							<div class="replayNumber">
 								<div class="matchingCardsLength">
@@ -134,8 +132,7 @@
 											<Timer
 												deadline={timers[chartCardId].deadline}
 												bind:count={timers[chartCardId].value}
-												bind:overdue={timers[chartCardId].overdue}
-											/>
+												bind:overdue={timers[chartCardId].overdue} />
 										{/if}
 									{:else}
 										Last Performed at {lastInstance}
@@ -156,8 +153,7 @@
 		data={JSON.parse(activeCard)}
 		chart={activeChart}
 		on:backdropClick={clearActiveCard}
-		on:updateModal={saveModal}
-	/>
+		on:updateModal={saveModal} />
 {/if}
 
 <style>
@@ -203,7 +199,7 @@
 
 	.disabled {
 		background: var(--dark3);
-		color: var(--light1);
+		color: var(--light4);
 		filter: var(--contrastFilter);
 	}
 
@@ -247,11 +243,11 @@
 
 	.redTimer {
 		background: var(--primary);
-		color: var(--light1);
+		color: var(--light4);
 	}
 	.yellowTimer {
 		background: var(--yellow);
-		color: white;
+		color: var(--light4);
 	}
 
 	.greenTimer {

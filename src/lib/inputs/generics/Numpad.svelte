@@ -120,8 +120,7 @@
 								value = value.substring(0, value.length - 1);
 							}
 							if (e.key === 'Enter' && !error) dispatch('update', { value: value });
-						}}
-					/>
+						}} />
 					{#if field.unitText}
 						<div class="unit">
 							{field.unitText}
@@ -136,15 +135,13 @@
 						bind:error
 						bind:valueInput
 						bind:value
-						on:update={() => dispatch('update', { value: value })}
-					/>
+						on:update={() => dispatch('update', { value: value })} />
 				{/if}
 			{/if}
 
 			<button
 				class="material-symbols-outlined cancel"
-				on:click={() => (type === 'numeric' ? (value = undefined) : (value = ''))}
-			>
+				on:click={() => (type === 'numeric' ? (value = undefined) : (value = ''))}>
 				cancel
 			</button>
 		</div>
@@ -164,16 +161,14 @@
 			{#if typeof cell === 'number'}
 				<button
 					class="numberButton"
-					on:click={() => (typeof cell === 'number' ? selectNumber(cell) : null)}>{cell}</button
-				>
+					on:click={() => (typeof cell === 'number' ? selectNumber(cell) : null)}>{cell}</button>
 			{:else if typeof cell === 'object'}
 				<button
 					disabled={cell.icon !== 'backspace' && typeof value === 'string' && value.includes('.')
 						? true
 						: false}
 					class="iconButton material-symbols-outlined"
-					on:click={cell.fn}>{cell.icon}</button
-				>
+					on:click={cell.fn}>{cell.icon}</button>
 			{:else}
 				<button />
 			{/if}
@@ -186,8 +181,7 @@
 			on:click={() => {
 				if (error) alert('Incorrect Date Format. Please use MM/DD/YYY');
 				else dispatch('update', { value: value });
-			}}
-		>
+			}}>
 			UPDATE
 		</button>
 	</div>
@@ -214,7 +208,7 @@
 
 	.inputWrapper {
 		background: var(--secondary);
-		color: var(--light1);
+		color: var(--light4);
 		align-items: center;
 		text-align: start;
 		display: flex;
@@ -238,7 +232,7 @@
 	.numInput {
 		border: none;
 		background: none;
-		color: var(--light1);
+		color: var(--light4);
 		margin-right: 5px;
 		font-size: var(--fontXL);
 		width: 100%;
@@ -325,7 +319,7 @@
 		height: 60px;
 		width: 100%;
 		background: var(--primary);
-		color: var(--light1);
+		color: var(--light4);
 		border-radius: 5px;
 		font-size: var(--fontSmall);
 		font-weight: var(--weightBold);
@@ -334,7 +328,7 @@
 	.cancel {
 		font-size: var(--fontSmall);
 		cursor: pointer;
-		color: var(--light1);
+		color: var(--light4);
 	}
 
 	button:disabled {

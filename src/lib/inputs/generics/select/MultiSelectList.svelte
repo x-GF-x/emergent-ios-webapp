@@ -25,8 +25,7 @@
 	on:close={() => {
 		idOfActiveEmbeddedList = undefined;
 		dispatch('close');
-	}}
->
+	}}>
 	<div class="options">
 		{#each (!idOfActiveEmbeddedList ? options : embeddedOptions).filter((option) => option?.value
 				.toLowerCase()
@@ -43,8 +42,7 @@
 				on:select={(e) =>
 					idOfActiveEmbeddedList && embeddedOptions
 						? dispatch('selectEmbedded', { option: e.detail.option })
-						: dispatch('selectOption', { option: e.detail.option })}
-			/>
+						: dispatch('selectOption', { option: e.detail.option })} />
 		{/each}
 	</div>
 	<div class="footer">
@@ -76,7 +74,7 @@
 	}
 
 	.updateItems {
-		color: var(--light1);
+		color: var(--light4);
 		background: var(--primary);
 		padding: 12px 10px;
 		border-radius: 4px;

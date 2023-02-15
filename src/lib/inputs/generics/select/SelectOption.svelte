@@ -8,8 +8,7 @@
 <button
 	on:click|stopPropagation={() => dispatch('select', { option: option })}
 	class:selected
-	class="option"
->
+	class="option">
 	{option?.value}
 </button>
 
@@ -35,7 +34,7 @@
 
 	.selected {
 		background: var(--secondary);
-		color: var(--light1);
+		color: var(--light4);
 		font-weight: 500;
 	}
 </style>

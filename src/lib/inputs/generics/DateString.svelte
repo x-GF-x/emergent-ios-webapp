@@ -81,8 +81,7 @@
 		on:keypress={(e) => {
 			setLastKey(e.key);
 			if (e.key === 'Enter' && !error) dispatch('update');
-		}}
-	/>
+		}} />
 </div>
 
 <style>
@@ -92,7 +91,7 @@
 		width: 100%;
 		height: 100%;
 		padding: 4px 16px;
-		color: var(--light1);
+		color: var(--light4);
 		font-size: var(--fontXL);
 	}
 
