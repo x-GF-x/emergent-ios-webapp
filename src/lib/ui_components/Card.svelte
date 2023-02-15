@@ -50,8 +50,7 @@
 	<div
 		class="list"
 		class:hiddenList={title === 'Notes' && data.rows.length === 1}
-		class:inactive={$dataStorageAccessor.readonly}
-	>
+		class:inactive={$dataStorageAccessor.readonly}>
 		{#if collapsible}
 			<button class="listHeader collapsible" class:timestamp class:collapsed on:click={collapse}>
 				<div class="titleAndIcon">
@@ -61,8 +60,7 @@
 				{#if typeof timestamp === 'string'}
 					<button
 						class="timestampButton"
-						on:click|stopPropagation={() => dispatch('editTimestamp')}
-					>
+						on:click|stopPropagation={() => dispatch('editTimestamp')}>
 						{timestamp.substring(0, 5)}
 					</button>
 				{/if}
@@ -74,8 +72,7 @@
 					<div
 						style:background={$dataStorageAccessor.readonly ? 'transparent' : ''}
 						class="row"
-						class:actionButtonRow={row.fields?.length === 1 && row.fields[0].type === 'action'}
-					>
+						class:actionButtonRow={row.fields?.length === 1 && row.fields[0].type === 'action'}>
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
 							{@const disabled =
@@ -95,8 +92,7 @@
 								class:disabled={disabled &&
 									field.type !== 'multiSelect' &&
 									field.type !== 'action' &&
-									!$dataStorageAccessor.readonly}
-							>
+									!$dataStorageAccessor.readonly}>
 								<div class="fieldAndNv">
 									<div class="field">
 										{#if !field.subFields && !field.splitFields}
@@ -106,8 +102,7 @@
 												{disabled}
 												bind:value={value[field.id]}
 												on:modify
-												on:actionButton={(e) => handleActionButton(e)}
-											/>
+												on:actionButton={(e) => handleActionButton(e)} />
 											<!-- Handling fields with subfields separately
 										 to avoid circular dependency when we build subFields -->
 										{:else if field.type === 'age'}
@@ -202,6 +197,7 @@
 		border: var(--1pxBorder);
 		min-height: 40px;
 		justify-content: flex-start;
+		width: 100%;
 	}
 
 	.row:not(:last-child) {
@@ -216,13 +212,14 @@
 	}
 
 	.fieldContainer:not(:last-child) {
-		border-right: 1pt solid var(--border);
+		border-right: 1px solid var(--border);
 	}
 
 	.fieldAndNv {
 		display: grid;
-		grid-template-columns: 1fr max-content;
+		grid-template-columns: minmax(0, 1fr) max-content;
 		align-items: center;
+		height: 100%;
 	}
 
 	.field {
@@ -235,7 +232,7 @@
 
 	.actionButtonRow {
 		border: none;
-		border-top: 1pt solid var(--border);
+		border-top: 1px solid var(--border);
 		background: var(--light2);
 		align-items: flex-end;
 		height: max-content;

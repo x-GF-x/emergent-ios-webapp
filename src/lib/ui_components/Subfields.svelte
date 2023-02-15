@@ -16,8 +16,7 @@
 						field={subField}
 						bind:value={value[subField.id]}
 						on:setDate
-						on:changeDrug
-					/>
+						on:changeDrug />
 				</div>
 			{/if}
 		{/each}
@@ -38,6 +37,6 @@
 	}
 
 	.subField:not(:last-child) {
-		border-right: 1pt solid var(--border);
+		border-right: 1px solid var(--border);
 	}
 </style>

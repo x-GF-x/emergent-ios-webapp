@@ -246,15 +246,18 @@
 	.redTimer {
 		background: var(--primary);
 		color: var(--light4);
+		border: none;
 	}
 	.yellowTimer {
 		background: var(--yellow);
 		color: var(--light4);
+		border: none;
 	}
 
 	.greenTimer {
 		background: var(--green);
 		color: white;
+		border: none;
 	}
 
 	.fixed {

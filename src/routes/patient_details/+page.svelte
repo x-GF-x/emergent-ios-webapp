@@ -71,31 +71,31 @@
 			</button>
 		{/each}
 	</section>
-	<section class="body">
-		<div class="sceneHeader">
-			<div class="headerAndActionButton">
-				<div class="label">{selectedTab.label}</div>
-				{#if selectedTab.scene_action}
-					<button
-						class="sceneAction"
-						on:click={() => {
-							if (selectedTab.scene_action?.fn) handleSceneAction(selectedTab.scene_action.fn);
-						}}>
-						{selectedTab.scene_action.label}
-					</button>
-				{/if}
-			</div>
-			{#if selectedTab.headerTabs}
-				{@const headerTabs = selectedTab.type === 'quickchart' ? quickchartTabs : sceneTabs}
-				<div class="sceneTabs">
-					{#each headerTabs as sceneTab}
-						<button on:click={() => handleSceneAction(sceneTab.action)} class="sceneTab">
-							{sceneTab.label}
-						</button>
-					{/each}
-				</div>
+	<div class="sceneHeader">
+		<div class="headerAndActionButton">
+			<div class="label">{selectedTab.label}</div>
+			{#if selectedTab.scene_action}
+				<button
+					class="sceneAction"
+					on:click={() => {
+						if (selectedTab.scene_action?.fn) handleSceneAction(selectedTab.scene_action.fn);
+					}}>
+					{selectedTab.scene_action.label}
+				</button>
 			{/if}
 		</div>
+		{#if selectedTab.headerTabs}
+			{@const headerTabs = selectedTab.type === 'quickchart' ? quickchartTabs : sceneTabs}
+			<div class="sceneTabs">
+				{#each headerTabs as sceneTab}
+					<button on:click={() => handleSceneAction(sceneTab.action)} class="sceneTab">
+						{sceneTab.label}
+					</button>
+				{/each}
+			</div>
+		{/if}
+	</div>
+	<section class="body">
 		{#key selectedTab}
 			<svelte:component
 				this={scenes?.[selectedTab?.type]}
@@ -128,9 +128,13 @@
 </div>
 
 <style>
+	section {
+		height: 100%;
+	}
+
 	.grid {
 		display: grid;
-		grid-template-rows: 5% 10% 5% 67.5% 10% 2.5%;
+		grid-template-rows: 5% 10% 5% auto 1fr 10% 2.5%;
 		height: 100%;
 		align-items: end;
 		position: fixed;
@@ -212,16 +216,12 @@
 	}
 
 	.body {
-		overflow-y: scroll;
+		overflow-y: auto;
 		background: var(--light3);
 	}
 
 	.sceneHeader {
 		padding: 16px 0 0 16px;
-		z-index: 1;
-		/* If you want sticky */
-		position: sticky;
-		top: 0;
 		background: var(--light3);
 	}
 
@@ -288,9 +288,5 @@
 		display: flex;
 		justify-content: flex-end;
 		margin-right: 6px;
-	}
-
-	section {
-		height: 100%;
 	}
 </style>

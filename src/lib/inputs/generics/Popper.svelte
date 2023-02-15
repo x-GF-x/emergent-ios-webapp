@@ -43,8 +43,7 @@
 <svelte:window
 	on:mouseup={() => {
 		if (isOpen && !overPopper) toggle();
-	}}
-/>
+	}} />
 
 <div
 	class="popperContainer"
@@ -52,16 +51,14 @@
 	on:mouseleave={() => (overPopper = false)}
 	bind:this={toggleButton}
 	class:paddingDisabled={props}
-	class:multi={type === 'multiSelect'}
->
+	class:multi={type === 'multiSelect'}>
 	{#if !hidePopperButton}
 		<button
 			class:iconToggle={props?.icon}
 			disabled={typeof props?.icon === 'string' || noneSelected || disabled}
 			class="toggleButton"
 			style:padding={type === 'multiSelect' || props ? 0 : '2px 4px 8px 16px'}
-			on:click={toggle}
-		>
+			on:click={toggle}>
 			{#if props?.icon}
 				<div class="material-symbols-outlined icon">
 					{props.icon}
@@ -83,8 +80,7 @@
 					class:multiSelect={type === 'multiSelect'}
 					class:largeIcon={props}
 					style={toggleIcon?.style}
-					style:color={noneSelected ? 'lightgray' : toggleIcon?.color}
-				>
+					style:color={noneSelected ? 'lightgray' : toggleIcon?.color}>
 					{isOpen ? toggleIcon.open : toggleIcon.closed}
 				</div>
 			{/if}
@@ -97,8 +93,7 @@
 			class="popper {!isOpen && !modal ? 'closed' : ''} {!modal ? 'boxShadow' : ''}"
 			class:modal
 			on:mouseenter={() => (overPopper = true)}
-			on:mouseleave={() => (overPopper = false)}
-		>
+			on:mouseleave={() => (overPopper = false)}>
 			<slot />
 		</div>
 	{/if}
@@ -196,7 +191,7 @@
 	}
 
 	.value {
-		white-space: nowrap;
+		/* white-space: nowrap; */
 		width: 100%;
 	}
 
