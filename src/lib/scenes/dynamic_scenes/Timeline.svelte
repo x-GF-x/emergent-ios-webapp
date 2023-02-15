@@ -22,8 +22,7 @@
 				timestamp={card?.last_modified}
 				bind:value={card.fields}
 				on:modify={() => last_modified(card)}
-				on:editTimestamp={() => (timestampLocation = { section: 'actions', index: cardIndex })}
-			/>
+				on:editTimestamp={() => (timestampLocation = { section: 'actions', index: cardIndex })} />
 		{/if}
 	{/each}
 {/if}

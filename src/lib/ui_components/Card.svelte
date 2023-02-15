@@ -18,7 +18,7 @@
 	export let allCollapsed: boolean | undefined = false;
 	export let chart: QuickChartObject | undefined = undefined;
 	export let fromModal = false;
-	export let timestamp = value.last_modified ? value.last_modified : '';
+	export let timestamp = value.last_modified ? value.last_modified : undefined;
 
 	let collapsed = false;
 
@@ -58,10 +58,13 @@
 					<div class="cardTitle">{data.properties.title}</div>
 				</div>
 				{#if typeof timestamp === 'string'}
+					{@const legibleTimestamp = new Date(timestamp).toLocaleTimeString('en-US', {
+						hour12: false
+					})}
 					<button
 						class="timestampButton"
 						on:click|stopPropagation={() => dispatch('editTimestamp')}>
-						{timestamp.substring(0, 5)}
+						{legibleTimestamp.substring(0, legibleTimestamp.length - 3)}
 					</button>
 				{/if}
 			</button>

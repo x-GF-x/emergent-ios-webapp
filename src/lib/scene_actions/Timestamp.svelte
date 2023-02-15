@@ -1,27 +1,56 @@
 <script lang="ts">
-	import Numpad from '$lib/inputs/generics/Numpad.svelte';
-	import Modal from '$lib/ui_components/modal/Modal.svelte';
+	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 
 	export let value: DataStorage;
 	export let timestampLocation: { section: 'actions' | 'notes'; index: number } | undefined;
 
-	let newTimestamp = '';
+	let newTimestamp = { date: '', time: '' };
 
 	const handleUpdate = () => {
+		let convertedDate = new Date(
+			newTimestamp.date.substring(6, 10) +
+				'-' +
+				newTimestamp.date.substring(0, 5).replaceAll('/', '-') +
+				'T' +
+				newTimestamp.time
+		).toLocaleString();
+		console.log(convertedDate);
 		if (timestampLocation)
-			value[timestampLocation.section][timestampLocation.index].last_modified = newTimestamp;
+			value[timestampLocation.section][timestampLocation.index].last_modified = convertedDate;
 		timestampLocation = undefined;
+	};
+
+	let timestampData: CardJson = {
+		properties: { title: 'Timestamp' },
+		rows: [
+			{
+				fields: [
+					{
+						id: 'date',
+						type: 'date',
+						style: 'date',
+						title: 'Date',
+						width: 'half'
+					},
+					{
+						id: 'time',
+						style: 'time',
+						title: 'Time',
+						type: 'date',
+						width: 'half'
+					}
+				]
+			}
+		]
 	};
 </script>
 
 <div class="timestampContainer">
-	<Modal hideContainer on:backdropClick={() => (timestampLocation = undefined)}>
-		<Numpad
-			bind:value={newTimestamp}
-			type="date"
-			field={{ id: 'time', style: 'time', title: 'Timestamp', type: 'date' }}
-			on:update={handleUpdate} />
-	</Modal>
+	<CardModal
+		bind:value={newTimestamp}
+		data={timestampData}
+		on:updateModal={handleUpdate}
+		on:backdropClick={() => (timestampLocation = undefined)} />
 </div>
 
 <style>
