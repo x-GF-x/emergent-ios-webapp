@@ -112,15 +112,9 @@
 				.reverse()
 				.find((item) => item.card_id === 'vital_signs')?.fields}
 			<div class="footerItem">
-				<div class="footerItemHeader">
-					{footerItem.label}
-				</div>
+				<div class="footerItemHeader">{footerItem.label}</div>
 				<div class="footerItemValue">
-					{#if mostRecentVitals?.[footerItem.id]}
-						{mostRecentVitals[footerItem.id]}
-					{:else}
-						-
-					{/if}
+					{mostRecentVitals?.[footerItem.id] ? mostRecentVitals[footerItem.id] : '-'}
 				</div>
 			</div>
 		{/each}
