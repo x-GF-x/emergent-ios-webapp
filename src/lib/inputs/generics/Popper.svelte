@@ -138,6 +138,10 @@
 		font-weight: var(--weightBold);
 	}
 
+	.toggleButton:disabled {
+		color: var(--dark4);
+	}
+
 	.paddingDisabled {
 		padding: 0;
 		height: 100%;
