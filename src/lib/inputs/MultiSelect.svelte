@@ -13,7 +13,6 @@
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = field?.embedded
 		? {}
 		: [];
-	export let pnNvStorage: PnNvStorage = undefined;
 
 	let fieldLookupId = field?.key;
 	let options: DropDownOption[] = fieldOptions.filter((option) => option.type === fieldLookupId);
@@ -137,7 +136,6 @@
 <Popper
 	{field}
 	{disabled}
-	bind:pnNvStorage
 	value={field.title ? field?.title + (pnLabel ? ': ' + pnLabel : '') : ''}
 	type={field?.type}
 	bind:this={popper}

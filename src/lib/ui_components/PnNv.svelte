@@ -2,18 +2,16 @@
 	import SingleSelect from '$lib/inputs/SingleSelect.svelte';
 
 	import { dataStorageAccessor } from '$lib/stores/data';
-	import { tick } from 'svelte';
+	import { getContext, tick } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
-
-	export let field: Field;
-	export let pnNvStorage: PnNvStorage = undefined;
-
 	const dispatch = createEventDispatcher();
 
-	export let value = pnNvStorage ? pnNvStorage : $dataStorageAccessor.static_fields; //Value is passed in from cards, except for multiSelects;
-
+	let pnNvStorage = getContext('pnNvStorage') as PnNvStorage;
 	let pnField: Field | undefined = undefined;
 	let pnSelector: SingleSelect;
+
+	export let field: Field;
+	export let value = pnNvStorage ? pnNvStorage : $dataStorageAccessor.static_fields; //Value is passed in from cards, except for multiSelects;
 
 	const handleNv = (e: { detail: { field: Field; value: boolean } }) => {
 		if (!value[e.detail.field.id + '_nv']) value[e.detail.field.id + '_nv'] = true;

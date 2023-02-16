@@ -3,7 +3,7 @@
 	import PnNv from '$lib/ui_components/PnNv.svelte';
 
 	import * as nanopop from 'nanopop';
-	import { createEventDispatcher, onMount, tick } from 'svelte';
+	import { createEventDispatcher, getContext, onMount, tick } from 'svelte';
 	import { fly } from 'svelte/transition';
 
 	export let props: InputProps = undefined;
@@ -14,7 +14,6 @@
 	export let modal = false;
 	export let field: Field = {};
 	export let disabled = false;
-	export let pnNvStorage: PnNvStorage = undefined;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;
@@ -72,7 +71,7 @@
 					{/if}
 				</div>
 				{#if type === 'multiSelect'}
-					<PnNv bind:pnNvStorage {field} on:handlePnNv />
+					<PnNv {field} on:handlePnNv />
 				{/if}
 			</div>
 			{#if toggleIcon}

@@ -6,7 +6,6 @@
 	export let value: FieldValues | any;
 	export let fromModal = false;
 	export let disabled = false;
-	export let pnNvStorage: PnNvStorage = undefined;
 
 	let originalValue = JSON.stringify(value);
 
@@ -32,7 +31,6 @@
 			{fromModal}
 			{disabled}
 			bind:value
-			bind:pnNvStorage
 			on:setDate
 			on:changeDrug
 			on:actionButton />

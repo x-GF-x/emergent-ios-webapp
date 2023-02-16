@@ -7,8 +7,6 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal;
-	export let pnNvStorage: PnNvStorage = undefined;
-	pnNvStorage;
 
 	let popper: Popper;
 	let numpad: Numpad;

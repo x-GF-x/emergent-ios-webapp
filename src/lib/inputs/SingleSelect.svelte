@@ -22,8 +22,6 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal;
-	export let pnNvStorage: PnNvStorage = undefined;
-	pnNvStorage;
 
 	export const toggle = () => {
 		popper?.toggle();

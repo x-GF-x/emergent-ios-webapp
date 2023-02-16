@@ -6,7 +6,7 @@
 	import PnNv from './PnNv.svelte';
 
 	import { widthConversion } from './width_conversion';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, setContext } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { dataStorageAccessor } from '$lib/stores/data';
 
@@ -20,6 +20,8 @@
 	export let fromModal = false;
 	export let timestamp = value.last_modified ? value.last_modified : undefined;
 	export let pnNvStorage: PnNvStorage = undefined;
+
+	setContext('pnNvStorage', pnNvStorage);
 
 	let collapsed = false;
 
@@ -103,7 +105,6 @@
 												{fromModal}
 												{disabled}
 												bind:value={value[field.id]}
-												bind:pnNvStorage
 												on:modify
 												on:actionButton={(e) => handleActionButton(e)} />
 											<!-- Handling fields with subfields separately

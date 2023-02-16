@@ -9,6 +9,7 @@
 	export let allCollapsed = false;
 
 	let timestampLocation: { section: 'actions' | 'notes'; index: number } | undefined = undefined;
+	$: console.log(value);
 </script>
 
 {#if value.actions}
@@ -17,12 +18,12 @@
 		{#if cardData && value.actions}
 			<!-- this value is where we need to store nv's -->
 			<Card
-				{allCollapsed}
-				collapsible
-				data={JSON.parse(cardData)}
-				timestamp={card?.last_modified}
 				bind:value={card.fields}
 				bind:pnNvStorage={card.fields}
+				data={JSON.parse(cardData)}
+				timestamp={card?.last_modified}
+				collapsible
+				{allCollapsed}
 				on:modify={() => last_modified(card)}
 				on:editTimestamp={() => (timestampLocation = { section: 'actions', index: cardIndex })} />
 		{/if}
