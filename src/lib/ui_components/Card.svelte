@@ -13,7 +13,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let data: CardJson;
-	export let value: DataStorage['static_fields'] | ActionItem['fields'];
+	export let value: PersonStorage['static_fields'] | ActionItem['fields'];
 	export let collapsible = true;
 	export let allCollapsed: boolean | undefined = false;
 	export let chart: QuickChartObject | undefined = undefined;

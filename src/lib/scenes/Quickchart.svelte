@@ -9,7 +9,7 @@
 	import { created_and_last_modified } from '$lib/fn/timestamp';
 
 	export let selectedTab: Tab;
-	export let value: DataStorage;
+	export let value: PersonStorage;
 	export let timers: Timers = {};
 	export let allCollapsed = false;
 	allCollapsed;

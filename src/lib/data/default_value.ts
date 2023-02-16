@@ -1,6 +1,6 @@
 import { base64, base64_2 } from '$lib/resource_file/base64_example';
 
-export const default_value: DataStorage = {
+export const default_value: PersonStorage = {
 	readonly: false,
 	created: new Date().toISOString(),
 	last_modified: new Date().toISOString(),
@@ -18,4 +18,23 @@ export const default_value: DataStorage = {
 			fields: { name: 'Second Photo', image_type: 'Other Type', value: base64_2 }
 		}
 	]
+};
+
+const newUuid = () => {
+	return crypto.randomUUID();
+};
+
+const newDate = () => {
+	return new Date().toISOString();
+};
+
+export const newPerson = {
+	readonly: false,
+	created: newDate(),
+	last_modified: newDate(),
+	uuid: newUuid(),
+	actions: [],
+	notes: [],
+	static_fields: {},
+	photo: []
 };

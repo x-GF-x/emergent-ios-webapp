@@ -4,7 +4,7 @@
 	import { last_modified } from '$lib/fn/timestamp';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 
-	export let value: DataStorage;
+	export let value: PersonStorage;
 	export let allCollapsed = false;
 
 	const deleteNote = (e: { detail: { uuid: string } }) =>
@@ -21,8 +21,7 @@
 				data={JSON.parse(cardData)}
 				bind:value={card}
 				on:modify={() => last_modified(card)}
-				on:deleteNote={deleteNote}
-			/>
+				on:deleteNote={deleteNote} />
 		{/if}
 	{/each}
 {/if}

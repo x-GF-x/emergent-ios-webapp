@@ -9,7 +9,7 @@
 
 	export let selectedTab: Tab = { label: '', id: '', type: 'static_scene' };
 	selectedTab;
-	export let value: DataStorage;
+	export let value: PersonStorage;
 
 	let options: Array<undefined | DropDownOption> = timeline_options();
 

@@ -15,7 +15,8 @@
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
 
-	let value: DataStorage = default_value;
+	let value: PersonStorage = default_value;
+	let data = { persons: [value] };
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};

@@ -3,7 +3,7 @@
 
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 
-	export let value: DataStorage;
+	export let value: PersonStorage;
 	export let allCollapsed = false;
 	allCollapsed;
 </script>

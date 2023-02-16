@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputBuilder from './generics/InputBuilder.svelte';
 
-	export let value: DataStorage['static_fields'];
+	export let value: PersonStorage['static_fields'];
 	export let field: Field | undefined = undefined;
 	export let disabled = false;
 

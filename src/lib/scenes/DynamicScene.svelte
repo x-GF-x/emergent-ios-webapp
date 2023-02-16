@@ -4,7 +4,7 @@
 	import Notes from './dynamic_scenes/Notes.svelte';
 
 	export let selectedTab: Tab;
-	export let value: DataStorage;
+	export let value: PersonStorage;
 	export let allCollapsed = false;
 	export let timers;
 	timers = timers;

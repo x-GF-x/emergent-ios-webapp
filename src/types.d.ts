@@ -1,5 +1,4 @@
-//Data storage for one patient
-type DataStorage = {
+interface PersonStorage {
 	//Fields that do not repeat (ie are not in actions array- for example person first name) go in static_fields.
 	//In mikes JSON these fields exist alongside last_modified, created etc.
 	//But TS did not like it and I agree it is less type safe
@@ -16,7 +15,7 @@ type DataStorage = {
 	//To get count for quickchart buttons, count instances of the card in this array.
 	actions: ActionItem[] | [];
 	readonly?: boolean;
-};
+}
 
 type SingleSelectValue = string | undefined;
 
@@ -253,3 +252,36 @@ type Photo = {
 		[key: string]: string;
 	};
 };
+
+//Data storage for one patient
+interface DataStorage {
+	patients: PersonStorage[];
+	logged_in_user?: string;
+	begin_incident_timestamp?: string;
+	end_incident_timestamp?: string;
+	uuid?: string;
+	incident_gps_location?: string;
+	units?: {
+		created: string;
+		unit_name: string;
+		last_modified: string;
+		uuid: string;
+	}[];
+	cad_type_key?: string;
+	alarm_timestamp?: string;
+	created?: string;
+	agency_incident_number?: string;
+	state_value?: number;
+	address?: {
+		properties: {
+			city: string;
+			state: string;
+			street_address: string;
+			state_abbreviation: string;
+			zip: string;
+			description: string;
+		};
+		uuid: string;
+	};
+	last_modified?: string;
+}

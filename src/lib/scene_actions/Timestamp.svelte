@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CardModal from '$lib/ui_components/modal/CardModal.svelte';
 
-	export let value: DataStorage;
+	export let value: PersonStorage;
 	export let timestampLocation: { section: 'actions' | 'notes'; index: number } | undefined;
 
 	let newTimestamp = { date: '', time: '' };

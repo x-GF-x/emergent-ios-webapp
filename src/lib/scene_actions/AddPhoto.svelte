@@ -2,7 +2,7 @@
 	import { onMount, createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let value: DataStorage;
+	export let value: PersonStorage;
 	export let selectedTab: Tab;
 	selectedTab;
 
