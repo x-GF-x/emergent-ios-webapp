@@ -7,7 +7,6 @@
 
 	export let field: Field;
 	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
-	console.log(pnNvStorage);
 
 	const dispatch = createEventDispatcher();
 
@@ -48,7 +47,7 @@
 	};
 
 	const setPnSelection = (e: { detail: { value: string } }) => {
-		console.log(pnField);
+		// console.log(pnField);
 		if (pnField?.id) {
 			const selectedCode = e.detail.value;
 			if (selectedCode === 'nv') {

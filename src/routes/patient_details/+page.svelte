@@ -32,9 +32,9 @@
 	onMount(() => {
 		$dataStorageAccessor = value;
 	});
-	$: console.log(value);
 </script>
 
+<!-- <button on:click={() => (value.readonly = true)}>dev</button> -->
 {#if sceneAction}
 	<svelte:component
 		this={sceneAction}

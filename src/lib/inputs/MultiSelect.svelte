@@ -95,16 +95,16 @@
 	};
 
 	const handlePnNv = async (e: { detail: { value: boolean } }) => {
-		console.log(e.detail.value);
+		// console.log(e.detail.value);
 		noneSelected = e.detail.value;
 		pnLabel = undefined;
 		if (noneSelected) {
-			console.log('store away values');
+			// console.log('store away values');
 			disabled = true;
 			storedValues = JSON.stringify(value);
 			value = [];
 		} else {
-			console.log('add back in value');
+			// console.log('add back in value');
 
 			disabled = false;
 			if (storedValues) {
