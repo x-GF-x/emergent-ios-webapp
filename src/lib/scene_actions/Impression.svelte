@@ -8,7 +8,7 @@
 
 	export let selectedTab: Tab;
 	export let value;
-	value = value;
+	value;
 
 	let activeCard: string | undefined = cards.find(
 		(item) => item.card_id === 'clinical_impression'
@@ -31,6 +31,5 @@
 			activeCard = undefined;
 			dispatch('close');
 		}}
-		on:updateModal={saveModal}
-	/>
+		on:updateModal={saveModal} />
 {/if}

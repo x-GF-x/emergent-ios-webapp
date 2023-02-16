@@ -4,9 +4,7 @@
 
 	export let value: DataStorage;
 	export let selectedTab: Tab;
-	console.log(value);
-	value = value;
-	selectedTab = selectedTab;
+	selectedTab;
 
 	let files: FileList;
 	let fileInput: HTMLInputElement;
@@ -16,7 +14,6 @@
 			let reader = new FileReader();
 			reader.readAsDataURL(file);
 			reader.onload = () => {
-				// console.log(reader.result);
 				if (reader.result) {
 					value.photo.push({
 						card_id: 'photo',
@@ -47,8 +44,7 @@
 <svelte:window
 	on:focus={() => {
 		setTimeout(checkOnCancel, 500);
-	}}
-/>
+	}} />
 
 <input bind:this={fileInput} type="file" bind:files on:change={() => getBase64(files?.[0])} />
 

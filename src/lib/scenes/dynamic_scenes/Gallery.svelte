@@ -5,7 +5,7 @@
 
 	export let value: DataStorage;
 	export let allCollapsed = false;
-	allCollapsed = allCollapsed;
+	allCollapsed;
 </script>
 
 {#if value.photo}

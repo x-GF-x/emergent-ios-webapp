@@ -8,7 +8,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let selectedTab: Tab = { label: '', id: '', type: 'static_scene' };
-	selectedTab = selectedTab;
+	selectedTab;
 	export let value: DataStorage;
 
 	let options: Array<undefined | DropDownOption> = timeline_options();
@@ -40,6 +40,5 @@
 		{options}
 		field={{ title: 'Add Action' }}
 		on:close
-		on:selectOption={selectOption}
-	/>
+		on:selectOption={selectOption} />
 </Modal>

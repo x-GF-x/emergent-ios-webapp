@@ -9,7 +9,7 @@
 
 	export let value: DataStorage;
 	export let selectedTab;
-	selectedTab = selectedTab;
+	selectedTab;
 
 	let activeCard: string | undefined = cards.find(
 		(item) => item.card_id === 'narrative'
@@ -34,6 +34,5 @@
 			activeCard = undefined;
 			dispatch('close');
 		}}
-		on:updateModal={saveModal}
-	/>
+		on:updateModal={saveModal} />
 {/if}
