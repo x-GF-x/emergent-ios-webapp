@@ -33,5 +33,4 @@
 	searchValue={value}
 	passedInOptions={[{ code: 'Chicago', description: 'Chicago' }]}
 	{field}
-	on:setPn={closePopper}
-/>
+	on:selectOption={closePopper} />

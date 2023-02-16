@@ -55,7 +55,7 @@
 	{#if !hidePopperButton}
 		<button
 			class:iconToggle={props?.icon}
-			disabled={typeof props?.icon === 'string' || noneSelected || disabled}
+			disabled={noneSelected || disabled}
 			class="toggleButton"
 			style:padding={type === 'multiSelect' || props ? 0 : '2px 4px 8px 16px'}
 			on:click={toggle}>

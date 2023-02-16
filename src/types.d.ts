@@ -255,12 +255,12 @@ type Photo = {
 
 //Data storage for one patient
 interface DataStorage {
-	patients: PersonStorage[];
+	persons: PersonStorage[];
 	logged_in_user?: string;
 	begin_incident_timestamp?: string;
 	end_incident_timestamp?: string;
-	uuid?: string;
 	incident_gps_location?: string;
+	uuid?: string;
 	units?: {
 		created: string;
 		unit_name: string;

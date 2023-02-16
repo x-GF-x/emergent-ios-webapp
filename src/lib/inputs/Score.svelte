@@ -20,10 +20,12 @@
 
 	let totalScore = 0;
 	$: {
-		totalScore = 0;
-		Object.values(value).forEach((item) => {
-			if (item.operator && item.operand) mathOperations[item.operator](item.operand);
-		});
+		if (value) {
+			totalScore = 0;
+			Object.values(value).forEach((item) => {
+				if (item.operator && item.operand) mathOperations[item.operator](item.operand);
+			});
+		}
 	}
 
 	if (!value) {
@@ -43,7 +45,9 @@
 						<div class="fieldTitle">
 							{scoreField.title}
 						</div>
-						<SingleSelect {disabled} field={scoreField} bind:value={value[scoreField.id]} />
+						{#if value}
+							<SingleSelect {disabled} field={scoreField} bind:value={value[scoreField.id]} />
+						{/if}
 					{/if}
 				</div>
 			{/each}

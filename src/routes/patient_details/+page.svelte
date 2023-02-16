@@ -11,16 +11,32 @@
 	} from '$lib/data/patient_details';
 
 	import { dataStorageAccessor } from '$lib/stores/data';
-	import { default_value } from '$lib/data/default_value';
+	import { default_value, createPerson } from '$lib/data/default_value';
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
+	import { person_options } from '$lib/fn/build_select_options';
 
 	let value: PersonStorage = default_value;
-	let data = { persons: [value] };
+	let data: DataStorage = { persons: [value] };
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};
 	let sceneAction: ActionComponents;
+	let personName = 'Patient 1';
+	let personOptions = person_options(data);
+
+	const buildPersonName = () => {
+		if (value?.static_fields?.ePatient03 !== personName) {
+			let personIndex = personOptions.findIndex((item) => item.code === value.uuid);
+			personName =
+				value?.static_fields?.ePatient03 && typeof value?.static_fields?.ePatient03 === 'string'
+					? value.static_fields.ePatient03
+					: 'Patient ' + (personIndex + 1);
+			personOptions = person_options(data);
+		}
+	};
+
+	$: value.static_fields, buildPersonName();
 
 	const handleSceneAction = (action: SubTabActions) => {
 		if (action === 'expand') allCollapsed = false;
@@ -56,11 +72,23 @@
 	<section class="controls">
 		<div class="patientSelect">
 			<SingleSelect
-				field={{}}
-				value={'Patient 1'}
+				passedInOptions={personOptions}
+				bind:value={personName}
+				on:selectOption={(e) => {
+					let matchingPerson = data.persons.find((item) => item.uuid === e.detail.value);
+					if (matchingPerson) value = matchingPerson;
+				}}
 				props={{ icon: 'account_box', dropdownLabel: 'People' }} />
 		</div>
-		<button class="addPerson">ADD PERSON</button>
+		<button
+			class="addPerson"
+			on:click={() => {
+				data.persons = [...data.persons, createPerson()];
+				personOptions = person_options(data);
+				value = data.persons[data.persons.length - 1];
+			}}>
+			ADD PERSON
+		</button>
 		<button class="endCall">END CALL</button>
 	</section>
 	<section class="tabs">

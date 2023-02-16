@@ -20,21 +20,15 @@ export const default_value: PersonStorage = {
 	]
 };
 
-const newUuid = () => {
-	return crypto.randomUUID();
-};
-
-const newDate = () => {
-	return new Date().toISOString();
-};
-
-export const newPerson = {
-	readonly: false,
-	created: newDate(),
-	last_modified: newDate(),
-	uuid: newUuid(),
-	actions: [],
-	notes: [],
-	static_fields: {},
-	photo: []
+export const createPerson: () => PersonStorage = () => {
+	return {
+		readonly: false,
+		created: new Date().toISOString(),
+		last_modified: new Date().toISOString(),
+		uuid: crypto.randomUUID(),
+		actions: [],
+		notes: [],
+		static_fields: {},
+		photo: []
+	} as PersonStorage;
 };

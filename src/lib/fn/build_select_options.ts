@@ -63,3 +63,16 @@ export const timeline_options = () => {
 				};
 		});
 };
+export const person_options = (data: DataStorage) => {
+	return data.persons.map((item, itemIndex) => {
+		const firstName =
+			item?.static_fields?.ePatient03 && typeof item?.static_fields?.ePatient03 === 'string'
+				? item.static_fields.ePatient03
+				: 'Patient ' + (itemIndex + 1);
+		return {
+			code: item.uuid,
+			value: firstName,
+			description: firstName
+		};
+	});
+};

@@ -61,13 +61,13 @@
 			popper?.toggle();
 		}
 
-		if (passedInOptions) dispatch('setPn', { value: value });
+		if (passedInOptions) dispatch('selectOption', { value: value });
 		if (fieldLookupId === 'eMedications03') dispatch('changeDrug', { value: value });
 	};
 
-	$: {
-		if (passedInOptions) value = undefined;
-	}
+	// $: {
+	// 	if (passedInOptions) value = undefined;
+	// }
 </script>
 
 {#if Array.isArray(options) || Array.isArray(passedInOptions)}

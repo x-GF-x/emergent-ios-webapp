@@ -48,7 +48,7 @@
 		await tick().then(() => pnSelector?.toggle());
 	};
 
-	const setPnSelection = (e: { detail: { value: string } }) => {
+	const selectOptionSelection = (e: { detail: { value: string } }) => {
 		if (pnField?.id) {
 			const selectedCode = e.detail.value;
 			if (selectedCode) {
@@ -88,7 +88,7 @@
 		passedInOptions={pnField.pn}
 		hidePopperButton
 		value={undefined}
-		on:setPn={(e) => setPnSelection(e)} />
+		on:selectOption={(e) => selectOptionSelection(e)} />
 {/if}
 
 <style>
