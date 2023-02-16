@@ -8,7 +8,7 @@
 	export let value: PersonStorage;
 	export let allCollapsed = false;
 	export let timers;
-	timers = timers;
+	timers;
 
 	let filteredScenes = scenes.filter((scene) => scene.scene_id === selectedTab.id);
 </script>

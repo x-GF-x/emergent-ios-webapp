@@ -24,8 +24,8 @@
 	let showTimelineCards = false;
 
 	filteredCharts.forEach((chart) => {
-		if (chart.type === 'timed' && !timers[chart.card]) {
-			timers[chart.card] = { value: 0, overdue: false, deadline: 0 };
+		if (chart.type === 'timed' && !timers[value.uuid][chart.card]) {
+			timers[value.uuid][chart.card] = { value: 0, overdue: false, deadline: 0 };
 		}
 	});
 
@@ -40,11 +40,13 @@
 	};
 
 	const setTimers = () => {
-		if (cardValue.card_id in timers) {
-			timers[cardValue.card_id].overdue = false;
+		if (cardValue.card_id in timers[value.uuid]) {
+			timers[value.uuid][cardValue.card_id].overdue = false;
 			if (activeChart?.interval) {
-				timers[cardValue.card_id].deadline = Math.floor(Date.now() + activeChart.interval * 1000);
-				timers[cardValue.card_id].value = activeChart.interval;
+				timers[value.uuid][cardValue.card_id].deadline = Math.floor(
+					Date.now() + activeChart.interval * 1000
+				);
+				timers[value.uuid][cardValue.card_id].value = activeChart.interval;
 			}
 		}
 	};
@@ -99,13 +101,14 @@
 					<button
 						class="cardButton"
 						class:active={matchingCards?.length && chart.type === 'untimed'}
-						class:yellowTimer={chartCardId in timers &&
-							!timers[chartCardId].overdue &&
-							timers[chartCardId].value > 0}
-						class:greenTimer={chartCardId in timers &&
-							!timers[chartCardId].overdue &&
-							timers[chartCardId].value >= 60}
-						class:redTimer={chartCardId in timers && timers[chartCardId].overdue}
+						class:yellowTimer={chartCardId in timers[value.uuid] &&
+							!timers[value.uuid][chartCardId].overdue &&
+							timers[value.uuid][chartCardId].value > 0}
+						class:greenTimer={chartCardId in timers[value.uuid] &&
+							!timers[value.uuid][chartCardId].overdue &&
+							timers[value.uuid][chartCardId].value >= 60}
+						class:redTimer={chartCardId in timers[value.uuid] &&
+							timers[value.uuid][chartCardId].overdue}
 						on:click={() => handleChartButton(chart)}
 						class:disabled
 						{disabled}>
@@ -132,9 +135,9 @@
 											{new Date(chart.interval * 1000).toISOString().slice(11, 19)}
 										{:else if lastInstance && chart.interval}
 											<Timer
-												deadline={timers[chartCardId].deadline}
-												bind:count={timers[chartCardId].value}
-												bind:overdue={timers[chartCardId].overdue} />
+												deadline={timers[value.uuid][chartCardId].deadline}
+												bind:count={timers[value.uuid][chartCardId].value}
+												bind:overdue={timers[value.uuid][chartCardId].overdue} />
 										{/if}
 									{:else}
 										Last Performed at {lastInstance}

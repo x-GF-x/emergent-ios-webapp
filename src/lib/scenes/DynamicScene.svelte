@@ -7,7 +7,7 @@
 	export let value: PersonStorage;
 	export let allCollapsed = false;
 	export let timers;
-	timers = timers;
+	timers;
 
 	let dynamicIds: DynamicId[] | undefined = selectedTab?.dynamic_ids;
 	const dynamicSceneTypes = { actions: Timeline, photo: Gallery, notes: Notes };

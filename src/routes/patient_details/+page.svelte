@@ -14,29 +14,26 @@
 	import { default_value, createPerson } from '$lib/data/default_value';
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
-	import { person_options } from '$lib/fn/build_select_options';
+	import { build_name, person_options } from '$lib/fn/build_select_options';
 
 	let value: PersonStorage = default_value;
 	let data: DataStorage = { persons: [value] };
 	let selectedTab: Tab = tabs?.[0];
 	let allCollapsed: boolean | undefined = undefined;
 	let timers: Timers = {};
+	data.persons.map((person) => (timers[person.uuid] = {}));
 	let sceneAction: ActionComponents;
-	let personName = 'Patient 1';
+	let currentPerson = { name: 'Patient 1', uuid: value.uuid };
 	let personOptions = person_options(data);
 
-	const buildPersonName = () => {
-		if (value?.static_fields?.ePatient03 !== personName) {
-			let personIndex = personOptions.findIndex((item) => item.code === value.uuid);
-			personName =
-				value?.static_fields?.ePatient03 && typeof value?.static_fields?.ePatient03 === 'string'
-					? value.static_fields.ePatient03
-					: 'Patient ' + (personIndex + 1);
-			personOptions = person_options(data);
-		}
+	const buildPerson = () => {
+		let personIndex = personOptions.findIndex((item) => item.code === value.uuid);
+		currentPerson.name = build_name(value, personIndex);
+		currentPerson.uuid = value.uuid;
+		personOptions = person_options(data);
 	};
 
-	$: value.static_fields, buildPersonName();
+	$: value.static_fields, buildPerson();
 
 	const handleSceneAction = (action: SubTabActions) => {
 		if (action === 'expand') allCollapsed = false;
@@ -73,7 +70,7 @@
 		<div class="patientSelect">
 			<SingleSelect
 				passedInOptions={personOptions}
-				bind:value={personName}
+				bind:value={currentPerson.name}
 				on:selectOption={(e) => {
 					let matchingPerson = data.persons.find((item) => item.uuid === e.detail.value);
 					if (matchingPerson) value = matchingPerson;
@@ -86,6 +83,7 @@
 				data.persons = [...data.persons, createPerson()];
 				personOptions = person_options(data);
 				value = data.persons[data.persons.length - 1];
+				timers[value.uuid] = {};
 			}}>
 			ADD PERSON
 		</button>

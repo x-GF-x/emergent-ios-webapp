@@ -204,7 +204,8 @@ type EmsDrug = {
 };
 
 type Timers = {
-	[key: string]: { value: number; overdue: boolean; deadline: number };
+	// patient uuid
+	[key: string]: { [key: string]: { value: number; overdue: boolean; deadline: number } };
 };
 
 type PnNvStorage = ActionItem['fields'] | undefined;
