@@ -3,8 +3,6 @@
 
 	import { dataStorageAccessor } from '$lib/stores/data';
 	import { getContext, tick } from 'svelte';
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
 
 	let pnNvStorage = getContext('pnNvStorage') as PnNvStorage;
 	let pnField: Field | undefined = undefined;
@@ -12,26 +10,32 @@
 
 	export let field: Field;
 	export let value = pnNvStorage ? pnNvStorage : $dataStorageAccessor.static_fields; //Value is passed in from cards, except for multiSelects;
+	export let disabled = false;
 
-	const handleNv = (e: { detail: { field: Field; value: boolean } }) => {
-		if (!value[e.detail.field.id + '_nv']) value[e.detail.field.id + '_nv'] = true;
-		else value[e.detail.field.id + '_nv'] = false;
-		dispatch('handlePnNv', { value: e.detail.value });
+	const handleNv = (e: { detail: { field: Field } }) => {
+		if (!value[e.detail.field.id + '_nv']) {
+			value[e.detail.field.id + '_nv'] = true;
+			disabled = true;
+		} else {
+			value[e.detail.field.id + '_nv'] = false;
+			disabled = false;
+		}
 		value = value;
 	};
 
-	const handlePn = (e: { detail: { field: Field; value: boolean } }) => {
+	const handlePn = (e: { detail: { field: Field } }) => {
 		const { field } = e.detail;
 		value[field.id + '_pn'] = undefined;
 		value[field.id + '_nv'] = undefined;
+
 		if (pnField) pnField = undefined; //Close popover if open
-		else if (e.detail.value) {
+
+		if (!disabled) {
 			if (field.pn?.length === 1 && !field?.nv) {
 				value[field.id + '_pn'] = field.pn[0].code;
-				dispatch('handlePnNv', { value: true });
+				disabled = true;
 			} else openPnSelector(field);
-		}
-		if (!e.detail.value) dispatch('handlePnNv', { value: false });
+		} else disabled = false;
 
 		value = value;
 	};
@@ -45,17 +49,18 @@
 	};
 
 	const setPnSelection = (e: { detail: { value: string } }) => {
-		// console.log(pnField);
 		if (pnField?.id) {
 			const selectedCode = e.detail.value;
-			if (selectedCode === 'nv') {
-				value[pnField.id + '_nv'] = true;
-				value[pnField.id + '_pn'] = undefined;
-			} else {
-				value[pnField.id + '_pn'] = selectedCode;
-				value[pnField.id + '_nv'] = undefined;
-			}
-			dispatch('handlePnNv', { value: true });
+			if (selectedCode) {
+				disabled = true;
+				if (selectedCode === 'nv') {
+					value[pnField.id + '_nv'] = true;
+					value[pnField.id + '_pn'] = undefined;
+				} else {
+					value[pnField.id + '_pn'] = selectedCode;
+					value[pnField.id + '_nv'] = undefined;
+				}
+			} else disabled = false;
 			value = value;
 		}
 	};
@@ -71,20 +76,9 @@
 		class="notValue"
 		class:material-symbols-outlined={field.type !== 'multiSelect'}
 		class:multiCheckbox={field.type === 'multiSelect'}
-		class:multiCheckboxFilled={(value[field.id + '_nv'] || value[field.id + '_pn']) &&
-			field.type === 'multiSelect'}
-		on:click|stopPropagation={() => {
-			let matchingValue = field.pn
-				? value[field.id + '_pn']
-					? false
-					: true
-				: value[field.id + '_nv']
-				? true
-				: false;
-			field.pn
-				? handlePn({ detail: { field: field, value: matchingValue } })
-				: handleNv({ detail: { field: field, value: matchingValue } });
-		}}>
+		class:multiCheckboxFilled={disabled && field.type === 'multiSelect'}
+		on:click|stopPropagation={() =>
+			field.pn ? handlePn({ detail: { field: field } }) : handleNv({ detail: { field: field } })}>
 		{field.type === 'multiSelect' ? '' : 'block'}
 	</button>
 </div>

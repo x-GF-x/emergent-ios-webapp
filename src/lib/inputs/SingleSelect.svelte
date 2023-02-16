@@ -80,6 +80,7 @@
 		{props}
 		{hidePopperButton}
 		{disabled}
+		on:backdropClick
 		type="singleSelect"
 		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}>
 		<SelectList {passedInOptions} {options} {field} {props} {selectOption} {value} {searchValue} />

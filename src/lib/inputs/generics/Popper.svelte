@@ -32,7 +32,7 @@
 				});
 			}
 			await tick().then(() => dispatch('open'));
-		}
+		} else await tick().then(() => dispatch('backdropClick'));
 	};
 
 	onMount(() => {
@@ -71,7 +71,7 @@
 					{/if}
 				</div>
 				{#if type === 'multiSelect'}
-					<PnNv {field} on:handlePnNv />
+					<PnNv bind:disabled {field} />
 				{/if}
 			</div>
 			{#if toggleIcon}

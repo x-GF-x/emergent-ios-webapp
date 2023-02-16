@@ -9,7 +9,6 @@
 	export let allCollapsed = false;
 
 	let timestampLocation: { section: 'actions' | 'notes'; index: number } | undefined = undefined;
-	$: console.log(value);
 </script>
 
 {#if value.actions}

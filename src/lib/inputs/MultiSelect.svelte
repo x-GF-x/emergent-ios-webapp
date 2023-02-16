@@ -18,7 +18,6 @@
 	let options: DropDownOption[] = fieldOptions.filter((option) => option.type === fieldLookupId);
 	let idOfActiveEmbeddedList: string | undefined = undefined;
 	let popper: Popper;
-	let noneSelected = false;
 	let storedValues: string = JSON.stringify(value);
 	let hasEmbeddedOptions = field?.embedded ? true : false;
 	let embeddedLookupId: string | undefined = field?.embedded?.key;
@@ -93,24 +92,19 @@
 			);
 	};
 
-	const handlePnNv = async (e: { detail: { value: boolean } }) => {
-		// console.log(e.detail.value);
-		noneSelected = e.detail.value;
+	const handlePnNv = async () => {
 		pnLabel = undefined;
-		if (noneSelected) {
-			// console.log('store away values');
-			disabled = true;
+		if (disabled) {
 			storedValues = JSON.stringify(value);
 			value = [];
 		} else {
-			// console.log('add back in value');
-
-			disabled = false;
 			if (storedValues) {
 				value = JSON.parse(storedValues);
 			}
 		}
 	};
+
+	$: disabled, handlePnNv();
 
 	onMount(() => {
 		getSelectedItems();
@@ -119,8 +113,6 @@
 			embeddedOptions = fieldOptions.filter((option) => option.type === embeddedLookupId);
 
 		if (!value) hasEmbeddedOptions ? (value = {}) : (value = []);
-
-		if (noneSelected) disabled = true;
 	});
 
 	$: value, getSelectedItems();
@@ -133,9 +125,12 @@
 		: '';
 </script>
 
+<!-- {JSON.stringify(storedValues)}
+{JSON.stringify(disabled)} -->
+
 <Popper
 	{field}
-	{disabled}
+	bind:disabled
 	value={field.title ? field?.title + (pnLabel ? ': ' + pnLabel : '') : ''}
 	type={field?.type}
 	bind:this={popper}
@@ -145,8 +140,7 @@
 		closed: 'add',
 		color: 'var(--primary)',
 		style: 'border-left:var(--1pxBorder);'
-	}}
-	on:handlePnNv={(e) => handlePnNv(e)}>
+	}}>
 	<MultiSelectList
 		bind:idOfActiveEmbeddedList
 		{options}
