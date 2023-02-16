@@ -22,6 +22,7 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal;
+	export let disabledValue: string | undefined = undefined;
 
 	export const toggle = () => {
 		popper?.toggle();
@@ -72,7 +73,9 @@
 {#if Array.isArray(options) || Array.isArray(passedInOptions)}
 	<Popper
 		bind:this={popper}
-		value={options?.find((item) => item.code === value)?.value
+		value={disabledValue
+			? disabledValue
+			: options?.find((item) => item.code === value)?.value
 			? options.find((item) => item.code === value)?.value
 			: typeof value !== 'string' && value?.value
 			? value.value
@@ -83,6 +86,6 @@
 		on:backdropClick
 		type="singleSelect"
 		toggleIcon={{ open: 'expand_less', closed: 'expand_more' }}>
-		<SelectList {passedInOptions} {options} {field} {props} {selectOption} {value} {searchValue} />
+		<SelectList {passedInOptions} {options} {field} {props} {selectOption} {searchValue} {value} />
 	</Popper>
 {/if}

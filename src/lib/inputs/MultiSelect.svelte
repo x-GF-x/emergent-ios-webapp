@@ -8,6 +8,8 @@
 
 	export let field: Field;
 	export let disabled = false;
+	export let disabledValue: string | undefined = undefined;
+	disabledValue;
 	export let fromModal = false;
 	fromModal;
 	export let value: MultiSelectValues | EmbeddedMultiSelectValues | undefined = field?.embedded

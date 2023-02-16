@@ -10,6 +10,7 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal;
+	export let disabledValue: string | undefined = undefined;
 
 	let popper: Popper;
 	let numpad: Numpad;
@@ -27,5 +28,10 @@
 	value={value ? value : undefined}
 	on:open={numpad.focusInput}
 	{disabled}>
-	<Numpad bind:this={numpad} {value} type="date" on:update={update} {field} />
+	<Numpad
+		bind:this={numpad}
+		value={disabledValue ? disabledValue : undefined}
+		type="date"
+		on:update={update}
+		{field} />
 </Popper>

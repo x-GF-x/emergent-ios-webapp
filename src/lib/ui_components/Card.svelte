@@ -80,8 +80,10 @@
 						class:actionButtonRow={row.fields?.length === 1 && row.fields[0].type === 'action'}>
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
-							{@const nvValue = value[field.id + '_nv']}
-							{@const pnValue = value[field.id + '_pn']}
+							{@const nvValue = value[field.id + '_nv'] ? 'None' : undefined}
+							{@const pnValue = Array.isArray(field.pn)
+								? field.pn.find((item) => item.code === value[field.id + '_pn'])?.description
+								: undefined}
 							{@const disabled = nvValue || pnValue || $dataStorageAccessor.readonly ? true : false}
 							<div
 								aria-label={field?.type}
@@ -104,6 +106,7 @@
 												{field}
 												{fromModal}
 												{disabled}
+												disabledValue={pnValue ? pnValue : nvValue}
 												bind:value={value[field.id]}
 												on:modify
 												on:actionButton={(e) => handleActionButton(e)} />

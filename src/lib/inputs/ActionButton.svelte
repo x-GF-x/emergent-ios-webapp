@@ -5,7 +5,8 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal;
-
+	export let disabledValue: string | undefined = undefined;
+	disabledValue;
 	const dispatch = createEventDispatcher();
 </script>
 

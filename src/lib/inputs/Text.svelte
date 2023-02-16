@@ -5,6 +5,7 @@
 	export let field: Field;
 	export let fromModal = false;
 	export let disabled = false;
+	export let disabledValue: string | undefined = undefined;
 
 	let multiline = field?.multiline;
 	let address: Address;
@@ -16,7 +17,16 @@
 
 {#if multiline}
 	<!-- svelte-ignore a11y-autofocus -->
-	<textarea {disabled} placeholder="Note" autofocus={fromModal ? true : false} bind:value />
+	<div class="textareaContainer">
+		<textarea
+			style:height={fromModal ? '270px' : '120px'}
+			{disabled}
+			placeholder="Note"
+			autofocus={fromModal ? true : false}
+			bind:value />
+	</div>
+{:else if disabledValue}
+	<div class="text">{disabledValue}</div>
 {:else}
 	<input
 		{disabled}
@@ -33,18 +43,24 @@
 {/if}
 
 <style>
+	.textareaContainer {
+		padding-top: 10px;
+		padding-left: 12px;
+		height: 100%;
+	}
+
 	textarea,
 	.text {
 		border: none;
 		font-size: var(--fontSmall);
 		font-weight: var(--weightBold);
 		caret-color: var(--primary);
+		background: transparent;
 	}
 
 	.text {
 		padding: 2px 8px 8px 16px;
 		width: 100%;
-		background: transparent;
 	}
 
 	textarea {
@@ -52,10 +68,7 @@
 		font-family: inherit;
 		resize: vertical;
 		width: 100%;
-		height: 270px;
 		padding: 0px;
-		text-indent: 10px;
-		padding-top: 5px;
 	}
 
 	textarea:focus-visible,

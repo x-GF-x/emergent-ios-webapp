@@ -6,6 +6,7 @@
 	export let value: FieldValues | any;
 	export let fromModal = false;
 	export let disabled = false;
+	export let disabledValue: string | undefined = undefined;
 
 	let originalValue = JSON.stringify(value);
 
@@ -30,6 +31,7 @@
 			{field}
 			{fromModal}
 			{disabled}
+			{disabledValue}
 			bind:value
 			on:setDate
 			on:changeDrug

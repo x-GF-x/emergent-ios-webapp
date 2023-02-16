@@ -7,6 +7,7 @@
 	export let disabled = false;
 	export let fromModal = false;
 	fromModal;
+	export let disabledValue: string | undefined = undefined;
 
 	let popper: Popper;
 	let numpad: Numpad;
@@ -19,7 +20,7 @@
 
 <Popper
 	bind:this={popper}
-	value={value ? value : undefined}
+	value={disabledValue ? disabledValue : value ? value : undefined}
 	on:open={numpad.focusInput}
 	toggleIcon={{ open: 'unfold_less', closed: 'unfold_more' }}
 	{disabled}>
