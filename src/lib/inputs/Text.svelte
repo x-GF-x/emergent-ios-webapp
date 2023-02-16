@@ -5,8 +5,8 @@
 	export let field: Field;
 	export let fromModal = false;
 	export let disabled = false;
-	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
-	pnNvStorage = pnNvStorage;
+	export let pnNvStorage: PnNvStorage = undefined;
+	pnNvStorage;
 
 	let multiline = field?.multiline;
 	let address: Address;

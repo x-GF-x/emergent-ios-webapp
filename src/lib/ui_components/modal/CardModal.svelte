@@ -7,7 +7,7 @@
 	};
 	export let data: CardJson;
 	export let chart: QuickChartObject | undefined = undefined;
-	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	export let pnNvStorage: PnNvStorage = undefined;
 
 	//We do not want the "remove note" button when adding a new note
 	if (value.card_id === 'narrative') {

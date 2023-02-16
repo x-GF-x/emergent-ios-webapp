@@ -6,7 +6,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let field: Field;
-	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	export let pnNvStorage: PnNvStorage = undefined;
 
 	const dispatch = createEventDispatcher();
 

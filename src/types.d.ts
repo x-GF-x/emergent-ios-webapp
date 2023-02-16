@@ -208,6 +208,8 @@ type Timers = {
 	[key: string]: { value: number; overdue: boolean; deadline: number };
 };
 
+type PnNvStorage = ActionItem['fields'] | undefined;
+
 type CardJson = {
 	properties: {
 		title: string;

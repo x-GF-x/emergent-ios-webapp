@@ -14,7 +14,7 @@
 	export let modal = false;
 	export let field: Field = {};
 	export let disabled = false;
-	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	export let pnNvStorage: PnNvStorage = undefined;
 
 	let toggleButton: HTMLElement;
 	let popper: HTMLElement;

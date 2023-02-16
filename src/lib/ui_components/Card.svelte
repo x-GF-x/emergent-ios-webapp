@@ -19,7 +19,7 @@
 	export let chart: QuickChartObject | undefined = undefined;
 	export let fromModal = false;
 	export let timestamp = value.last_modified ? value.last_modified : undefined;
-	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	export let pnNvStorage: PnNvStorage = undefined;
 
 	let collapsed = false;
 

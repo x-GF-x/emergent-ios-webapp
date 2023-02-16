@@ -6,7 +6,7 @@
 	export let value: FieldValues | any;
 	export let fromModal = false;
 	export let disabled = false;
-	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
+	export let pnNvStorage: PnNvStorage = undefined;
 
 	let originalValue = JSON.stringify(value);
 

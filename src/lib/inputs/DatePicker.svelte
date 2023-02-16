@@ -9,9 +9,9 @@
 	export let field: Field;
 	export let disabled = false;
 	export let fromModal = false;
-	fromModal = fromModal;
-	export let pnNvStorage: ActionItem['fields'] | undefined = undefined;
-	pnNvStorage = pnNvStorage;
+	fromModal;
+	export let pnNvStorage: PnNvStorage = undefined;
+	pnNvStorage;
 
 	let popper: Popper;
 	let numpad: Numpad;
