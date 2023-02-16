@@ -5,6 +5,7 @@
 	import { fade, fly } from 'svelte/transition';
 
 	export let hideContainer: boolean = false;
+	export let confirmationText = 'Update';
 	const dispatch = createEventDispatcher();
 </script>
 
@@ -17,7 +18,7 @@
 		<slot />
 		<div class="footer">
 			<button class="cancel" on:click={() => dispatch('backdropClick')}>Cancel</button>
-			<button class="update" on:click={() => dispatch('updateModal')}>Update</button>
+			<button class="update" on:click={() => dispatch('updateModal')}>{confirmationText}</button>
 		</div>
 	</div>
 {/if}

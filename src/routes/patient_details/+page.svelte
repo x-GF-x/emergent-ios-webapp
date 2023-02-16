@@ -41,6 +41,18 @@
 		else sceneAction = sceneActionComponents[action];
 	};
 
+	const deletePerson = () => {
+		data.persons = data.persons.filter((item) => item.uuid !== value.uuid);
+		if (data.persons.length) value = data.persons[0];
+		else {
+			value = createPerson();
+			data.persons = [value];
+			timers[value.uuid] = {};
+		}
+		personOptions = person_options(data);
+		buildPerson();
+	};
+
 	const handleChildCollapse = () => (allCollapsed = undefined);
 
 	onMount(() => {
@@ -54,6 +66,7 @@
 		this={sceneAction}
 		bind:selectedTab
 		bind:value
+		on:confirmDelete={deletePerson}
 		on:close={() => (sceneAction = undefined)} />
 {/if}
 
