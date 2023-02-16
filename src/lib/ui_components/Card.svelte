@@ -31,7 +31,6 @@
 	const handleActionButton = (e: { detail: { action: string } }) => {
 		const action = e.detail.action;
 		if (action === 'DELETE_OBJECT') {
-			console.log(value, action);
 			dispatch('deleteNote', { uuid: value.uuid });
 		}
 	};
@@ -79,20 +78,19 @@
 						class:actionButtonRow={row.fields?.length === 1 && row.fields[0].type === 'action'}>
 						{#each row.fields as field}
 							{@const width = widthConversion[field.width] ? widthConversion[field.width] : '33.33'}
-							{@const disabled =
-								value[field.id + '_nv'] || value[field.id + '_pn'] || $dataStorageAccessor.readonly
-									? true
-									: false}
+							{@const nvValue = value[field.id + '_nv']}
+							{@const pnValue = value[field.id + '_pn']}
+							{@const disabled = nvValue || pnValue || $dataStorageAccessor.readonly ? true : false}
 							<div
-								style:width={width + '%'}
 								aria-label={field?.type}
-								class:multiSelect={field.type === 'multiSelect'}
-								class="fieldContainer"
+								style:width={width + '%'}
 								style:background={$dataStorageAccessor.readonly
 									? 'transparent'
 									: field.type !== 'action'
 									? 'var(--light1)'
 									: ''}
+								class:multiSelect={field.type === 'multiSelect'}
+								class="fieldContainer"
 								class:disabled={disabled &&
 									field.type !== 'multiSelect' &&
 									field.type !== 'action' &&
@@ -109,7 +107,7 @@
 												on:modify
 												on:actionButton={(e) => handleActionButton(e)} />
 											<!-- Handling fields with subfields separately
-										 to avoid circular dependency when we build subFields -->
+										 to avoid circular dependency when we use input builder -->
 										{:else if field.type === 'age'}
 											<Age bind:value {disabled} {field} />
 										{:else if field.type === 'drug'}
@@ -223,6 +221,7 @@
 	.fieldAndNv {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) max-content;
+		grid-template-rows: 1fr;
 		align-items: center;
 		height: 100%;
 	}
