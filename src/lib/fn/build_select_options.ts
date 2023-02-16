@@ -74,6 +74,7 @@ export const person_options = (data: DataStorage) => {
 };
 
 export const build_name = (value: PersonStorage, index: number) => {
+	console.log('build name');
 	const firstName =
 		value?.static_fields?.ePatient03 && typeof value?.static_fields?.ePatient03 === 'string'
 			? value.static_fields.ePatient03

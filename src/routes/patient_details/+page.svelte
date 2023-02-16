@@ -10,7 +10,7 @@
 		sceneActionComponents
 	} from '$lib/data/patient_details';
 
-	import { dataStorageAccessor } from '$lib/stores/data';
+	import { dataStorageAccessor, nameEdited } from '$lib/stores/data';
 	import { default_value, createPerson } from '$lib/data/default_value';
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
@@ -33,7 +33,7 @@
 		personOptions = person_options(data);
 	};
 
-	$: value.static_fields, buildPerson();
+	$: $nameEdited, buildPerson();
 
 	const handleSceneAction = (action: SubTabActions) => {
 		if (action === 'expand') allCollapsed = false;
@@ -74,6 +74,7 @@
 				on:selectOption={(e) => {
 					let matchingPerson = data.persons.find((item) => item.uuid === e.detail.value);
 					if (matchingPerson) value = matchingPerson;
+					buildPerson();
 				}}
 				props={{ icon: 'account_box', dropdownLabel: 'People' }} />
 		</div>
@@ -84,6 +85,7 @@
 				personOptions = person_options(data);
 				value = data.persons[data.persons.length - 1];
 				timers[value.uuid] = {};
+				buildPerson();
 			}}>
 			ADD PERSON
 		</button>

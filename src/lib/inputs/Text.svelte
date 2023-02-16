@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Address from './Address.svelte';
 
+	import { nameEdited } from '$lib/stores/data';
+
 	export let value: string = '';
 	export let field: Field;
 	export let fromModal = false;
@@ -30,6 +32,9 @@
 {:else}
 	<input
 		{disabled}
+		on:blur={() => {
+			if (field.id === 'ePatient03' || field.id === 'ePatient02') $nameEdited = !$nameEdited;
+		}}
 		class="text"
 		type="text"
 		bind:value
