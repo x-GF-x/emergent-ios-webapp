@@ -23,6 +23,7 @@
 	value={disabledValue ? disabledValue : value ? value : undefined}
 	on:open={numpad.focusInput}
 	toggleIcon={{ open: 'unfold_less', closed: 'unfold_more' }}
-	{disabled}>
+	{disabled}
+	{field}>
 	<Numpad bind:this={numpad} {value} type="numeric" on:update={update} {field} />
 </Popper>

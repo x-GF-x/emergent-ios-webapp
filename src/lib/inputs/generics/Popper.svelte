@@ -46,17 +46,18 @@
 	}} />
 
 <div
-	class="popperContainer"
-	on:mouseenter={() => (overPopper = true)}
-	on:mouseleave={() => (overPopper = false)}
 	bind:this={toggleButton}
+	class="popperContainer"
 	class:paddingDisabled={props}
-	class:multi={type === 'multiSelect'}>
+	class:multi={type === 'multiSelect'}
+	on:mouseenter={() => (overPopper = true)}
+	on:mouseleave={() => (overPopper = false)}>
 	{#if !hidePopperButton}
 		<button
+			aria-label={field?.id}
 			class:iconToggle={props?.icon}
-			disabled={noneSelected || disabled}
 			class="toggleButton"
+			disabled={noneSelected || disabled}
 			style:padding={type === 'multiSelect' || props ? 0 : '2px 4px 8px 16px'}
 			on:click={toggle}>
 			{#if props?.icon}

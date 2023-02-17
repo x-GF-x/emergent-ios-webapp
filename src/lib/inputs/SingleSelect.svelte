@@ -82,6 +82,7 @@
 			? value.value
 			: value}
 		{props}
+		{field}
 		{hidePopperButton}
 		{disabled}
 		on:backdropClick

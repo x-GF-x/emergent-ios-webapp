@@ -27,7 +27,8 @@
 	toggleIcon={{ open: 'unfold_less', closed: 'unfold_more' }}
 	value={value ? value : undefined}
 	on:open={numpad.focusInput}
-	{disabled}>
+	{disabled}
+	{field}>
 	<Numpad
 		bind:this={numpad}
 		value={disabledValue ? disabledValue : undefined}
