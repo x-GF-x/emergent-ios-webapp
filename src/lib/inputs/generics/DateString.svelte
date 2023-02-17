@@ -55,7 +55,7 @@
 		if (value?.length) {
 			if (value?.length > maxLength) removeLast();
 			else if (value)
-				for (var i = 0; i < value.length; i++)
+				for (let i = 0; i < value.length; i++)
 					if (!allowedKeys[i].includes(value.charAt(i)))
 						if (type === 'date' && i === 0) value = '0' + value.charAt(i);
 						else removeLast();
