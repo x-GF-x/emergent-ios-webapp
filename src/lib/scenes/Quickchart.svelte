@@ -7,6 +7,7 @@
 	import { quickcharts } from '$lib/resource_file/ui/ui_quickcharts_with_drugs';
 	import { cards } from '$lib/resource_file/ui/ui_cards';
 	import { created_and_last_modified } from '$lib/fn/timestamp';
+	import { onMount } from 'svelte';
 
 	export let selectedTab: Tab;
 	export let value: PersonStorage;
@@ -23,11 +24,13 @@
 	let activeCard: string | undefined = undefined;
 	let showTimelineCards = false;
 
-	filteredCharts.forEach((chart) => {
-		if (chart.type === 'timed' && !timers[value.uuid][chart.card]) {
-			timers[value.uuid][chart.card] = { value: 0, overdue: false, deadline: 0 };
-		}
-	});
+	const setDefaultTimers = () => {
+		filteredCharts.forEach((chart) => {
+			if (chart.type === 'timed' && !timers[value.uuid][chart.card]) {
+				timers[value.uuid][chart.card] = { value: 0, overdue: false, deadline: 0 };
+			}
+		});
+	};
 
 	const handleChartButton = (chart: QuickChartObject | undefined) => {
 		activeChart = chart;
@@ -61,6 +64,9 @@
 	const clearActiveCard = () => {
 		activeCard = '';
 	};
+
+	$: timers, setDefaultTimers();
+	onMount(() => setDefaultTimers());
 </script>
 
 {#if showTimelineCards}
