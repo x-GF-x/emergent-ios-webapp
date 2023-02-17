@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Confirmation from '$lib/ui_components/modal/Confirmation.svelte';
 	import Modal from '$lib/ui_components/modal/Modal.svelte';
 
 	import { createEventDispatcher } from 'svelte';
@@ -18,28 +19,5 @@
 		dispatch('confirmAdd');
 		dispatch('close');
 	}}>
-	<div class="deleteMessageContainer">
-		<div class="title">Are you sure you want to add a person?</div>
-		<div class="subtitle">
-			<!--  -->
-		</div>
-	</div>
+	<Confirmation title="Are you sure you want to add a person?" />
 </Modal>
-
-<style>
-	.deleteMessageContainer {
-		margin: 40px;
-		width: max-content;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.title {
-		font-size: var(--fontXL);
-		margin-bottom: 20px;
-	}
-
-	.subtitle {
-		font-size: var(--fontLarge);
-	}
-</style>
