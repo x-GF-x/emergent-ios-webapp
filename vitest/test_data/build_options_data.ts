@@ -164,3 +164,99 @@ export const score_field = {
 	],
 	title: 'Glasgow Coma Score'
 };
+
+export const data_with_two_persons = {
+	persons: [
+		{
+			readonly: false,
+			created: '2023-02-17T16:31:25.831Z',
+			last_modified: '2023-02-17T16:31:25.831Z',
+			uuid: '13f81fa1-afd9-4f95-8633-ad6d6db8e4fc',
+			actions: [],
+			notes: [],
+			static_fields: {
+				eVital22: [],
+				eVitals23: {
+					eVitals19: {
+						value: ' '
+					},
+					eVitals20: {
+						value: ' '
+					},
+					eVitals21: {
+						value: ' '
+					}
+				},
+				ePatient06: '',
+				ePatient05: '',
+				ePayment19: '',
+				ePayment21: '',
+				ePayment20: '',
+				ePayment17: '',
+				ePayment18: '',
+				ePayment10: '',
+				eSituation12: [],
+				eExam12: [],
+				eExam10: {},
+				ePatient02: 'Gunn',
+				ePatient04: '',
+				ePatient03: 'Tom'
+			},
+			photo: [
+				{
+					card_id: 'photo',
+					fields: {
+						name: 'First Photo',
+						image_type: 'Example Type',
+						value: ''
+					}
+				},
+				{
+					card_id: 'photo',
+					fields: {
+						name: 'Second Photo',
+						image_type: 'Other Type',
+						value: ''
+					}
+				}
+			]
+		},
+		{
+			readonly: false,
+			created: '2023-02-17T16:54:23.369Z',
+			last_modified: '2023-02-17T16:54:23.369Z',
+			uuid: 'aebe3a09-8ce3-49e8-8cd5-d231a085830b',
+			actions: [],
+			notes: [],
+			static_fields: {
+				eVital22: [],
+				eVitals23: {
+					eVitals19: {
+						value: ' '
+					},
+					eVitals20: {
+						value: ' '
+					},
+					eVitals21: {
+						value: ' '
+					}
+				},
+				ePatient06: '',
+				ePatient05: '',
+				ePayment19: '',
+				ePayment21: '',
+				ePayment20: '',
+				ePayment17: '',
+				ePayment18: '',
+				ePayment10: '',
+				eSituation12: [],
+				eExam12: [],
+				eExam10: {},
+				ePatient02: 'Smith',
+				ePatient04: '',
+				ePatient03: 'Maddison'
+			},
+			photo: []
+		}
+	]
+};

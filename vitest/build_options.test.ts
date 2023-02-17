@@ -48,6 +48,19 @@ describe('timeline options', () => {
 
 describe('persons', () => {
 	it('build people from data', () => {
-		expect(JSON.stringify(build.timeline_options())).toContain(`"value":"Abdomen Assessment`);
+		expect(JSON.stringify(build.person_options(options.data_with_two_persons))).toContain(
+			'Tom Gunn' && 'Maddison Smith'
+		);
+	});
+
+	it('build name from single persons data object', () => {
+		expect(
+			JSON.stringify(
+				build.build_name(
+					options.data_with_two_persons.persons[0],
+					options.data_with_two_persons.persons.length
+				)
+			)
+		).toContain('Tom Gunn');
 	});
 });
