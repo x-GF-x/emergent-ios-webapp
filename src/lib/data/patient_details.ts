@@ -6,6 +6,7 @@ import AddNote from '$lib/scene_actions/AddNote.svelte';
 import AddAction from '$lib/scene_actions/AddAction.svelte';
 import AddPhoto from '$lib/scene_actions/AddPhoto.svelte';
 import DeletePerson from '$lib/scene_actions/DeletePerson.svelte';
+import AddPerson from '$lib/scene_actions/AddPerson.svelte';
 
 export const scenes = {
 	quickchart: Quickchart,
@@ -73,7 +74,8 @@ export const sceneActionComponents = {
 	add_note: AddNote,
 	add_action: AddAction,
 	add_photo: AddPhoto,
-	delete: DeletePerson
+	delete: DeletePerson,
+	add_person: AddPerson
 };
 
 //These ids are not all accurate- specifically spO2

@@ -188,6 +188,7 @@ type SubTabActions =
 	| 'add_note'
 	| 'delete'
 	| 'add_action'
+	| 'add_person'
 	| 'add_photo';
 
 type SubTab = { action: SubTabActions; label: string };

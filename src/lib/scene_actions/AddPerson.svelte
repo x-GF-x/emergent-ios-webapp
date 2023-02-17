@@ -11,16 +11,18 @@
 </script>
 
 <Modal
+	confirmationText={'Add Person'}
 	width={'max-content'}
-	confirmationText={'Delete'}
 	on:backdropClick={() => dispatch('close')}
 	on:updateModal={() => {
-		dispatch('confirmDelete');
+		dispatch('confirmAdd');
 		dispatch('close');
 	}}>
 	<div class="deleteMessageContainer">
-		<div class="title">Are you sure you want to delete this person?</div>
-		<div class="subtitle">This cannot be undone.</div>
+		<div class="title">Are you sure you want to add a person?</div>
+		<div class="subtitle">
+			<!--  -->
+		</div>
 	</div>
 </Modal>
 

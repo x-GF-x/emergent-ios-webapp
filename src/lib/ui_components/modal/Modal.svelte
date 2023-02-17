@@ -6,15 +6,17 @@
 
 	export let hideContainer: boolean = false;
 	export let confirmationText = 'Update';
+	export let width: string | undefined = undefined;
+
 	const dispatch = createEventDispatcher();
 </script>
 
 {#if hideContainer}
-	<div class="minimalContainer" transition:fly={{ duration: 500, y: 1000 }}>
+	<div class="minimalContainer" style:max-width={width} transition:fly={{ duration: 500, y: 1000 }}>
 		<slot />
 	</div>
 {:else}
-	<div class="modalContainer" transition:fade={{ duration: 150 }}>
+	<div class="modalContainer" style:max-width={width} transition:fade={{ duration: 150 }}>
 		<slot />
 		<div class="footer">
 			<button class="cancel" on:click={() => dispatch('backdropClick')}>Cancel</button>

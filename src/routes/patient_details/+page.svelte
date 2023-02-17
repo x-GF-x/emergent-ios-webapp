@@ -41,6 +41,14 @@
 		else sceneAction = sceneActionComponents[action];
 	};
 
+	const addPerson = () => {
+		data.persons = [...data.persons, createPerson()];
+		personOptions = person_options(data);
+		value = data.persons[data.persons.length - 1];
+		timers[value.uuid] = {};
+		buildPerson();
+	};
+
 	const deletePerson = () => {
 		data.persons = data.persons.filter((item) => item.uuid !== value.uuid);
 		if (data.persons.length) value = data.persons[0];
@@ -67,6 +75,7 @@
 		bind:selectedTab
 		bind:value
 		on:confirmDelete={deletePerson}
+		on:confirmAdd={addPerson}
 		on:close={() => (sceneAction = undefined)} />
 {/if}
 
@@ -83,7 +92,7 @@
 		<div class="patientSelect">
 			<SingleSelect
 				passedInOptions={personOptions}
-				bind:value={currentPerson.name}
+				value={currentPerson.name}
 				on:selectOption={(e) => {
 					let matchingPerson = data.persons.find((item) => item.uuid === e.detail.value);
 					if (matchingPerson) value = matchingPerson;
@@ -91,17 +100,7 @@
 				}}
 				props={{ icon: 'account_box', dropdownLabel: 'People' }} />
 		</div>
-		<button
-			class="addPerson"
-			on:click={() => {
-				data.persons = [...data.persons, createPerson()];
-				personOptions = person_options(data);
-				value = data.persons[data.persons.length - 1];
-				timers[value.uuid] = {};
-				buildPerson();
-			}}>
-			ADD PERSON
-		</button>
+		<button class="addPerson" on:click={() => handleSceneAction('add_person')}> ADD PERSON </button>
 		<button class="endCall">END CALL</button>
 	</section>
 	<section class="tabs">
