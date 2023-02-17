@@ -4,8 +4,9 @@
 
 ### Testing
 
-npm run e2e - Playwright End To End
-npm run unit - Vitest Unit
+#### npm run e2e - Playwright End To End
+
+#### npm run unit - Vitest Unit
 
 ### Notes
 
