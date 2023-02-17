@@ -36,5 +36,6 @@
 		background: var(--secondary);
 		color: var(--light4);
 		font-weight: 500;
+		border-bottom: 1px solid transparent !important;
 	}
 </style>

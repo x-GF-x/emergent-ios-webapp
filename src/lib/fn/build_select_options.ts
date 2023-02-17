@@ -8,7 +8,9 @@ export const standard_options = (field: Field | SubField | undefined) => {
 	const fieldLookupId = field?.key;
 	return fieldOptions.filter(
 		(option) =>
+			//Type is a reference to ui_cards
 			option.type === fieldLookupId &&
+			//If it is a drug, we want to limit units/routes to those specified by field
 			(!field ||
 				!('available_units' in field) ||
 				(field && field.available_units?.includes(option.code))) &&

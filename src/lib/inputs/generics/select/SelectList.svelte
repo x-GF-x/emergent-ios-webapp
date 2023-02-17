@@ -15,12 +15,13 @@
 <SelectHeader
 	bind:searchValue
 	title={passedInOptions
-		? field?.id === 'ePatient06'
+		? props?.dropdownLabel
+			? props.dropdownLabel
+			: field?.id === 'ePatient06'
 			? 'City'
 			: 'Pertinent Negatives'
 		: field?.title}
-	{props}
->
+	{props}>
 	{@const relevantOptions = passedInOptions
 		? passedInOptions?.[0] && 'value' in passedInOptions?.[0]
 			? passedInOptions
@@ -35,9 +36,8 @@
 					.includes(searchValue?.toLowerCase())) as option}
 			<SelectOption
 				{option}
-				selected={value === option?.code}
-				on:select={(e) => selectOption(e.detail.option)}
-			/>
+				selected={value === option?.code || value === option?.value}
+				on:select={(e) => selectOption(e.detail.option)} />
 		{/each}
 	</div>
 </SelectHeader>

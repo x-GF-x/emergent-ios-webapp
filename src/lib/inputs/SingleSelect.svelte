@@ -41,6 +41,7 @@
 
 	const buildOptions = () => {
 		if (standardOptions) options = standard_options(field);
+		// console.log(options);
 	};
 	//Reactive for when drugs are changed
 	$: field, buildOptions();
