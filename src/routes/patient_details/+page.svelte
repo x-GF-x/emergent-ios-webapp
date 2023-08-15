@@ -101,7 +101,7 @@
 				props={{ icon: 'account_box', dropdownLabel: 'People' }} />
 		</div>
 		<button class="addPerson" on:click={() => handleSceneAction('add_person')}> ADD PERSON </button>
-		<button class="endCall">END CALL</button>
+		<button class="endCall" on:click={() => console.log(data)}>END CALL</button>
 	</section>
 	<section class="tabs">
 		{#each tabs as tab}
